@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta property="og:type" value="website" />
+	<meta property="og:title" value="🐼 LilSnibbi - Coming Soon" />
+	<meta property="og:description" value="Welcome to my profile!" />
+	<meta property="og:url" value="https://lilsnibbi.dev" />
+
+	<meta name="twitter:card" value="summary" />
+	<meta name="twitter:site" value="@lilsnibbi" />
+	<meta name="twitter:creator" value="@lilsnibbi" />
+	<meta name="twitter:title" value="🐼 LilSnibbi - Coming Soon" />
+	<meta name="twitter:description" value="Welcome to my profile!" />
+	
+    <style>
+        :root {
+            --panda-black: #1a1a1a;
+            --panda-white: #ffffff;
+            --panda-gray: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+			user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--panda-white);
+            color: var(--panda-black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .panda-icon {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            color: var(--panda-black);
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--panda-black);
+            color: var(--panda-white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+        }
+
+        .social-links {
+            margin-top: 3rem;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            background-color: var(--panda-black);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+            opacity: 0.2;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .background-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .pandaprint {
+            position: absolute;
+            opacity: 0.12;
+            transform-origin: center;
+        }
+
+        .print-pad {
+            width: 150px;
+            height: 130px;
+            background: var(--panda-black);
+            border-radius: 50% 50% 45% 45%;
+        }
+
+        .print-toe {
+            position: absolute;
+            width: 45px;
+            height: 55px;
+            background: var(--panda-black);
+            border-radius: 50%;
+        }
+
+        .toe-1 { top: -45px; left: -10px; transform: rotate(-20deg); }
+        .toe-2 { top: -65px; left: 52px; }
+        .toe-3 { top: -45px; left: 115px; transform: rotate(20deg); }
+    </style>
+</head>
+<body>
+    <div class="background-blobs" id="pandaprints-container"></div>
+    <div class="container">
+        <div class="panda-icon">🐼</div>
+        <h1>LilSnibbi</h1>
+        <p>Something cute is in the works.</p>
+        <div class="coming-soon-badge">Coming Soon</div>
+        
+        <div class="social-links">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        function createPandaPrints() {
+            const container = document.getElementById('pandaprints-container');
+            const count = Math.floor(Math.random() * 8) + 3; // 3 to 10
+
+            for (let i = 0; i < count; i++) {
+                const print = document.createElement('div');
+                print.className = 'pandaprint';
+                
+                const x = Math.random() * 85; // Keep away from extreme edges
+                const y = Math.random() * 85;
+                const scale = 0.4 + Math.random() * 0.8; // 0.4 to 1.2
+                const rotation = Math.random() * 360;
+
+                print.style.left = `${x}%`;
+                print.style.top = `${y}%`;
+                print.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+
+                print.innerHTML = `
+                    <div class="print-toe toe-1"></div>
+                    <div class="print-toe toe-2"></div>
+                    <div class="print-toe toe-3"></div>
+                    <div class="print-pad"></div>
+                `;
+                
+                container.appendChild(print);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', createPandaPrints);
+    </script>
+</body>
+</html>
