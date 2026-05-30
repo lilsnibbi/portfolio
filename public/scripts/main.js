@@ -7,19 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	function renderHero() {
 		document.getElementById("hero-name").textContent =
 			`Hi, I'm ${config.profile.name}`;
-			
+
 		const locationEl = document.getElementById("hero-location");
 		if (locationEl && config.profile.location) {
 			locationEl.textContent = config.profile.location;
 		} else if (document.getElementById("hero-location-container")) {
-			document.getElementById("hero-location-container").style.display = 'none';
+			document.getElementById("hero-location-container").style.display = "none";
 		}
 
 		if (config.profile.pronouns) {
 			const pronounsEl = document.getElementById("hero-pronouns");
 			if (pronounsEl) {
 				pronounsEl.textContent = config.profile.pronouns;
-				document.getElementById("hero-pronouns-container").style.display = 'flex';
+				document.getElementById("hero-pronouns-container").style.display =
+					"flex";
 			}
 		}
 
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const ageEl = document.getElementById("hero-age");
 			if (ageEl) {
 				ageEl.textContent = config.profile.age;
-				document.getElementById("hero-age-container").style.display = 'flex';
+				document.getElementById("hero-age-container").style.display = "flex";
 			}
 		}
 
@@ -114,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	function renderFooter() {
 		const footerName = document.getElementById("footer-name");
 		if (footerName) footerName.textContent = config.footer.logoText;
-		
+
 		const footerCopy = document.querySelector(".footer-copy");
 		if (footerCopy) {
 			footerCopy.innerHTML = `&copy; ${new Date().getFullYear()} ${config.footer.copyrightName}. ${config.footer.rightsText}`;
@@ -123,12 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		const footerSocials = document.getElementById("footer-socials");
 		if (footerSocials) {
 			footerSocials.innerHTML = config.profile.socialLinks
-			.map(
-				(social) => `
+				.map(
+					(social) => `
                 <a href="${social.url}" target="_blank" aria-label="${social.platform}"><i class="${social.icon}"></i></a>
             `,
-			)
-			.join("");
+				)
+				.join("");
 		}
 	}
 
@@ -169,5 +170,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	type();
-
 });
