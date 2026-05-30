@@ -1,0 +1,7 @@
+services:
+  site:
+    build:
+      context: .
+      dockerfile: dockerfile
+    expose:
+      - 3000
