@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./p/styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+	<meta name="theme-color" content="#ffffff">
+
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="🐼 LilSnibbi - Coming Soon" />
+	<meta property="og:description" content="Welcome to my profile!" />
+	<meta property="og:url" content="https://lilsnibbi.dev" />
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@lilsnibbi" />
+	<meta name="twitter:creator" content="@lilsnibbi" />
+	<meta name="twitter:title" content="🐼 LilSnibbi - Coming Soon" />
+	<meta name="twitter:description" content="Welcome to my profile!" />
+	
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="background-blobs" id="pandaprints-container"></div>
+    <div class="container">
+        <div class="panda-icon">🐼</div>
+        <h1>LilSnibbi</h1>
+        <p>Something cute is in the works.</p>
+        <div class="coming-soon-badge">Coming Soon</div>
+        
+        <div class="social-links">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        function createPandaPrints() {
+            const container = document.getElementById('pandaprints-container');
+            const count = Math.floor(Math.random() * 8) + 3; // 3 to 10
+
+            for (let i = 0; i < count; i++) {
+                const print = document.createElement('div');
+                print.className = 'pandaprint';
+                
+                const x = Math.random() * 85; // Keep away from extreme edges
+                const y = Math.random() * 85;
+                const scale = 0.4 + Math.random() * 0.8; // 0.4 to 1.2
+                const rotation = Math.random() * 360;
+
+                print.style.left = `${x}%`;
+                print.style.top = `${y}%`;
+                print.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+
+                print.innerHTML = `
+                    <div class="print-toe toe-1"></div>
+                    <div class="print-toe toe-2"></div>
+                    <div class="print-toe toe-3"></div>
+                    <div class="print-pad"></div>
+                `;
+                
+                container.appendChild(print);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', createPandaPrints);
+    </script>
+</body>
+</html>

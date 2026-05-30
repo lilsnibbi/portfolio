@@ -1,10 +1,15 @@
+import staticPlugin from "@elysiajs/static";
 import Elysia from "elysia";
 
-const htmlContent = await Bun.file("./src/routes/index.html").text();
+const htmlContent = await Bun.file("./public/index.html").text();
 
 new Elysia({
 	name: "@core",
 })
+	.use(staticPlugin({
+		prefix: "/p",
+		indexHTML: false
+	}))
 	.get(
 		"/",
 		() =>
