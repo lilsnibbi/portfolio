@@ -1,5 +1,8 @@
 services:
   site:
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     build:
       context: .
       dockerfile: dockerfile
