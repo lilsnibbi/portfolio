@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./public/styles/styles.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-	<meta name="theme-color" content="#ffffff">
+    <title>Snibbi | Hobby Software Developer</title>
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lilsnibbi.github.io/portfolio/">
+    <meta property="og:title" content="Snibbi | Hobby Software Developer">
+    <meta property="og:description" content="Building reliable applications with TypeScript, Bun, Docker, and PostgreSQL.">
+    <meta property="og:image" content="public/img/icon.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#000000">
 
-	<meta property="og:type" content="website" />
-	<meta property="og:title" content="🐼 LilSnibbi - Coming Soon" />
-	<meta property="og:description" content="Welcome to my profile!" />
-	<meta property="og:url" content="https://lilsnibbi.dev" />
+    <link rel="stylesheet" href="public/styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@lilsnibbi" />
-	<meta name="twitter:creator" content="@lilsnibbi" />
-	<meta name="twitter:title" content="🐼 LilSnibbi - Coming Soon" />
-	<meta name="twitter:description" content="Welcome to my profile!" />
-	
-    <style>
-
-    </style>
+    <script src="public/scripts/config.js"></script>
+    <script src="public/scripts/main.js"></script>
 </head>
 <body>
-    <div class="background-blobs" id="pandaprints-container"></div>
-    <div class="container">
-        <div class="panda-icon">🐼</div>
-        <h1>LilSnibbi</h1>
-        <p>Something cute is in the works.</p>
-        <div class="coming-soon-badge">Coming Soon</div>
-        
-        <div class="social-links">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+    <!-- home -->
+    <section class="home" id="home">
+        <div class="home-container">
+            <div class="home-section">
+                <div class="info-home">
+                    <h1 id="hero-name"></h1>
+                    <h3 id="hero-role"></h3>
+                    <div class="info-p" id="hero-bio">
+                       <!-- Dynamic content -->
+                    </div>
+                    <div class="info-p2">
+                        <p id="hero-location-container"><i class="fa-solid fa-location-dot"></i> <span id="hero-location"></span></p>
+                        <p id="hero-pronouns-container" style="display: none;"><i class="fa-solid fa-user"></i> <span id="hero-pronouns"></span></p>
+                        <p id="hero-age-container" style="display: none;"><i class="fa-solid fa-cake-candles"></i> <span id="hero-age"></span></p>
+                    </div>
+                    <div class="follow">
+                        <p class="followw"></p>
+                        <ul id="hero-socials">
+                            <!-- Dynamic socials -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <script>
-        function createPandaPrints() {
-            const container = document.getElementById('pandaprints-container');
-            const count = Math.floor(Math.random() * 8) + 3; // 3 to 10
+     <section class="about" id="about">
+        <p class="section-tag"></p>
+        <div class="title">
+            <h1 id="about-title"></h1>
+        </div>
+        <div class="hrrr">
+            <hr>
+        </div>
+        <div class="about-container">
+            <div class="info-about">
+                <div class="about-info" id="about-paragraphs">
+                    <!-- Dynamic paragraphs -->
+                </div>
+                <div class="card" id="about-stats">
+                    <!-- Dynamic stats -->
+                </div>
+            </div>
+        </div>
+     </section>
 
-            for (let i = 0; i < count; i++) {
-                const print = document.createElement('div');
-                print.className = 'pandaprint';
-                
-                const x = Math.random() * 85; // Keep away from extreme edges
-                const y = Math.random() * 85;
-                const scale = 0.4 + Math.random() * 0.8; // 0.4 to 1.2
-                const rotation = Math.random() * 360;
+     <section class="project" id="project">
+        <p class="section-tag"></p>
+        <h1></h1>
+        <hr>
+        <div class="info-pro">
+            <p></p>
+        </div>
+        <div class="projects-container" id="projects-grid">
+            <!-- Dynamic project cards -->
+        </div>
+     </section>
 
-                print.style.left = `${x}%`;
-                print.style.top = `${y}%`;
-                print.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-
-                print.innerHTML = `
-                    <div class="print-toe toe-1"></div>
-                    <div class="print-toe toe-2"></div>
-                    <div class="print-toe toe-3"></div>
-                    <div class="print-pad"></div>
-                `;
-                
-                container.appendChild(print);
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', createPandaPrints);
-    </script>
+     <footer class="footer">
+        <div class="footer-container">
+            <h2 class="footer-logo" id="footer-name"></h2>
+            <div class="footer-social" id="footer-socials">
+                <!-- Dynamic footer socials -->
+            </div>
+            <p class="footer-copy"></p>
+        </div>
+    </footer>
 </body>
 </html>
