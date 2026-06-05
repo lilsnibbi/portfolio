@@ -5,12 +5,13 @@ const config = {
 		roles: [
 			"Backend Engineer",
 			"TypeScript Developer",
-			"Open Source Developer",
-			"Panda Lover",
+			"Docker Administrator",
+			"Open Source Contributor",
 		],
 		location: "Australia",
 		pronouns: "He/Him",
 		age: "20",
+		status: "Available for new projects",
 		bio: "Building reliable applications with TypeScript, Bun, Docker, and PostgreSQL.",
 		socialsTitle: "My socials!",
 		socialLinks: [
@@ -59,15 +60,38 @@ const config = {
 		subtitle: "Some of my favourite pieces",
 		list: [
 			{
+				title: "Coming soon",
+				description:
+					"",
+				tags: [],
+				github: "",
+				demo: "#",
+			},
+			{
 				title: "Snibbi Bot",
 				description:
 					"The bot for the snibbi community! Advanced chatbot with other functionality to keep the place happy!",
 				tags: ["TypeScript", "Bun", "Docker", "Closed Source"],
-				image: "#",
-				github: "#",
+				github: "https://github.com/lilsnibbi/snibbi-bot",
+				demo: "#",
+			},
+			{
+				title: "Coming soon",
+				description:
+					"",
+				tags: [],
+				github: "",
 				demo: "#",
 			},
 		],
+	},
+
+	contact: {
+		sectionTag: "CONTACT",
+		title: "Get In Touch",
+		subtitle: "Have a question or want to work together? Send a message and I'll get back to you.",
+		email: "snibbi@lilsnibbi.dev",
+		discord: "snibbi",
 	},
 
 	footer: {

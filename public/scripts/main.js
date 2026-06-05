@@ -8,6 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementById("hero-name").textContent =
 			`Hi, I'm ${config.profile.name}`;
 
+		// Active Status Badge
+		if (config.profile.status) {
+			const statusContainer = document.getElementById("hero-status-container");
+			const statusEl = document.getElementById("hero-status");
+			if (statusContainer && statusEl) {
+				statusEl.textContent = config.profile.status;
+				statusContainer.style.display = "inline-flex";
+			}
+		}
+
 		const locationEl = document.getElementById("hero-location");
 		if (locationEl && config.profile.location) {
 			locationEl.textContent = config.profile.location;
@@ -59,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		aboutStats.innerHTML = config.about.stats
 			.map(
 				(stat) => `
-                <div class="c1">
+                <div class="c1 reveal">
                     <i class="${stat.icon}"></i>
                     <h3>${stat.label}</h3>
                     <p>${stat.value}</p>
@@ -79,10 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		const projectsGrid = document.getElementById("projects-grid");
 		projectsGrid.innerHTML = config.projects.list
 			.map((project) => {
-				const imgHtml =
-					project.image && project.image !== "#"
-						? `<img src="${project.image}" alt="${project.title}">`
-						: "";
 				const githubBtn =
 					project.github && project.github !== "#"
 						? `<a href="${project.github}" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>`
@@ -93,8 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 						: "";
 
 				return `
-                <div class="project-card">
-                    ${imgHtml}
+                <div class="project-card reveal">
                     <div class="project-content">
                         <h3>${project.title}</h3>
                         <p>${project.description}</p>
@@ -110,6 +115,37 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
 			})
 			.join("");
+	}
+
+	function renderContact() {
+		if (!config.contact) return;
+		document.querySelector("#contact .section-tag").textContent =
+			config.contact.sectionTag;
+		document.getElementById("contact-title").textContent = config.contact.title;
+		document.getElementById("contact-subtitle").textContent =
+			config.contact.subtitle;
+
+		const contactDetails = document.getElementById("contact-details");
+		if (contactDetails) {
+			let detailsHtml = "";
+			if (config.contact.email) {
+				detailsHtml += `
+					<div class="contact-item">
+						<i class="fa-solid fa-envelope"></i>
+						<span>${config.contact.email}</span>
+					</div>
+				`;
+			}
+			if (config.contact.discord) {
+				detailsHtml += `
+					<div class="contact-item">
+						<i class="fa-brands fa-discord"></i>
+						<span>${config.contact.discord}</span>
+					</div>
+				`;
+			}
+			contactDetails.innerHTML = detailsHtml;
+		}
 	}
 
 	function renderFooter() {
@@ -133,11 +169,232 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	// --- INTERACTIVE FEATURES ---
+
+	function initScrollEffects() {
+		// Intersection Observer for scroll reveal animations
+		const observerOptions = {
+			threshold: 0.15,
+			rootMargin: "0px 0px -50px 0px"
+		};
+
+		const revealObserver = new IntersectionObserver((entries, observer) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("active");
+					observer.unobserve(entry.target);
+				}
+			});
+		}, observerOptions);
+
+		document.querySelectorAll(".reveal").forEach((el) => {
+			revealObserver.observe(el);
+		});
+
+		// Scrollspy navigation active class toggle
+		const sections = document.querySelectorAll("section");
+		const navItems = document.querySelectorAll(".nav-item");
+
+		window.addEventListener("scroll", () => {
+			let current = "";
+			const scrollPos = window.scrollY + 200;
+
+			sections.forEach((section) => {
+				const sectionTop = section.offsetTop;
+				const sectionHeight = section.offsetHeight;
+				if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+					current = section.getAttribute("id");
+				}
+			});
+
+			navItems.forEach((li) => {
+				li.classList.remove("active");
+				const link = li.querySelector("a");
+				if (link && link.getAttribute("href") === `#${current}`) {
+					li.classList.add("active");
+				}
+			});
+		});
+	}
+
+	function initContactForm() {
+		const form = document.getElementById("contact-form");
+		const toast = document.getElementById("toast-notification");
+
+		if (!form || !toast) return;
+
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+
+			const name = document.getElementById("contact-name").value;
+			const email = document.getElementById("contact-email").value;
+			const message = document.getElementById("contact-message").value;
+
+			// Store message in local storage as a mock submission database
+			const messages = JSON.parse(localStorage.getItem("portfolio_messages") || "[]");
+			messages.push({
+				name,
+				email,
+				message,
+				timestamp: new Date().toISOString()
+			});
+			localStorage.setItem("portfolio_messages", JSON.stringify(messages));
+
+			// Clear the inputs
+			form.reset();
+
+			// Show success notification toast
+			toast.classList.add("show");
+			setTimeout(() => {
+				toast.classList.remove("show");
+			}, 3500);
+		});
+	}
+
+	const neofetchUIText = `
+			<div class="neofetch-logo">
+       ,,,         ,,,
+     ;"   ^;     ;'   ",
+    ;    s$$$$$$$s     ;
+    ,  ss$$$$$$$$$$s  ,'
+     ;s$$$$$$$$$$$$$$$
+     $$$$$$$$$$$$$$$$$$
+    $$$$P""Y$$$Y""W$$$$$
+    $$$$   "$$$"   $$$$$
+    $$$$  .$$$$$.  $$$$
+     $$DcaU$$$$$$$$$$
+       "Y$$$"*"$$$Y"
+          "$b.$$"
+			</div>
+			<div class="neofetch-details">
+				<div><span class="t-label">OS:</span> Bun-Linux x64</div>
+				<div><span class="t-label">Role:</span> ${config.profile.role}</div>
+				<div><span class="t-label">Location:</span> ${config.profile.location}</div>
+				<div><span class="t-label">Experience:</span> ${config.about.stats.find((s) => s.label === "Experience")?.value || "6+ Years"}</div>
+				<div><span class="t-label">Uptime:</span> 20 years (age)</div>
+			</div>
+		`;
+
+	function renderTerminalNeofetch() {
+		const neofetchEl = document.getElementById("terminal-neofetch");
+		if (!neofetchEl) return;
+		neofetchEl.innerHTML = neofetchUIText;
+	}
+
+	function initTerminal() {
+		const terminalBody = document.querySelector(".terminal-body");
+		const terminalInput = document.getElementById("terminal-input");
+		const terminalForm = document.getElementById("terminal-form");
+
+		if (!terminalBody || !terminalInput || !terminalForm) return;
+
+		// Focus terminal input when clicking inside window
+		document.querySelector(".terminal-window").addEventListener("click", () => {
+			terminalInput.focus();
+		});
+
+		terminalForm.addEventListener("submit", (e) => {
+			e.preventDefault();
+			const cmdText = terminalInput.value.trim();
+			terminalInput.value = "";
+
+			if (cmdText) {
+				executeCommand(cmdText);
+			}
+		});
+
+		function executeCommand(cmdStr) {
+			const commandLine = document.createElement("div");
+			commandLine.className = "terminal-line";
+			commandLine.innerHTML = `<span class="t-prompt">guest@lilsnibbi.dev:~$</span> <span class="t-command">${escapeHtml(cmdStr)}</span>`;
+
+			const inputLine = document.querySelector(".terminal-input-line");
+			terminalBody.insertBefore(commandLine, inputLine);
+
+			const output = document.createElement("div");
+			output.className = "terminal-output";
+
+			const parts = cmdStr.toLowerCase().split(" ");
+			const cmd = parts[0];
+
+			switch (cmd) {
+				case "help":
+					output.innerHTML = `
+						<div style="margin-bottom: 4px; font-weight: bold;">Available Commands:</div>
+						<div style="padding-left: 10px; line-height: 1.5;">
+							<strong>neofetch</strong> - Display developer details<br>
+							<strong>about</strong>    - Read the short bio<br>
+							<strong>projects</strong> - List open-source work<br>
+							<strong>skills</strong>   - Show development stack<br>
+							<strong>contact</strong>  - View coordinates<br>
+							<strong>clear</strong>    - Clear terminal window
+						</div>
+					`;
+					break;
+				case "neofetch":
+					output.innerHTML = neofetchUIText;
+					break;
+				case "about":
+					output.innerHTML = config.about.paragraphs.map((p) => `<div style="margin-bottom: 6px;">${p}</div>`).join("");
+					break;
+				case "projects":
+					output.innerHTML = config.projects.list.map((p) => `
+						<div style="margin-bottom: 8px;">
+							<div style="font-weight: bold;">${p.title}</div>
+							<div style="color: #888;">${p.description}</div>
+							<div style="font-size: 0.75rem; color: #666;">Tags: ${p.tags.join(", ")}</div>
+						</div>
+					`).join("");
+					break;
+				case "skills":
+					output.innerHTML = `
+						<div style="margin-bottom: 4px;"><span class="t-label">Languages:</span> ${config.about.stats.find((s) => s.label === "Languages")?.value || ""}</div>
+						<div><span class="t-label">Core Stack:</span> ${config.about.stats.find((s) => s.label === "Stack")?.value || ""}</div>
+					`;
+					break;
+				case "contact":
+					output.innerHTML = `
+						<div style="margin-bottom: 4px;"><span class="t-label">Email:</span> ${config.contact?.email || ""}</div>
+						<div><span class="t-label">Discord:</span> @${config.contact?.discord || ""}</div>
+					`;
+					break;
+				case "clear":
+					const allLines = Array.from(terminalBody.children);
+					allLines.forEach((line) => {
+						if (!line.classList.contains("terminal-input-line")) {
+							line.remove();
+						}
+					});
+					terminalBody.scrollTop = 0;
+					return;
+				default:
+					output.innerHTML = `<span style="color: #aaaaaa;">Command not found: '${escapeHtml(cmd)}'. Type 'help' for support.</span>`;
+			}
+
+			output.style.margin = "8px 0 16px 0";
+			terminalBody.insertBefore(output, inputLine);
+			terminalBody.scrollTop = terminalBody.scrollHeight;
+		}
+
+		function escapeHtml(text) {
+			const div = document.createElement("div");
+			div.innerText = text;
+			return div.innerHTML;
+		}
+	}
+
 	// Initialize Rendering
 	renderHero();
 	renderAbout();
+	renderTerminalNeofetch();
 	renderProjects();
+	renderContact();
 	renderFooter();
+
+	// Initialize Interactivity
+	initScrollEffects();
+	initContactForm();
+	initTerminal();
 
 	// Typing Effect
 	const typingElement = document.getElementById("hero-role");

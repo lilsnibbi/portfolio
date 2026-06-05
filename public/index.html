@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snibbi | Hobby Software Developer</title>
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lilsnibbi.dev">
+    <meta property="og:title" content="Snibbi | Hobby Software Developer">
+    <meta property="og:description" content="Building reliable applications with TypeScript, Bun, Docker, and PostgreSQL.">
+    <meta property="og:image" content="public/img/icon.jpg?v=2.0">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/main.js"></script>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header>
+        <div class="div-list">
+            <ul class="ul-list">
+                <li class="nav-item active"><a href="#home">Home</a></li>
+                <li class="nav-item"><a href="#about">About</a></li>
+                <li class="nav-item"><a href="#project">Projects</a></li>
+                <li class="nav-item"><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- home -->
+    <section class="home" id="home">
+        <div class="home-container">
+            <div class="home-section">
+                <div class="info-home">
+                    <div class="status-badge" id="hero-status-container" style="display: none;">
+                        <span class="status-dot"></span>
+                        <span id="hero-status" class="status-text"></span>
+                    </div>
+                    <h1 id="hero-name"></h1>
+                    <h3 id="hero-role"></h3>
+                    <div class="info-p" id="hero-bio">
+                       <!-- Dynamic content -->
+                    </div>
+                    <div class="info-p2">
+                        <p id="hero-location-container"><i class="fa-solid fa-location-dot"></i> <span id="hero-location"></span></p>
+                        <p id="hero-pronouns-container" style="display: none;"><i class="fa-solid fa-user"></i> <span id="hero-pronouns"></span></p>
+                        <p id="hero-age-container" style="display: none;"><i class="fa-solid fa-cake-candles"></i> <span id="hero-age"></span></p>
+                    </div>
+                    <div class="follow">
+                        <p class="followw"></p>
+                        <ul id="hero-socials">
+                            <!-- Dynamic socials -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section class="about" id="about">
+        <p class="section-tag"></p>
+        <div class="title">
+            <h1 id="about-title"></h1>
+        </div>
+        <div class="hrrr">
+            <hr>
+        </div>
+        <div class="about-container">
+            <div class="info-about">
+                <div class="about-info" id="about-paragraphs">
+                    <!-- Dynamic paragraphs -->
+                </div>
+                <div class="terminal-wrapper">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-buttons">
+                                <span class="t-btn close"></span>
+                                <span class="t-btn minimize"></span>
+                                <span class="t-btn expand"></span>
+                            </div>
+                            <div class="terminal-title">guest@lilsnibbi.dev: ~</div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line"><span class="t-prompt">guest@lilsnibbi.dev:~$</span> <span class="t-command">neofetch</span></div>
+                            <div id="terminal-neofetch" class="neofetch-content">
+                                <!-- Dynamic neofetch output -->
+                            </div>
+                            <div class="terminal-line terminal-input-line">
+                                <span class="t-prompt">guest@lilsnibbi.dev:~$</span>
+                                <form id="terminal-form" style="display: inline; width: 100%;">
+                                    <input type="text" id="terminal-input" class="terminal-input" autocomplete="off">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="about-stats">
+                <!-- Dynamic stats -->
+            </div>
+        </div>
+     </section>
+
+      <section class="project" id="project">
+        <p class="section-tag"></p>
+        <h1></h1>
+        <hr>
+        <div class="info-pro">
+            <p></p>
+        </div>
+        <div class="projects-container" id="projects-grid">
+            <!-- Dynamic project cards -->
+        </div>
+     </section>
+
+     <section class="contact" id="contact">
+        <p class="section-tag"></p>
+        <div class="title">
+            <h1 id="contact-title"></h1>
+        </div>
+        <hr>
+        <div class="contact-content">
+            <div class="contact-info">
+                <p id="contact-subtitle"></p>
+            </div>
+            <div class="contact-details" id="contact-details">
+                <!-- Dynamic contact details -->
+            </div>
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <input type="text" id="contact-name" name="name" placeholder="YOUR NAME" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="contact-email" name="email" placeholder="YOUR EMAIL" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="contact-message" name="message" rows="5" placeholder="YOUR MESSAGE" required></textarea>
+                </div>
+                <button type="submit" class="btn-send" id="btn-send">Send Message</button>
+            </form>
+        </div>
+     </section>
+
+     <footer class="footer">
+        <div class="footer-container">
+            <h2 class="footer-logo" id="footer-name"></h2>
+            <div class="social-links" id="footer-socials"></div>
+            <p class="footer-copy"></p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message sent successfully!</span>
+    </div>
+</body>
+</html>
