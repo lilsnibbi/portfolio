@@ -12,7 +12,7 @@ Bun.serve({
 		switch (url.pathname) {
 			case "/":
 			case "/index.html": {
-				res = new Response(Bun.file(`./public${url.pathname}`), {
+				res = new Response(Bun.file(`./public/index.html`), {
 					headers
 				});
 				break;
