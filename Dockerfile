@@ -6,5 +6,5 @@ COPY ./public ./build
 
 FROM oven/bun:1.3.14-slim
 WORKDIR /app
-COPY --from=builder ./build .
+COPY --from=builder /app/build .
 CMD ["bun", "build/server.js"]
