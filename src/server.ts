@@ -8,31 +8,48 @@ Bun.serve({
 	port: 3000,
 	async fetch(req) {
 		const url = new URL(req.url);
-		let res: Response;
-		switch (url.pathname) {
-			case "/":
-			case "/index.html": {
-				res = new Response(Bun.file(`./public/index.html`), {
-					headers
-				});
-				break;
+		const { pathname } = url;
+
+		console.log(pathname)
+
+		switch (true) {
+			case pathname === "/":
+			case pathname === "/index.html": {
+				return new Response(Bun.file("./public/index.html"), { headers });
 			}
 
-			case "/favicon.ico": {
-				res = new Response(null, {
-					status: 204
+			case pathname === "/favicon.ico": {
+				return new Response(Bun.file("./public/img/favicon.ico"), {
+					headers: {
+						...headers,
+						"Content-Type": "image/x-icon"
+					}
 				});
+			}
 
-				break;
+			case pathname.startsWith("/public/"): {
+				const file = Bun.file(`.${pathname}`);
+
+				if (await file.exists()) {
+					return new Response(file, { headers });
+				}
+				return new Response(null, { status: 404 });
+			}
+
+			case pathname.startsWith("/chunk-"): {
+				const file = Bun.file(`./public${pathname}`);
+
+				if (await file.exists()) {
+					return new Response(file, { headers });
+				}
+
+				return new Response(null, { status: 404 });
 			}
 
 			default: {
-				res = new Response(null, {
-					status: 404
-				})
+				return new Response(null, { status: 404 });
 			}
 		}
-
-		return res;
 	},
 });
+console.log("Server online");
