@@ -1,4 +1,4 @@
-const config = {
+window.siteConfig = {
 	profile: {
 		name: "Snibbi",
 		role: "Hobby Software Developer",
@@ -60,20 +60,20 @@ const config = {
 		subtitle: "Some of my favourite pieces",
 		list: [
 			{
-				title: "Coming soon",
+				title: "@lilsnibbi/utils",
 				description:
-					"",
-				tags: [],
-				github: "",
-				demo: "#",
+					"An NPM package with common utilities, classes and other helpful tools that I use in all of my projects!",
+				tags: ["NPM package", "Utilities"],
+				github: "https://github.com/lilsnibbi/utils",
+				demo: "",
 			},
 			{
 				title: "Snibbi Bot",
 				description:
 					"The bot for the snibbi community! Advanced chatbot with other functionality to keep the place happy!",
-				tags: ["TypeScript", "Bun", "Docker", "Closed Source"],
-				github: "https://github.com/lilsnibbi/snibbi-bot",
-				demo: "#",
+				tags: ["TypeScript", "Closed Source"],
+				github: "",
+				demo: "https://discord.gg/snibbi",
 			},
 			{
 				title: "Coming soon",
@@ -90,8 +90,8 @@ const config = {
 		sectionTag: "CONTACT",
 		title: "Get In Touch",
 		subtitle: "Have a question or want to work together? Send a message and I'll get back to you.",
-		email: "snibbi@lilsnibbi.dev",
-		discord: "snibbi",
+		email: "contact@lilsnibbi.dev",
+		discord: "Username: lilsnibbi | Server: .gg/snibbi",
 	},
 
 	footer: {
@@ -100,5 +100,3 @@ const config = {
 		rightsText: "All Rights Reserved.",
 	},
 };
-
-window.siteConfig = config;
