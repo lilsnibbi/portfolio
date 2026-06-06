@@ -875,3 +875,8 @@ header {
 .toast.error i {
 	color: #ffffff;
 }
+
+#btn-discord-logout:hover {
+	color: var(--text-primary) !important;
+	border-bottom-color: var(--text-primary) !important;
+}

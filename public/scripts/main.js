@@ -225,42 +225,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	}
 
-	let turnstileToken = "";
+	async function checkAuth() {
+		try {
+			const res = await fetch("/api/auth/me");
+			const data = await res.json();
 
-	function loadTurnstile() {
-		if (config.turnstileSiteKey) {
-			const container = document.getElementById("turnstile-container");
-			if (!container) return;
+			const profileContainer = document.getElementById(
+				"discord-profile-container",
+			);
+			const loginContainer = document.getElementById("discord-login-container");
+			const form = document.getElementById("contact-form");
 
-			const script = document.createElement("script");
-			script.src =
-				"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-			script.async = true;
-			script.defer = true;
-			document.head.appendChild(script);
+			if (data.authenticated) {
+				document.getElementById("discord-username").textContent =
+					data.user.username;
+				document.getElementById("discord-avatar").src =
+					data.user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png";
 
-			script.onload = () => {
-				if (window.turnstile) {
-					window.turnstile.render("#turnstile-container", {
-						sitekey: config.turnstileSiteKey,
-						theme: "dark",
-						callback: function (token) {
-							turnstileToken = token;
-						},
-						"expired-callback": function () {
-							turnstileToken = "";
-						},
-						"error-callback": function () {
-							turnstileToken = "";
-						},
-					});
-				}
-			};
-		} else {
-			const container = document.getElementById("turnstile-container");
-			if (container) {
-				container.style.display = "none";
+				profileContainer.style.display = "flex";
+				loginContainer.style.display = "none";
+				form.style.display = "block";
+			} else {
+				profileContainer.style.display = "none";
+				loginContainer.style.display = "block";
+				form.style.display = "none";
 			}
+		} catch (error) {
+			console.error("Failed to check auth status:", error);
 		}
 	}
 
@@ -305,17 +296,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 			if (isSubmitting) return;
 
-			if (config.turnstileSiteKey && !turnstileToken) {
-				showToast("Please solve the captcha first.", false);
+			const message = document.getElementById("contact-message").value.trim();
+
+			if (!message) {
+				showToast("Please write a message.", false);
 				return;
 			}
 
-			const name = document.getElementById("contact-name").value.trim();
-			const email = document.getElementById("contact-email").value.trim();
-			const message = document.getElementById("contact-message").value.trim();
-
-			if (!name || !email || !message) {
-				showToast("Please fill in all fields.", false);
+			if (message.length < 10) {
+				showToast("Message must be at least 10 characters long.", false);
 				return;
 			}
 
@@ -332,10 +321,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						name,
-						email,
 						message,
-						turnstileToken,
 					}),
 				});
 
@@ -344,17 +330,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 				if (response.ok && result.success) {
 					showToast("Message sent successfully!", true);
 					form.reset();
-
-					if (window.turnstile && config.turnstileSiteKey) {
-						window.turnstile.reset("#turnstile-container");
-						turnstileToken = "";
-					}
 				} else {
 					showToast(result.error || "Failed to send message.", false);
-					if (window.turnstile && config.turnstileSiteKey) {
-						window.turnstile.reset("#turnstile-container");
-						turnstileToken = "";
-					}
 				}
 			} catch (error) {
 				console.error("Error submitting contact form:", error);
@@ -519,7 +496,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	initScrollEffects();
 	initContactForm();
 	initTerminal();
-	loadTurnstile();
+	checkAuth();
 
 	// Typing Effect
 	const typingElement = document.getElementById("hero-role");

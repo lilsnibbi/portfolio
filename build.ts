@@ -3,7 +3,7 @@ import { cpSync } from "node:fs";
 await Promise.allSettled([
 	Bun.build({
 		entrypoints: ["./src/server.ts"],
-		minify: true,
+		minify: false,
 		outdir: "build",
 		sourcemap: false,
 		target: "bun",
