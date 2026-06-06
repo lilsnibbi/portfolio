@@ -20,7 +20,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <script src="/public/scripts/config.js"></script>
     <script src="/public/scripts/main.js"></script>
 </head>
 <body>
@@ -145,7 +144,8 @@
                 <div class="form-group">
                     <textarea id="contact-message" name="message" rows="5" placeholder="YOUR MESSAGE" required></textarea>
                 </div>
-                <button disabled type="submit" class="btn-send" id="btn-send">Coming soon!</button>
+                <div id="turnstile-container" class="form-group" style="display: flex; justify-content: center; margin-bottom: var(--spacing-sm);"></div>
+                <button type="submit" class="btn-send" id="btn-send">Send Message</button>
             </form>
         </div>
      </section>
@@ -159,9 +159,9 @@
     </footer>
 
     <!-- Toast Notification -->
-    <!-- <div id="toast-notification" class="toast">
-        <i class="fa-solid fa-circle-check"></i>
-        <span id="toast-message">Functionality coming soon!</span>
-    </div> -->
+    <div id="toast-notification" class="toast">
+        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Message sent successfully!</span>
+    </div>
 </body>
 </html>

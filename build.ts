@@ -21,5 +21,10 @@ await Promise.allSettled([
 		force: true,
 		recursive: true,
 		preserveTimestamps: true
+	}),
+
+	cpSync("./config.json", "./build/config.json", {
+		force: true,
+		preserveTimestamps: true
 	})
 ])

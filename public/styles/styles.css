@@ -506,7 +506,16 @@ header {
   border: none;
   font-weight: 800;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-send:disabled {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* --- Footer --- */
@@ -837,7 +846,20 @@ header {
   opacity: 1;
 }
 .toast i {
-  color: var(--bg-primary);
   font-size: 1rem;
+}
+.toast.success {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+.toast.success i {
+  color: var(--bg-primary);
+}
+.toast.error {
+  background: #ff3333;
+  color: #ffffff;
+}
+.toast.error i {
+  color: #ffffff;
 }
 

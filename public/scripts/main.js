@@ -1,6 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const config = window.siteConfig;
-	if (!config) return;
+document.addEventListener("DOMContentLoaded", async () => {
+	let config = null;
+	try {
+		const response = await fetch("/api/config");
+		if (!response.ok) throw new Error("Failed to fetch config");
+		config = await response.json();
+		window.siteConfig = config;
+	} catch (error) {
+		console.error("Failed to load site configuration:", error);
+		return;
+	}
 
 	// --- RENDER FUNCTIONS ---
 
@@ -217,37 +225,146 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	let turnstileToken = "";
+
+	function loadTurnstile() {
+		if (config.turnstileSiteKey) {
+			const container = document.getElementById("turnstile-container");
+			if (!container) return;
+
+			const script = document.createElement("script");
+			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+			script.async = true;
+			script.defer = true;
+			document.head.appendChild(script);
+
+			script.onload = () => {
+				if (window.turnstile) {
+					window.turnstile.render("#turnstile-container", {
+						sitekey: config.turnstileSiteKey,
+						theme: "dark",
+						callback: function (token) {
+							turnstileToken = token;
+						},
+						"expired-callback": function () {
+							turnstileToken = "";
+						},
+						"error-callback": function () {
+							turnstileToken = "";
+						}
+					});
+				}
+			};
+		} else {
+			const container = document.getElementById("turnstile-container");
+			if (container) {
+				container.style.display = "none";
+			}
+		}
+	}
+
 	function initContactForm() {
 		const form = document.getElementById("contact-form");
 		const toast = document.getElementById("toast-notification");
+		const toastMessage = document.getElementById("toast-message");
+		const toastIcon = document.getElementById("toast-icon");
+		const btnSend = document.getElementById("btn-send");
 
 		if (!form || !toast) return;
 
-		form.addEventListener("submit", (e) => {
-			e.preventDefault();
+		if (btnSend) {
+			btnSend.disabled = false;
+		}
 
-			const name = document.getElementById("contact-name").value;
-			const email = document.getElementById("contact-email").value;
-			const message = document.getElementById("contact-message").value;
+		let isSubmitting = false;
 
-			// Store message in local storage as a mock submission database
-			const messages = JSON.parse(localStorage.getItem("portfolio_messages") || "[]");
-			messages.push({
-				name,
-				email,
-				message,
-				timestamp: new Date().toISOString()
-			});
-			localStorage.setItem("portfolio_messages", JSON.stringify(messages));
-
-			// Clear the inputs
-			form.reset();
-
-			// Show success notification toast
+		function showToast(message, isSuccess = true) {
+			if (toastMessage) toastMessage.textContent = message;
+			if (toastIcon) {
+				toastIcon.className = isSuccess 
+					? "fa-solid fa-circle-check" 
+					: "fa-solid fa-circle-xmark";
+			}
+			
+			toast.className = "toast";
+			if (isSuccess) {
+				toast.classList.add("success");
+			} else {
+				toast.classList.add("error");
+			}
+			
 			toast.classList.add("show");
 			setTimeout(() => {
 				toast.classList.remove("show");
-			}, 3500);
+			}, 4000);
+		}
+
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			if (isSubmitting) return;
+
+			if (config.turnstileSiteKey && !turnstileToken) {
+				showToast("Please solve the captcha first.", false);
+				return;
+			}
+
+			const name = document.getElementById("contact-name").value.trim();
+			const email = document.getElementById("contact-email").value.trim();
+			const message = document.getElementById("contact-message").value.trim();
+
+			if (!name || !email || !message) {
+				showToast("Please fill in all fields.", false);
+				return;
+			}
+
+			try {
+				isSubmitting = true;
+				if (btnSend) {
+					btnSend.disabled = true;
+					btnSend.textContent = "Sending...";
+				}
+
+				const response = await fetch("/api/send-message", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						name,
+						email,
+						message,
+						turnstileToken
+					})
+				});
+
+				const result = await response.json();
+
+				if (response.ok && result.success) {
+					showToast("Message sent successfully!", true);
+					form.reset();
+					
+					if (window.turnstile && config.turnstileSiteKey) {
+						window.turnstile.reset("#turnstile-container");
+						turnstileToken = "";
+					}
+				} else {
+					showToast(result.error || "Failed to send message.", false);
+					if (window.turnstile && config.turnstileSiteKey) {
+						window.turnstile.reset("#turnstile-container");
+						turnstileToken = "";
+					}
+				}
+			} catch (error) {
+				console.error("Error submitting contact form:", error);
+				showToast("An error occurred. Please try again.", false);
+			} finally {
+				isSubmitting = false;
+				if (btnSend) {
+					btnSend.disabled = false;
+					btnSend.textContent = "Send Message";
+				}
+			}
 		});
 	}
 
@@ -395,6 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	initScrollEffects();
 	initContactForm();
 	initTerminal();
+	loadTurnstile();
 
 	// Typing Effect
 	const typingElement = document.getElementById("hero-role");

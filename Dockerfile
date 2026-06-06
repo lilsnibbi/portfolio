@@ -2,7 +2,6 @@ FROM oven/bun:1.3.14-slim AS builder
 WORKDIR /app
 COPY . .
 RUN bun build.ts
-COPY ./public ./build/public
 
 FROM oven/bun:1.3.14-slim
 WORKDIR /app
