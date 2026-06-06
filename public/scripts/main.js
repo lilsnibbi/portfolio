@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		// Intersection Observer for scroll reveal animations
 		const observerOptions = {
 			threshold: 0.15,
-			rootMargin: "0px 0px -50px 0px"
+			rootMargin: "0px 0px -50px 0px",
 		};
 
 		const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -233,7 +233,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 			if (!container) return;
 
 			const script = document.createElement("script");
-			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+			script.src =
+				"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 			script.async = true;
 			script.defer = true;
 			document.head.appendChild(script);
@@ -251,7 +252,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 						},
 						"error-callback": function () {
 							turnstileToken = "";
-						}
+						},
 					});
 				}
 			};
@@ -281,18 +282,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 		function showToast(message, isSuccess = true) {
 			if (toastMessage) toastMessage.textContent = message;
 			if (toastIcon) {
-				toastIcon.className = isSuccess 
-					? "fa-solid fa-circle-check" 
+				toastIcon.className = isSuccess
+					? "fa-solid fa-circle-check"
 					: "fa-solid fa-circle-xmark";
 			}
-			
+
 			toast.className = "toast";
 			if (isSuccess) {
 				toast.classList.add("success");
 			} else {
 				toast.classList.add("error");
 			}
-			
+
 			toast.classList.add("show");
 			setTimeout(() => {
 				toast.classList.remove("show");
@@ -328,14 +329,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 				const response = await fetch("/api/send-message", {
 					method: "POST",
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
 						name,
 						email,
 						message,
-						turnstileToken
-					})
+						turnstileToken,
+					}),
 				});
 
 				const result = await response.json();
@@ -343,7 +344,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				if (response.ok && result.success) {
 					showToast("Message sent successfully!", true);
 					form.reset();
-					
+
 					if (window.turnstile && config.turnstileSiteKey) {
 						window.turnstile.reset("#turnstile-container");
 						turnstileToken = "";
@@ -452,16 +453,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 					output.innerHTML = neofetchUIText;
 					break;
 				case "about":
-					output.innerHTML = config.about.paragraphs.map((p) => `<div style="margin-bottom: 6px;">${p}</div>`).join("");
+					output.innerHTML = config.about.paragraphs
+						.map((p) => `<div style="margin-bottom: 6px;">${p}</div>`)
+						.join("");
 					break;
 				case "projects":
-					output.innerHTML = config.projects.list.map((p) => `
+					output.innerHTML = config.projects.list
+						.map(
+							(p) => `
 						<div style="margin-bottom: 8px;">
 							<div style="font-weight: bold;">${p.title}</div>
 							<div style="color: #888;">${p.description}</div>
 							<div style="font-size: 0.75rem; color: #666;">Tags: ${p.tags.join(", ")}</div>
 						</div>
-					`).join("");
+					`,
+						)
+						.join("");
 					break;
 				case "skills":
 					output.innerHTML = `

@@ -6,7 +6,7 @@ await Promise.allSettled([
 		minify: true,
 		outdir: "build",
 		sourcemap: false,
-		target: "bun"
+		target: "bun",
 	}),
 
 	Bun.build({
@@ -14,17 +14,17 @@ await Promise.allSettled([
 		outdir: "build/public",
 		minify: true,
 		sourcemap: false,
-		target: "browser"
+		target: "browser",
 	}),
 
 	cpSync("./public/img/", "./build/public/img/", {
 		force: true,
 		recursive: true,
-		preserveTimestamps: true
+		preserveTimestamps: true,
 	}),
 
 	cpSync("./config.json", "./build/config.json", {
 		force: true,
-		preserveTimestamps: true
-	})
-])
+		preserveTimestamps: true,
+	}),
+]);
