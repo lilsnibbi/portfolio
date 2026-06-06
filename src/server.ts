@@ -101,11 +101,11 @@ new Elysia()
 			}
 		}
 	})
-	.get("/", () => Bun.file("./public/index.html"))
-	.get("/index.html", () => Bun.file("./public/index.html"))
+	.get("/", () => Bun.file("../public/index.html"))
+	.get("/index.html", () => Bun.file("../public/index.html"))
 	.get("/favicon.ico", ({ set }) => {
 		set.headers["content-type"] = "image/x-icon";
-		return Bun.file("./public/img/favicon.ico");
+		return Bun.file("../public/img/favicon.ico");
 	})
 	.get(
 		"/api/config",
@@ -386,32 +386,10 @@ new Elysia()
 			return "Invalid asset path";
 		}
 
-		const file = Bun.file(`./public/${asset}`);
+		const file = Bun.file(`../public/${asset}`);
 		if (await file.exists()) {
 			return file;
 		}
-		set.status = 404;
-		return "Not Found";
-	})
-	.get("/:asset", async ({ params, set }) => {
-		const asset = params.asset;
-
-		// Traversal protection
-		if (asset.includes("..") || asset.includes("/") || asset.includes("\\")) {
-			set.status = 400;
-			return "Invalid asset path";
-		}
-
-		if (!asset.startsWith("chunk-")) {
-			set.status = 404;
-			return "Not Found";
-		}
-
-		const file = Bun.file(`./public/${asset}`);
-		if (await file.exists()) {
-			return file;
-		}
-
 		set.status = 404;
 		return "Not Found";
 	})
