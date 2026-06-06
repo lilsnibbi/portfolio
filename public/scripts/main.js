@@ -185,14 +185,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 		if (!dot || !ring) return;
 
+		let isReentering = true;
+
 		// Mouse Move: update position of custom cursor and make visible
 		document.addEventListener("mousemove", (e) => {
-			dot.classList.add("visible");
-			ring.classList.add("visible");
-			dot.style.left = `${e.clientX}px`;
-			dot.style.top = `${e.clientY}px`;
-			ring.style.left = `${e.clientX}px`;
-			ring.style.top = `${e.clientY}px`;
+			if (isReentering) {
+				ring.classList.add("no-transition");
+				dot.classList.add("no-transition");
+
+				dot.style.left = `${e.clientX}px`;
+				dot.style.top = `${e.clientY}px`;
+				ring.style.left = `${e.clientX}px`;
+				ring.style.top = `${e.clientY}px`;
+
+				// Force a browser reflow so position updates instantly without transition
+				void ring.offsetHeight;
+
+				ring.classList.remove("no-transition");
+				dot.classList.remove("no-transition");
+
+				dot.classList.add("visible");
+				ring.classList.add("visible");
+				isReentering = false;
+			} else {
+				dot.classList.add("visible");
+				ring.classList.add("visible");
+				dot.style.left = `${e.clientX}px`;
+				dot.style.top = `${e.clientY}px`;
+				ring.style.left = `${e.clientX}px`;
+				ring.style.top = `${e.clientY}px`;
+			}
+		});
+
+		// Hide cursor and reset status when leaving document viewport
+		document.addEventListener("mouseleave", () => {
+			dot.classList.remove("visible", "hovered");
+			ring.classList.remove("visible", "hovered", "active");
+			isReentering = true;
+		});
+
+		// Hide cursor and reset status when window loses focus (e.g. Alt-Tab)
+		window.addEventListener("blur", () => {
+			dot.classList.remove("visible", "hovered");
+			ring.classList.remove("visible", "hovered", "active");
+			isReentering = true;
 		});
 
 		// Mouse Down / Up click animation
@@ -204,7 +240,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 
 		// Hover states on interactive elements using event delegation
-		const hoverElements = "a, button, input, textarea, select, .c1, .project-card, .nav-item, #btn-discord-login, #btn-discord-logout, .follow ul a";
+		const hoverElements =
+			"a, button, input, textarea, select, .c1, .project-card, .nav-item, #btn-discord-login, #btn-discord-logout, .follow ul a";
 
 		document.addEventListener("mouseover", (e) => {
 			if (e.target.closest?.(hoverElements)) {

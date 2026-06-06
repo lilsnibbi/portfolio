@@ -94,7 +94,8 @@ new Elysia()
 			set.status = 400;
 			try {
 				const parsed = JSON.parse(err.message);
-				const userMessage = parsed.summary || parsed.message || "Invalid input.";
+				const userMessage =
+					parsed.summary || parsed.message || "Invalid input.";
 				return { error: `Validation failed: ${userMessage}` };
 			} catch (e) {
 				return { error: `Validation failed: ${err.message}` };
@@ -215,8 +216,9 @@ new Elysia()
 
 					const avatarUrl = user.avatar
 						? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-						: `https://cdn.discordapp.com/embed/avatars/${(BigInt(user.id) >> 22n) % 6n
-						}.png`;
+						: `https://cdn.discordapp.com/embed/avatars/${
+								(BigInt(user.id) >> 22n) % 6n
+							}.png`;
 
 					userProfile = {
 						id: user.id,
