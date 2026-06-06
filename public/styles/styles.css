@@ -167,7 +167,7 @@ header {
 	letter-spacing: 0.1em;
 }
 
-.ul-list li i {
+.ul-list i {
 	display: none;
 }
 
@@ -693,7 +693,6 @@ header {
 	height: 320px;
 	display: flex;
 	flex-direction: column;
-	cursor: text;
 }
 
 .terminal-header {
@@ -876,7 +875,79 @@ header {
 	color: #ffffff;
 }
 
+#btn-discord-logout {
+	color: var(--text-secondary);
+	margin-left: 10px;
+	font-size: 0.85rem;
+	text-decoration: none;
+	border-bottom: 1px dashed var(--text-secondary);
+}
+
 #btn-discord-logout:hover {
-	color: var(--text-primary) !important;
-	border-bottom-color: var(--text-primary) !important;
+	color: var(--text-primary);
+	border-bottom-color: var(--text-primary);
+}
+
+/* Custom Cursor Styles */
+*:not(.cursor-dot):not(.cursor-ring) {
+	cursor: none;
+}
+
+.cursor-dot {
+	width: 6px;
+	height: 6px;
+	background-color: #ffffff;
+	border-radius: 50%;
+	position: fixed;
+	pointer-events: none;
+	z-index: 100001;
+	transform: translate(-50%, -50%);
+	mix-blend-mode: difference;
+	opacity: 0;
+	transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+
+.cursor-ring {
+	width: 32px;
+	height: 32px;
+	border: 1.5px solid #ffffff;
+	border-radius: 50%;
+	position: fixed;
+	pointer-events: none;
+	z-index: 100000;
+	transform: translate(-50%, -50%);
+	mix-blend-mode: difference;
+	opacity: 0;
+	transition: left 0.08s ease-out, top 0.08s ease-out, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
+}
+
+.cursor-dot.visible, .cursor-ring.visible {
+	opacity: 1;
+}
+
+/* Hover state: scale the outer ring, fade out the inner dot */
+.cursor-ring.hovered {
+	width: 44px;
+	height: 44px;
+	background-color: #ffffff;
+	border-color: #ffffff;
+}
+
+.cursor-dot.hovered {
+	opacity: 0;
+}
+
+/* Click state: shrink outer ring */
+.cursor-ring.active {
+	transform: translate(-50%, -50%) scale(0.75);
+}
+
+/* Disable on devices with touch screens */
+@media (hover: none) and (pointer: coarse) {
+	.cursor-dot, .cursor-ring {
+		display: none;
+	}
+	*:not(.cursor-dot):not(.cursor-ring) {
+		cursor: auto;
+	}
 }

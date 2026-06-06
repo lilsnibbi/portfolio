@@ -179,6 +179,51 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	// --- INTERACTIVE FEATURES ---
 
+	function initCustomCursor() {
+		const dot = document.querySelector(".cursor-dot");
+		const ring = document.querySelector(".cursor-ring");
+
+		if (!dot || !ring) return;
+
+		// Mouse Move: update position of custom cursor and make visible
+		document.addEventListener("mousemove", (e) => {
+			dot.classList.add("visible");
+			ring.classList.add("visible");
+			dot.style.left = `${e.clientX}px`;
+			dot.style.top = `${e.clientY}px`;
+			ring.style.left = `${e.clientX}px`;
+			ring.style.top = `${e.clientY}px`;
+		});
+
+		// Mouse Down / Up click animation
+		document.addEventListener("mousedown", () => {
+			ring.classList.add("active");
+		});
+		document.addEventListener("mouseup", () => {
+			ring.classList.remove("active");
+		});
+
+		// Hover states on interactive elements using event delegation
+		const hoverElements = "a, button, input, textarea, select, .c1, .project-card, .nav-item, #btn-discord-login, #btn-discord-logout, .follow ul a";
+
+		document.addEventListener("mouseover", (e) => {
+			if (e.target.closest?.(hoverElements)) {
+				dot.classList.add("hovered");
+				ring.classList.add("hovered");
+			}
+		});
+
+		document.addEventListener("mouseout", (e) => {
+			if (e.target.closest?.(hoverElements)) {
+				const relatedTarget = e.relatedTarget;
+				if (!relatedTarget?.closest?.(hoverElements)) {
+					dot.classList.remove("hovered");
+					ring.classList.remove("hovered");
+				}
+			}
+		});
+	}
+
 	function initScrollEffects() {
 		// Intersection Observer for scroll reveal animations
 		const observerOptions = {
@@ -459,7 +504,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 						<div><span class="t-label">Discord:</span> @${config.contact?.discord || ""}</div>
 					`;
 					break;
-				case "clear":
+				case "clear": {
 					const allLines = Array.from(terminalBody.children);
 					allLines.forEach((line) => {
 						if (!line.classList.contains("terminal-input-line")) {
@@ -468,6 +513,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 					});
 					terminalBody.scrollTop = 0;
 					return;
+				}
 				default:
 					output.innerHTML = `<span style="color: #aaaaaa;">Command not found: '${escapeHtml(cmd)}'. Type 'help' for support.</span>`;
 			}
@@ -493,6 +539,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	renderFooter();
 
 	// Initialize Interactivity
+	initCustomCursor();
 	initScrollEffects();
 	initContactForm();
 	initTerminal();

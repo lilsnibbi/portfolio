@@ -23,6 +23,9 @@
     <script src="/public/scripts/main.js"></script>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
     <!-- Navigation Header -->
     <header>
         <div class="div-list">
@@ -139,7 +142,7 @@
             <div id="discord-profile-container" style="display: none; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; margin-bottom: 16px;">
                 <img id="discord-avatar" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%;">
                 <span style="font-size: 0.95rem;">Logged in as <strong id="discord-username"></strong></span>
-                <a href="/api/auth/logout" id="btn-discord-logout" style="color: var(--text-secondary); margin-left: 10px; font-size: 0.85rem; text-decoration: none; border-bottom: 1px dashed var(--text-secondary);">Logout</a>
+                <a href="/api/auth/logout" id="btn-discord-logout">Logout</a>
             </div>
 
             <!-- Unauthenticated Contact State -->
