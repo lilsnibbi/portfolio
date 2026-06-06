@@ -15,6 +15,7 @@ await Promise.allSettled([
 		minify: true,
 		sourcemap: false,
 		target: "browser",
+		publicPath: "/public/",
 	}),
 
 	cpSync("./public/img/", "./build/public/img/", {
