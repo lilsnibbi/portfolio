@@ -108,6 +108,7 @@ new Elysia()
 		set.headers["content-type"] = "image/x-icon";
 		return Bun.file("./public/img/favicon.ico");
 	})
+	.get(".well-known/cf-2fa-verify.txt", () => Bun.env.CF_TEMP_TOKEN)
 	.get(
 		"/api/config",
 		async ({ set }) => {
