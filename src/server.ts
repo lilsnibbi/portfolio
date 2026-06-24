@@ -76,6 +76,8 @@ const rateLimiterHook = ({ request, set }: any) => {
 	return checkRateLimit(request, set);
 };
 
+const START_TIMESTAMP = Date.now().toString();
+
 // 4. Create and start Elysia Application
 new Elysia()
 	.use(cors())
@@ -102,8 +104,40 @@ new Elysia()
 			}
 		}
 	})
-	.get("/", () => Bun.file("./public/index.html"))
-	.get("/index.html", () => Bun.file("./public/index.html"))
+	.get("/", async () => {
+		const html = await Bun.file("./public/index.html").text();
+		return new Response(
+			html
+				.replace(
+					"/public/styles/styles.css",
+					`/public/styles/styles.css?v=${START_TIMESTAMP}`,
+				)
+				.replace(
+					"/public/scripts/main.js",
+					`/public/scripts/main.js?v=${START_TIMESTAMP}`,
+				),
+			{
+				headers: { "content-type": "text/html; charset=utf-8" },
+			},
+		);
+	})
+	.get("/index.html", async () => {
+		const html = await Bun.file("./public/index.html").text();
+		return new Response(
+			html
+				.replace(
+					"/public/styles/styles.css",
+					`/public/styles/styles.css?v=${START_TIMESTAMP}`,
+				)
+				.replace(
+					"/public/scripts/main.js",
+					`/public/scripts/main.js?v=${START_TIMESTAMP}`,
+				),
+			{
+				headers: { "content-type": "text/html; charset=utf-8" },
+			},
+		);
+	})
 	.get("/favicon.ico", ({ set }) => {
 		set.headers["content-type"] = "image/x-icon";
 		return Bun.file("./public/img/favicon.ico");

@@ -889,29 +889,29 @@ header {
 }
 
 /* Custom Cursor Styles */
-.no-transition {
-	transition: none !important;
-}
-
-*:not(.cursor-dot):not(.cursor-ring) {
+body.custom-cursor-active,
+body.custom-cursor-active * {
 	cursor: none;
 }
 
-.cursor-dot {
-	width: 6px;
-	height: 6px;
-	background-color: #ffffff;
-	border-radius: 50%;
+.cursor-dot,
+.cursor-ring {
 	position: fixed;
+	top: 0;
+	left: 0;
 	pointer-events: none;
 	z-index: 100001;
-	transform: translate(-50%, -50%);
+	transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0)
+		translate(-50%, -50%);
 	mix-blend-mode: difference;
 	opacity: 0;
 	transition:
-		width 0.2s,
-		height 0.2s,
-		opacity 0.2s;
+		width 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+		height 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+		background-color 0.2s ease,
+		border-color 0.2s ease,
+		opacity 0.2s ease;
+	will-change: transform, width, height, opacity;
 }
 
 .cursor-ring {
@@ -919,19 +919,14 @@ header {
 	height: 32px;
 	border: 1.5px solid #ffffff;
 	border-radius: 50%;
-	position: fixed;
-	pointer-events: none;
 	z-index: 100000;
-	transform: translate(-50%, -50%);
-	mix-blend-mode: difference;
-	opacity: 0;
-	transition:
-		left 0.08s ease-out,
-		top 0.08s ease-out,
-		width 0.2s,
-		height 0.2s,
-		background-color 0.2s,
-		opacity 0.2s;
+}
+
+.cursor-dot {
+	width: 6px;
+	height: 6px;
+	background-color: #ffffff;
+	border-radius: 50%;
 }
 
 .cursor-dot.visible,
@@ -941,9 +936,9 @@ header {
 
 /* Hover state: scale the outer ring, fade out the inner dot */
 .cursor-ring.hovered {
-	width: 44px;
-	height: 44px;
-	background-color: #ffffff;
+	width: 48px;
+	height: 48px;
+	background-color: rgba(255, 255, 255, 0.1);
 	border-color: #ffffff;
 }
 
@@ -953,16 +948,18 @@ header {
 
 /* Click state: shrink outer ring */
 .cursor-ring.active {
-	transform: translate(-50%, -50%) scale(0.75);
+	transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0)
+		translate(-50%, -50%) scale(0.7);
 }
 
 /* Disable on devices with touch screens */
 @media (hover: none) and (pointer: coarse) {
 	.cursor-dot,
 	.cursor-ring {
-		display: none;
+		display: none !important;
 	}
-	*:not(.cursor-dot):not(.cursor-ring) {
+	body.custom-cursor-active,
+	body.custom-cursor-active * {
 		cursor: auto;
 	}
 }

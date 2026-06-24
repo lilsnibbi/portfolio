@@ -182,64 +182,70 @@ document.addEventListener("DOMContentLoaded", async () => {
 	function initCustomCursor() {
 		const dot = document.querySelector(".cursor-dot");
 		const ring = document.querySelector(".cursor-ring");
+		const body = document.body;
 
 		if (!dot || !ring) return;
 
-		let isReentering = true;
+		let targetX = 0;
+		let targetY = 0;
+		let dotX = 0;
+		let dotY = 0;
+		let ringX = 0;
+		let ringY = 0;
 
-		// Mouse Move: update position of custom cursor and make visible
-		document.addEventListener("mousemove", (e) => {
-			if (isReentering) {
-				ring.classList.add("no-transition");
-				dot.classList.add("no-transition");
+		let isVisible = false;
+		let isFirstMove = true;
 
-				dot.style.left = `${e.clientX}px`;
-				dot.style.top = `${e.clientY}px`;
-				ring.style.left = `${e.clientX}px`;
-				ring.style.top = `${e.clientY}px`;
+		const onMouseMove = (e) => {
+			targetX = e.clientX;
+			targetY = e.clientY;
 
-				// Force a browser reflow so position updates instantly without transition
-				void ring.offsetHeight;
+			if (isFirstMove) {
+				dotX = targetX;
+				dotY = targetY;
+				ringX = targetX;
+				ringY = targetY;
+				isFirstMove = false;
+			}
 
-				ring.classList.remove("no-transition");
-				dot.classList.remove("no-transition");
-
+			if (!isVisible) {
+				isVisible = true;
 				dot.classList.add("visible");
 				ring.classList.add("visible");
-				isReentering = false;
-			} else {
-				dot.classList.add("visible");
-				ring.classList.add("visible");
-				dot.style.left = `${e.clientX}px`;
-				dot.style.top = `${e.clientY}px`;
-				ring.style.left = `${e.clientX}px`;
-				ring.style.top = `${e.clientY}px`;
+				body.classList.add("custom-cursor-active");
+			}
+		};
+
+		document.addEventListener("mousemove", onMouseMove);
+
+		const deactivateCursor = () => {
+			isVisible = false;
+			dot.classList.remove("visible", "hovered");
+			ring.classList.remove("visible", "hovered", "active");
+			body.classList.remove("custom-cursor-active");
+			isFirstMove = true;
+		};
+
+		document.addEventListener("mouseleave", deactivateCursor);
+
+		window.addEventListener("blur", deactivateCursor);
+
+		document.addEventListener("visibilitychange", () => {
+			if (document.hidden) {
+				deactivateCursor();
 			}
 		});
 
-		// Hide cursor and reset status when leaving document viewport
-		document.addEventListener("mouseleave", () => {
-			dot.classList.remove("visible", "hovered");
-			ring.classList.remove("visible", "hovered", "active");
-			isReentering = true;
-		});
-
-		// Hide cursor and reset status when window loses focus (e.g. Alt-Tab)
-		window.addEventListener("blur", () => {
-			dot.classList.remove("visible", "hovered");
-			ring.classList.remove("visible", "hovered", "active");
-			isReentering = true;
-		});
-
-		// Mouse Down / Up click animation
 		document.addEventListener("mousedown", () => {
-			ring.classList.add("active");
+			if (isVisible) {
+				ring.classList.add("active");
+			}
 		});
+
 		document.addEventListener("mouseup", () => {
 			ring.classList.remove("active");
 		});
 
-		// Hover states on interactive elements using event delegation
 		const hoverElements =
 			"a, button, input, textarea, select, .c1, .project-card, .nav-item, #btn-discord-login, #btn-discord-logout, .follow ul a";
 
@@ -259,6 +265,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 				}
 			}
 		});
+
+		const tick = () => {
+			if (isVisible && !isFirstMove) {
+				dotX += (targetX - dotX) * 0.35;
+				dotY += (targetY - dotY) * 0.35;
+
+				ringX += (targetX - ringX) * 0.18;
+				ringY += (targetY - ringY) * 0.18;
+
+				dot.style.setProperty("--cursor-x", `${dotX.toFixed(1)}px`);
+				dot.style.setProperty("--cursor-y", `${dotY.toFixed(1)}px`);
+				ring.style.setProperty("--cursor-x", `${ringX.toFixed(1)}px`);
+				ring.style.setProperty("--cursor-y", `${ringY.toFixed(1)}px`);
+			}
+			requestAnimationFrame(tick);
+		};
+
+		requestAnimationFrame(tick);
 	}
 
 	function initScrollEffects() {
