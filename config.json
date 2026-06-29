@@ -4,8 +4,9 @@
 		"role": "Hobby Software Developer",
 		"roles": [
 			"Backend Engineer",
+			"Official Goofball",
 			"TypeScript Developer",
-			"Docker Administrator",
+			"Worlds Worst Cook",
 			"Open Source Contributor"
 		],
 		"location": "Australia",
@@ -29,10 +30,10 @@
 	},
 	"about": {
 		"sectionTag": "ABOUT ME",
-		"title": "Building Reliable Software",
+		"title": "Get to know me!",
 		"paragraphs": [
-			"I'm a software engineer with a strong focus on backend development, infrastructure, and developer experience. I enjoy designing maintainable systems, solving complex problems, and building tools that make life easier.",
-			"Most of my work revolves around TypeScript, Bun, Docker, PostgreSQL, and modern backend technologies. I'm passionate about clean architecture, best practices, and continuously improving my craft."
+			"I'm a software engineer who loves solving complex problems and building things that make life easier. While I spend my days focusing on backend infrastructure and creating smooth developer tools, I care way more about clean, reliable systems than just chasing the latest tech trends.",
+			"Outside of coding, I spend my time gaming and running a Discord community of over 1,500 members. For me, whether it's building software or managing a community, it's all about bringing people together and constantly finding ways to improve."
 		],
 		"stats": [
 			{
@@ -60,21 +61,33 @@
 			{
 				"title": "@lilsnibbi/utils",
 				"description": "An NPM package with common utilities, classes and other helpful tools that I use in all of my projects!",
-				"tags": ["TypeScript", "Bun", "Open Source"],
+				"tags": [
+					"TypeScript",
+					"Bun",
+					"Open Source"
+				],
 				"github": "https://github.com/lilsnibbi/utils",
 				"demo": ""
 			},
 			{
-				"title": "Snibbi Bot",
-				"description": "The bot for my community!",
-				"tags": ["TypeScript", "Bun", "Closed Source"],
+				"title": "Mocha",
+				"description": "The discord bot for my community!",
+				"tags": [
+					"TypeScript",
+					"Bun",
+					"Closed Source"
+				],
 				"github": "",
-				"demo": "https://discord.gg/snibbi"
+				"demo": "https://home.lilsnibbi.dev"
 			},
 			{
 				"title": "CLI Password Manager",
 				"description": "A sleek, minimal, and highly secure CLI password manager!",
-				"tags": ["CLI", "Bun", "Open Source"],
+				"tags": [
+					"CLI",
+					"Bun",
+					"Open Source"
+				],
 				"github": "https://github.com/lilsnibbi/CLI-Password-Manager",
 				"demo": ""
 			}
@@ -84,10 +97,10 @@
 		"sectionTag": "CONTACT",
 		"title": "Get In Touch",
 		"subtitle": "Have a question or want to work together? Join my Discord server or send an email.",
-		"email": "contact@lilsnibbi.dev",
+		"email": "me@lilsnibbi.dev",
 		"discord": "Username: lilsnibbi | Server: .gg/snibbi",
 		"discordTitle": "My Discord Community",
-		"discordDesc": "Join my server to connect, collaborate, or just hang out!"
+		"discordDesc": "Join the family <3"
 	},
 	"footer": {
 		"logoText": "Snibbi",
