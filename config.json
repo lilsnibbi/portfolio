@@ -83,9 +83,11 @@
 	"contact": {
 		"sectionTag": "CONTACT",
 		"title": "Get In Touch",
-		"subtitle": "Have a question or want to work together? Send a message and I'll get back to you.",
+		"subtitle": "Have a question or want to work together? Join my Discord server or send an email.",
 		"email": "contact@lilsnibbi.dev",
-		"discord": "Username: lilsnibbi | Server: .gg/snibbi"
+		"discord": "Username: lilsnibbi | Server: .gg/snibbi",
+		"discordTitle": "My Discord Community",
+		"discordDesc": "Join my server to connect, collaborate, or just hang out!"
 	},
 	"footer": {
 		"logoText": "Snibbi",

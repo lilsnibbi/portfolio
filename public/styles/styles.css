@@ -272,7 +272,7 @@ header {
 
 .about-info {
 	flex: 1.2;
-	text-align: left;
+	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -472,54 +472,62 @@ header {
 	margin-bottom: var(--spacing-xl);
 }
 
-.contact-form {
+/* --- Discord Card --- */
+.discord-card {
 	width: 100%;
-}
-
-.form-group {
-	margin-bottom: var(--spacing-sm);
-}
-
-.contact-form input,
-.contact-form textarea {
-	width: 100%;
-	padding: 12px;
+	max-width: 500px;
 	background: var(--bg-secondary);
 	border: 1px solid var(--border-color);
-	color: var(--text-primary);
-	font-family: inherit;
-	font-size: 0.875rem;
-}
-
-.contact-form textarea {
-	resize: vertical;
-	max-height: 300px;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-	outline: none;
-	border-color: var(--text-primary);
-}
-
-.btn-send {
-	width: 100%;
-	padding: 12px;
-	background: var(--text-primary);
-	color: var(--bg-primary);
-	border: none;
-	font-weight: 800;
-	text-transform: uppercase;
-	cursor: pointer;
+	border-radius: var(--radius-lg);
+	padding: 2.5rem 2rem;
+	text-align: center;
+	margin: 1.5rem auto 0 auto;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 	transition: var(--transition);
 }
 
-.btn-send:disabled {
-	background: var(--bg-secondary);
+.discord-card:hover {
+	border-color: var(--text-primary);
+	transform: translateY(-4px);
+}
+
+.discord-card h3 {
+	font-size: 1.25rem;
+	margin-bottom: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.discord-card p {
 	color: var(--text-secondary);
-	border: 1px solid var(--border-color);
-	cursor: not-allowed;
-	opacity: 0.6;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	margin-bottom: 1.75rem;
+}
+
+.discord-card-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 100%;
+	max-width: 240px;
+	padding: 12px 24px;
+	background: var(--text-primary);
+	color: var(--bg-primary);
+	font-weight: 800;
+	border-radius: var(--radius-md);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border: 1px solid transparent;
+	transition: var(--transition);
+}
+
+.discord-card-btn:hover {
+	background: var(--bg-primary);
+	color: var(--text-primary);
+	border: 1px solid var(--text-primary);
+	box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 /* --- Footer --- */
@@ -672,150 +680,6 @@ header {
 	}
 }
 
-/* Terminal Window Styles */
-.terminal-wrapper {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 340px;
-}
-
-.terminal-window {
-	width: 100%;
-	background: var(--bg-secondary);
-	border: 1px solid var(--border-color);
-	border-radius: var(--radius-md);
-	font-family: "Courier New", Courier, monospace;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-	overflow: hidden;
-	text-align: left;
-	height: 320px;
-	display: flex;
-	flex-direction: column;
-}
-
-.terminal-header {
-	background: var(--bg-tertiary);
-	border-bottom: 1px solid var(--border-color);
-	padding: 8px 12px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	user-select: none;
-}
-
-.terminal-buttons {
-	display: flex;
-	gap: 6px;
-}
-
-.t-btn {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	display: inline-block;
-}
-
-.t-btn.close {
-	background-color: #ffffff;
-}
-.t-btn.minimize {
-	background-color: #666666;
-}
-.t-btn.expand {
-	background-color: #222222;
-	border: 1px solid #333333;
-}
-
-.terminal-title {
-	font-size: 0.7rem;
-	color: var(--text-secondary);
-	font-weight: 700;
-	text-transform: none;
-	letter-spacing: 0.05em;
-}
-
-.terminal-body {
-	padding: 12px;
-	color: var(--text-primary);
-	font-size: 0.8rem;
-	line-height: 1.4;
-	overflow-y: auto;
-	flex-grow: 1;
-}
-
-.terminal-line {
-	margin-bottom: 6px;
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
-.t-prompt {
-	color: #ffffff;
-	font-weight: bold;
-	margin-right: 8px;
-}
-
-.t-command {
-	color: var(--text-secondary);
-}
-
-.terminal-output {
-	color: #dddddd;
-	font-size: 0.775rem;
-	white-space: pre-wrap;
-}
-
-.neofetch-content {
-	display: flex;
-	gap: 16px;
-	margin: 8px 0;
-	align-items: flex-start;
-}
-
-.neofetch-logo {
-	color: #ffffff;
-	white-space: pre;
-	font-weight: bold;
-	font-size: 0.75rem;
-	line-height: 1.1;
-}
-
-.neofetch-details {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.t-label {
-	color: var(--text-secondary);
-	font-weight: bold;
-}
-
-.terminal-input-line {
-	display: flex;
-	align-items: center;
-	width: 100%;
-}
-
-.terminal-input-line form {
-	display: flex;
-	flex-grow: 1;
-}
-
-.terminal-input {
-	background: transparent;
-	border: none;
-	color: var(--text-primary);
-	font-family: inherit;
-	font-size: inherit;
-	outline: none;
-	width: 100%;
-	padding: 0;
-}
-
 /* Scroll Reveal Animations */
 .reveal {
 	opacity: 0;
@@ -875,91 +739,4 @@ header {
 	color: #ffffff;
 }
 
-#btn-discord-logout {
-	color: var(--text-secondary);
-	margin-left: 10px;
-	font-size: 0.85rem;
-	text-decoration: none;
-	border-bottom: 1px dashed var(--text-secondary);
-}
 
-#btn-discord-logout:hover {
-	color: var(--text-primary);
-	border-bottom-color: var(--text-primary);
-}
-
-/* Custom Cursor Styles */
-body.custom-cursor-active,
-body.custom-cursor-active * {
-	cursor: none;
-}
-
-.cursor-dot,
-.cursor-ring {
-	position: fixed;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-	z-index: 100001;
-	transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0)
-		translate(-50%, -50%);
-	mix-blend-mode: difference;
-	opacity: 0;
-	transition:
-		width 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-		height 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-		background-color 0.2s ease,
-		border-color 0.2s ease,
-		opacity 0.2s ease;
-	will-change: transform, width, height, opacity;
-}
-
-.cursor-ring {
-	width: 32px;
-	height: 32px;
-	border: 1.5px solid #ffffff;
-	border-radius: 50%;
-	z-index: 100000;
-}
-
-.cursor-dot {
-	width: 6px;
-	height: 6px;
-	background-color: #ffffff;
-	border-radius: 50%;
-}
-
-.cursor-dot.visible,
-.cursor-ring.visible {
-	opacity: 1;
-}
-
-/* Hover state: scale the outer ring, fade out the inner dot */
-.cursor-ring.hovered {
-	width: 48px;
-	height: 48px;
-	background-color: rgba(255, 255, 255, 0.1);
-	border-color: #ffffff;
-}
-
-.cursor-dot.hovered {
-	opacity: 0;
-}
-
-/* Click state: shrink outer ring */
-.cursor-ring.active {
-	transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0)
-		translate(-50%, -50%) scale(0.7);
-}
-
-/* Disable on devices with touch screens */
-@media (hover: none) and (pointer: coarse) {
-	.cursor-dot,
-	.cursor-ring {
-		display: none !important;
-	}
-	body.custom-cursor-active,
-	body.custom-cursor-active * {
-		cursor: auto;
-	}
-}
