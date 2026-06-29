@@ -8,8 +8,6 @@
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.4.2",
-		"@elysiajs/jwt": "^1.4.2",
-		"arktype": "^2.2.0",
 		"elysia": "^1.4.28"
 	},
 	"scripts": {
