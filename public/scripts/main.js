@@ -1,91 +1,100 @@
 document.addEventListener("DOMContentLoaded", () => {
-	let config = null;
-	try {
-		config = JSON.parse(document.getElementById("site-config").textContent);
-		window.siteConfig = config;
-	} catch (error) {
-		console.error("Failed to load site configuration:", error);
-		return;
-	}
+	const reduceMotion = window.matchMedia(
+		"(prefers-reduced-motion: reduce)",
+	).matches;
+	const configElement = document.querySelector("#site-config");
+	const roleElement = document.querySelector("#role-text");
+	const header = document.querySelector(".site-header");
+	const navLinks = [
+		...document.querySelectorAll('.site-header nav a[href^="#"]'),
+	];
+	const sections = [...document.querySelectorAll("main section[id]")];
 
-	function initScrollEffects() {
-		// Intersection Observer for scroll reveal animations
-		const observerOptions = {
-			threshold: 0.15,
-			rootMargin: "0px 0px -50px 0px",
-		};
+	const navigationObserver = new IntersectionObserver(
+		(entries) => {
+			const visible = entries
+				.filter((entry) => entry.isIntersecting)
+				.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+			if (!visible) return;
 
-		const revealObserver = new IntersectionObserver((entries, observer) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add("active");
-					observer.unobserve(entry.target);
-				}
-			});
-		}, observerOptions);
-
-		document.querySelectorAll(".reveal").forEach((el) => {
-			revealObserver.observe(el);
-		});
-
-		// Scrollspy navigation active class toggle
-		const sections = document.querySelectorAll("section");
-		const navItems = document.querySelectorAll(".nav-item");
-
-		window.addEventListener("scroll", () => {
-			let current = "";
-			const scrollPos = window.scrollY + 200;
-
-			sections.forEach((section) => {
-				const sectionTop = section.offsetTop;
-				const sectionHeight = section.offsetHeight;
-				if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-					current = section.getAttribute("id");
-				}
-			});
-
-			navItems.forEach((li) => {
-				li.classList.remove("active");
-				const link = li.querySelector("a");
-				if (link && link.getAttribute("href") === `#${current}`) {
-					li.classList.add("active");
-				}
-			});
-		});
-	}
-
-	// Initialize Interactivity
-	initScrollEffects();
-
-	// Typing Effect
-	const typingElement = document.getElementById("hero-role");
-	const words = config.profile.roles || [config.profile.role];
-	let wordIndex = 0;
-	let charIndex = 0;
-	let isDeleting = false;
-	const typingSpeed = 100;
-
-	function type() {
-		if (!typingElement) return;
-		const currentWord = words[wordIndex];
-		const displayedText = currentWord.substring(0, charIndex);
-
-		typingElement.innerHTML = `${displayedText}<span class="cursor">|</span>`;
-
-		if (!isDeleting && charIndex < currentWord.length) {
-			charIndex++;
-			setTimeout(type, typingSpeed);
-		} else if (isDeleting && charIndex > 0) {
-			charIndex--;
-			setTimeout(type, typingSpeed / 2);
-		} else {
-			isDeleting = !isDeleting;
-			if (!isDeleting) {
-				wordIndex = (wordIndex + 1) % words.length;
+			for (const link of navLinks) {
+				link.classList.toggle(
+					"is-active",
+					link.getAttribute("href") === `#${visible.target.id}`,
+				);
 			}
-			setTimeout(type, 1000);
+		},
+		{ rootMargin: "-30% 0px -55%", threshold: [0, 0.2, 0.6] },
+	);
+
+	for (const section of sections) navigationObserver.observe(section);
+
+	if (!reduceMotion) {
+		const observer = new IntersectionObserver(
+			(entries, revealObserver) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					entry.target.classList.add("is-visible");
+					revealObserver.unobserve(entry.target);
+				}
+			},
+			{ threshold: 0.12, rootMargin: "0px 0px -48px" },
+		);
+
+		for (const element of document.querySelectorAll(".reveal")) {
+			observer.observe(element);
+		}
+
+		window.addEventListener(
+			"pointermove",
+			(event) => {
+				document.documentElement.style.setProperty(
+					"--pointer-x",
+					`${event.clientX}px`,
+				);
+				document.documentElement.style.setProperty(
+					"--pointer-y",
+					`${event.clientY}px`,
+				);
+			},
+			{ passive: true },
+		);
+	} else {
+		for (const element of document.querySelectorAll(".reveal")) {
+			element.classList.add("is-visible");
 		}
 	}
 
-	type();
+	let previousScroll = window.scrollY;
+	window.addEventListener(
+		"scroll",
+		() => {
+			const currentScroll = window.scrollY;
+			header?.classList.toggle(
+				"is-hidden",
+				currentScroll > previousScroll && currentScroll > 160,
+			);
+			previousScroll = currentScroll;
+		},
+		{ passive: true },
+	);
+
+	if (!configElement || !roleElement || reduceMotion) return;
+
+	try {
+		const { roles } = JSON.parse(configElement.textContent || "{}");
+		if (!Array.isArray(roles) || roles.length < 2) return;
+
+		let currentRole = 0;
+		window.setInterval(() => {
+			roleElement.classList.add("is-changing");
+			window.setTimeout(() => {
+				currentRole = (currentRole + 1) % roles.length;
+				roleElement.textContent = roles[currentRole];
+				roleElement.classList.remove("is-changing");
+			}, 220);
+		}, 2800);
+	} catch {
+		// The server always provides this payload; keep the static role if parsing fails.
+	}
 });
