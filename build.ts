@@ -1,31 +1,22 @@
-import { cpSync } from "node:fs";
+import { cpSync, rmSync } from "node:fs";
 
-await Promise.allSettled([
-	Bun.build({
-		entrypoints: ["./src/server.ts"],
-		minify: false,
-		outdir: "build",
-		sourcemap: false,
-		target: "bun",
-	}),
+rmSync("./build", { force: true, recursive: true });
 
-	Bun.build({
-		entrypoints: ["./public/index.html"],
-		outdir: "build/public",
-		minify: true,
-		sourcemap: false,
-		target: "browser",
-		publicPath: "/public/",
-	}),
+const result = await Bun.build({
+	entrypoints: ["./src/server.ts"],
+	minify: false,
+	outdir: "build",
+	sourcemap: false,
+	target: "bun",
+});
 
-	cpSync("./public/img/", "./build/public/img/", {
-		force: true,
-		recursive: true,
-		preserveTimestamps: true,
-	}),
+if (!result.success) {
+	for (const log of result.logs) console.error(log);
+	throw new Error("Server build failed");
+}
 
-	cpSync("./config.json", "./build/config.json", {
-		force: true,
-		preserveTimestamps: true,
-	}),
-]);
+cpSync("./public", "./build/public", {
+	force: true,
+	recursive: true,
+	preserveTimestamps: true,
+});

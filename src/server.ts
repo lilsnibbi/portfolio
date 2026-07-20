@@ -1,255 +1,236 @@
-import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { Elysia } from "elysia";
+import config from "../config";
 
 const START_TIMESTAMP = Date.now().toString();
+const templateFile = Bun.file("./public/index.html");
 
-// Load static assets/configs on startup
-let template = "";
-let config: any = {};
-
-try {
-	const file = Bun.file("./public/index.html");
-	if (await file.exists()) {
-		template = await file.text();
-		// replace stylesheet/script versions
-		template = template
-			.replace(
-				"/public/styles/styles.css",
-				`/public/styles/styles.css?v=${START_TIMESTAMP}`,
-			)
-			.replace(
-				"/public/scripts/main.js",
-				`/public/scripts/main.js?v=${START_TIMESTAMP}`,
-			);
-	}
-} catch (err) {
-	console.error("Error loading index template:", err);
+if (!(await templateFile.exists())) {
+	throw new Error("Missing public/index.html");
 }
 
-try {
-	const file = Bun.file("./config.json");
-	if (await file.exists()) {
-		config = await file.json();
-	}
-} catch (err) {
-	console.error("Error loading config.json:", err);
-}
+const template = (await templateFile.text())
+	.replace(
+		"/public/styles/styles.css",
+		`/public/styles/styles.css?v=${START_TIMESTAMP}`,
+	)
+	.replace(
+		"/public/scripts/main.js",
+		`/public/scripts/main.js?v=${START_TIMESTAMP}`,
+	);
 
-function renderPage(config: any, template: string): string {
-	const heroStatusStyle = config.profile.status
-		? "display: inline-flex;"
-		: "display: none;";
-	const heroStatus = config.profile.status || "";
-	const heroName = `Hi, I'm ${config.profile.name}`;
-	const heroRole = config.profile.role || "";
-	const heroBio = config.profile.bio || "";
+const escapeHtml = (value: string) =>
+	value.replace(
+		/[&<>"']/g,
+		(character) =>
+			({
+				"&": "&amp;",
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&#039;",
+			})[character] ?? character,
+	);
 
-	const heroLocationStyle = config.profile.location ? "" : "display: none;";
-	const heroLocation = config.profile.location || "";
-	const heroPronounsStyle = config.profile.pronouns
-		? "display: flex;"
-		: "display: none;";
-	const heroPronouns = config.profile.pronouns || "";
-	const heroAgeStyle = config.profile.age
-		? "display: flex;"
-		: "display: none;";
-	const heroAge = config.profile.age || "";
+const externalLink = (url: string, label: string, className = "text-link") => `
+	<a class="${className}" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">
+		<span>${escapeHtml(label)}</span><span aria-hidden="true">↗</span>
+	</a>`;
 
-	const followTitle = config.profile.socialsTitle || "";
-	const heroSocials = config.profile.socialLinks
+function renderPage() {
+	const socials = config.profile.socialLinks
+		.map((social) => externalLink(social.url, social.platform, "social-link"))
+		.join("");
+
+	const facts = [
+		["Based", config.profile.location],
+		["Pronouns", config.profile.pronouns],
+		["Age", config.profile.age],
+	]
 		.map(
-			(social: any) =>
-				`<li><a href="${social.url}" target="_blank" aria-label="${social.platform}"><i class="${social.icon}"></i></a></li>`,
+			([label, value]) => `
+				<div class="hero-fact">
+					<span>${escapeHtml(label ?? "")}</span>
+					<strong>${escapeHtml(value ?? "")}</strong>
+				</div>`,
 		)
 		.join("");
 
-	const aboutSectionTag = config.about.sectionTag || "";
-	const aboutTitle = config.about.title || "";
 	const aboutParagraphs = config.about.paragraphs
-		.map((p: string) => `<p>${p}</p>`)
+		.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
 		.join("");
 
-	const aboutStats = config.about.stats
+	const stats = config.about.stats
 		.map(
-			(stat: any) => `
-			<div class="c1 reveal">
-				<i class="${stat.icon}"></i>
-				<h3>${stat.label}</h3>
-				<p>${stat.value}</p>
-			</div>
-		`,
+			(stat, index) => `
+				<article class="stat reveal">
+					<span class="stat-index">0${index + 1}</span>
+					<span>${escapeHtml(stat.label)}</span>
+					<strong>${escapeHtml(stat.value)}</strong>
+				</article>`,
 		)
 		.join("");
 
-	const projectSectionTag = config.projects.sectionTag || "";
-	const projectTitle = config.projects.title || "";
-	const projectSubtitle = config.projects.subtitle || "";
-	const projectsGrid = config.projects.list
-		.map((project: any) => {
-			const githubBtn =
-				project.github && project.github !== "#"
-					? `<a href="${project.github}" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>`
-					: "";
-			const demoBtn =
-				project.demo && project.demo !== "#"
-					? `<a href="${project.demo}" class="btn" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>`
-					: "";
+	const projects = config.projects.list
+		.map((project, index) => {
+			const links = [
+				project.github ? externalLink(project.github, "Source") : "",
+				project.demo ? externalLink(project.demo, "Visit") : "",
+			]
+				.filter(Boolean)
+				.join("");
 
 			return `
-			<div class="project-card reveal">
-				<div class="project-content">
-					<h3>${project.title}</h3>
-					<p>${project.description}</p>
-					<div class="skills">
-						${project.tags.map((tag: string) => `<a href="#">${tag}</a>`).join("")}
+				<article class="project-row reveal">
+					<div class="project-number">0${index + 1}</div>
+					<div class="project-main">
+						<div class="project-heading">
+							<h3>${escapeHtml(project.title)}</h3>
+							<span>${escapeHtml(project.year)}</span>
+						</div>
+						<p>${escapeHtml(project.description)}</p>
+						<ul class="tag-list" aria-label="Technologies">
+							${project.tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")}
+						</ul>
 					</div>
-					<div class="btns">
-						${githubBtn}
-						${demoBtn}
-					</div>
-				</div>
-			</div>
-		`;
+					<div class="project-links">${links}</div>
+				</article>`;
 		})
 		.join("");
 
-	const contactSectionTag = config.contact.sectionTag || "";
-	const contactTitle = config.contact.title || "";
-	const contactSubtitle = config.contact.subtitle || "";
+	const discord = config.profile.socialLinks.find(
+		(social) => social.platform === "Discord",
+	)?.url;
+	const github = config.profile.socialLinks.find(
+		(social) => social.platform === "GitHub",
+	)?.url;
 
-	let contactDetails = "";
-	if (config.contact.email) {
-		contactDetails += `
-			<div class="contact-item">
-				<i class="fa-solid fa-envelope"></i>
-				<span>${config.contact.email}</span>
-			</div>
-		`;
-	}
-	if (config.contact.discord) {
-		contactDetails += `
-			<div class="contact-item">
-				<i class="fa-brands fa-discord"></i>
-				<span>${config.contact.discord}</span>
-			</div>
-		`;
-	}
+	const app = `
+		<a class="skip-link" href="#main">Skip to content</a>
+		<header class="site-header">
+			<a class="brand" href="#home" aria-label="Back to top">
+				<span>${escapeHtml(config.profile.name)}</span>
+			</a>
+			<nav aria-label="Primary navigation">
+				<a href="#about">About</a>
+				<a href="#work">Work</a>
+				<a href="#contact">Contact</a>
+			</nav>
+			<a class="header-cta" href="mailto:${escapeHtml(config.contact.email)}">Let's talk <span aria-hidden="true">↗</span></a>
+		</header>
 
-	const discordLinkObj = config.profile.socialLinks.find(
-		(s: any) => s.platform === "Discord",
+		<main id="main">
+			<section class="hero" id="home">
+				<div class="hero-topline">
+					<div class="status"><span></span>${escapeHtml(config.profile.status)}</div>
+				</div>
+				<div class="hero-copy">
+					<p class="eyebrow">Hello, I'm ${escapeHtml(config.profile.name)}.</p>
+					<h1>I make software<br><em>make sense.</em></h1>
+					<p class="hero-bio">${escapeHtml(config.profile.bio)}</p>
+					<div class="hero-actions">
+						<a class="primary-action" href="#work">View selected work <span aria-hidden="true">↓</span></a>
+						${github ? externalLink(github, "GitHub", "secondary-action") : ""}
+					</div>
+				</div>
+				<div class="rotating-role" aria-live="polite">
+					<span>Currently</span><strong id="role-text">${escapeHtml(config.profile.roles[0] ?? config.profile.role)}</strong>
+				</div>
+				<div class="hero-facts">${facts}</div>
+				<a class="scroll-cue" href="#about"><span>Scroll to explore</span><span class="scroll-arrow" aria-hidden="true">↓</span></a>
+			</section>
+
+			<section class="section about" id="about">
+				<div class="section-heading reveal">
+					<p class="section-label">01 / ${escapeHtml(config.about.sectionTag)}</p>
+					<h2>${escapeHtml(config.about.title)}</h2>
+				</div>
+				<div class="about-grid">
+					<p class="about-lead reveal">${escapeHtml(config.about.lead)}</p>
+					<div class="about-copy reveal">${aboutParagraphs}</div>
+				</div>
+				<div class="stats-grid">${stats}</div>
+			</section>
+
+			<section class="section work" id="work">
+				<div class="section-heading reveal">
+					<p class="section-label">02 / ${escapeHtml(config.projects.sectionTag)}</p>
+					<h2>${escapeHtml(config.projects.title)}</h2>
+					<p>${escapeHtml(config.projects.subtitle)}</p>
+				</div>
+				<div class="project-list">${projects}</div>
+			</section>
+
+			<section class="contact" id="contact">
+				<div class="contact-card reveal">
+					<p class="section-label">03 / ${escapeHtml(config.contact.sectionTag)}</p>
+					<h2>${escapeHtml(config.contact.title)}</h2>
+					<p>${escapeHtml(config.contact.subtitle)}</p>
+					<div class="contact-actions">
+						<a class="primary-action" href="mailto:${escapeHtml(config.contact.email)}">${escapeHtml(config.contact.email)} <span aria-hidden="true">↗</span></a>
+						${discord ? externalLink(discord, `${config.contact.discordTitle} — @${config.contact.discord}`, "secondary-action") : ""}
+					</div>
+					<span class="contact-note">${escapeHtml(config.contact.discordDesc)}</span>
+				</div>
+			</section>
+		</main>
+
+		<footer>
+			<div><strong class="footer-brand-name">${escapeHtml(config.footer.logoText)}</strong></div>
+			<div class="footer-socials">${socials}</div>
+			<p>© ${new Date().getFullYear()} ${escapeHtml(config.footer.copyrightName)}. ${escapeHtml(config.footer.rightsText)}</p>
+		</footer>`;
+
+	const clientConfig = JSON.stringify({ roles: config.profile.roles }).replace(
+		/</g,
+		"\\u003c",
 	);
-	const discordInviteUrl = discordLinkObj
-		? discordLinkObj.url
-		: "https://discord.gg/snibbi";
-	const discordCardTitle = config.contact.discordTitle || "My Discord Community";
-	const discordCardDesc =
-		config.contact.discordDesc ||
-		"Join my server to connect, collaborate, or just hang out!";
-
-	const footerName = config.footer.logoText || "";
-	const footerCopy = `&copy; ${new Date().getFullYear()} ${config.footer.copyrightName}. ${config.footer.rightsText}`;
-	const footerSocials = config.profile.socialLinks
-		.map(
-			(social: any) => `
-			<a href="${social.url}" target="_blank" aria-label="${social.platform}"><i class="${social.icon}"></i></a>
-		`,
-		)
-		.join("");
-
-	const configObj = {
-		...config,
-		turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "",
-	};
-	const configJson = JSON.stringify(configObj);
 
 	return template
-		.replace("%%HERO_STATUS_STYLE%%", heroStatusStyle)
-		.replace("%%HERO_STATUS%%", heroStatus)
-		.replace("%%HERO_NAME%%", heroName)
-		.replace("%%HERO_ROLE%%", heroRole)
-		.replace("%%HERO_BIO%%", heroBio)
-		.replace("%%HERO_LOCATION_STYLE%%", heroLocationStyle)
-		.replace("%%HERO_LOCATION%%", heroLocation)
-		.replace("%%HERO_PRONOUNS_STYLE%%", heroPronounsStyle)
-		.replace("%%HERO_PRONOUNS%%", heroPronouns)
-		.replace("%%HERO_AGE_STYLE%%", heroAgeStyle)
-		.replace("%%HERO_AGE%%", heroAge)
-		.replace("%%FOLLOW_TITLE%%", followTitle)
-		.replace("%%HERO_SOCIALS%%", heroSocials)
-		.replace("%%ABOUT_SECTION_TAG%%", aboutSectionTag)
-		.replace("%%ABOUT_TITLE%%", aboutTitle)
-		.replace("%%ABOUT_PARAGRAPHS%%", aboutParagraphs)
-		.replace("%%ABOUT_STATS%%", aboutStats)
-		.replace("%%PROJECT_SECTION_TAG%%", projectSectionTag)
-		.replace("%%PROJECT_TITLE%%", projectTitle)
-		.replace("%%PROJECT_SUBTITLE%%", projectSubtitle)
-		.replace("%%PROJECTS_GRID%%", projectsGrid)
-		.replace("%%CONTACT_SECTION_TAG%%", contactSectionTag)
-		.replace("%%CONTACT_TITLE%%", contactTitle)
-		.replace("%%CONTACT_SUBTITLE%%", contactSubtitle)
-		.replace("%%CONTACT_DETAILS%%", contactDetails)
-		.replace("%%DISCORD_CARD_TITLE%%", discordCardTitle)
-		.replace("%%DISCORD_CARD_DESC%%", discordCardDesc)
-		.replace("%%DISCORD_INVITE_URL%%", discordInviteUrl)
-		.replace("%%FOOTER_NAME%%", footerName)
-		.replace("%%FOOTER_SOCIALS%%", footerSocials)
-		.replace("%%FOOTER_COPY%%", footerCopy)
-		.replace("%%CONFIG_JSON%%", configJson);
+		.replaceAll("%%SITE_TITLE%%", escapeHtml(config.site.title))
+		.replaceAll("%%SITE_DESCRIPTION%%", escapeHtml(config.site.description))
+		.replaceAll("%%SITE_URL%%", escapeHtml(config.site.url))
+		.replace("%%APP%%", app)
+		.replace('{"__SERVER_CONFIG__":true}', clientConfig);
 }
 
-async function handleSsrRequest({ request, set }: { request: Request; set: any }) {
-	const renderedHtml = renderPage(config, template);
-	const etag = Bun.hash(renderedHtml).toString(16);
+const renderedHtml = renderPage();
+const etag = Bun.hash(renderedHtml).toString(16);
 
-	const requestEtag = request.headers.get("if-none-match");
-	if (requestEtag === `W/"${etag}"` || requestEtag === `"${etag}"`) {
-		set.status = 304;
-		return;
+function handlePage(request: Request) {
+	if (request.headers.get("if-none-match") === `"${etag}"`) {
+		return new Response(null, { status: 304 });
 	}
 
-	set.headers["etag"] = `"${etag}"`;
-	set.headers["cache-control"] = "public, max-age=300, must-revalidate"; // Cache for 5 minutes, client must revalidate after
-	set.headers["content-type"] = "text/html; charset=utf-8";
-	return renderedHtml;
+	return new Response(renderedHtml, {
+		headers: {
+			"cache-control": "public, max-age=300, must-revalidate",
+			"content-type": "text/html; charset=utf-8",
+			etag: `"${etag}"`,
+			"referrer-policy": "strict-origin-when-cross-origin",
+			"x-content-type-options": "nosniff",
+		},
+	});
 }
 
-// 4. Create and start Elysia Application
 new Elysia()
 	.use(cors())
-	.get("/", handleSsrRequest)
-	.get("/index.html", handleSsrRequest)
-	.get("/favicon.ico", ({ set }) => {
-		set.headers["content-type"] = "image/x-icon";
-		return Bun.file("./public/img/favicon.ico");
-	})
-	.get(".well-known/cf-2fa-verify.txt", () => Bun.env.CF_TEMP_TOKEN)
-	.get("/api/config", async ({ set }) => {
-		try {
-			const configObj = {
-				...config,
-				turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "",
-			};
-			return configObj;
-		} catch (err) {
-			console.error("Error serving config:", err);
-			set.status = 500;
-			return { error: "Failed to load config" };
-		}
-	})
+	.get("/", ({ request }) => handlePage(request))
+	.get("/index.html", ({ request }) => handlePage(request))
+	.get("/favicon.ico", () => Bun.file("./public/img/favicon.ico"))
+	.get("/.well-known/cf-2fa-verify.txt", () => Bun.env.CF_TEMP_TOKEN ?? "")
+	.get("/api/config", () => config)
 	.get("/public/*", async ({ params, set }) => {
 		const asset = params["*"];
-
-		// Traversal protection
 		if (asset.includes("..") || asset.includes("\\")) {
 			set.status = 400;
 			return "Invalid asset path";
 		}
 
 		const file = Bun.file(`./public/${asset}`);
-		if (await file.exists()) {
-			return file;
-		}
+		if (await file.exists()) return file;
+
 		set.status = 404;
-		return "Not Found";
+		return "Not found";
 	})
-	.listen(3000, () => console.log("Server online"));
+	.listen(3000, () => console.log("Portfolio online at http://localhost:3000"));

@@ -11,6 +11,10 @@
 		"elysia": "^1.4.28"
 	},
 	"scripts": {
+		"dev": "bun --watch src/server.ts",
+		"build": "bun build.ts",
+		"check": "bunx tsc --noEmit && bunx biome check .",
+		"start": "bun build/server.js",
 		"pretty": "bun x biome format --write ."
 	}
 }
