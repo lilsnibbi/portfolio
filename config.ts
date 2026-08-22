@@ -51,6 +51,9 @@ export interface SiteConfig {
 		discord: string;
 		discordTitle: string;
 		discordDesc: string;
+		discordMembers: string;
+		discordCta: string;
+		emailNote: string;
 	};
 	footer: {
 		logoText: string;
@@ -96,9 +99,9 @@ const config = {
 			"Away from the editor, I'm usually gaming or running a Discord community of more than 1,500 people. Whether it's software or community work, the goal is the same: bring people together and keep improving the experience.",
 		],
 		stats: [
-			{ label: "Languages", value: "TypeScript / JavaScript / SQL" },
+			{ label: "Languages", value: "TypeScript / " },
 			{ label: "Experience", value: "~6 years" },
-			{ label: "Core stack", value: "Bun / Docker / Ubuntu" },
+			{ label: "Core stack", value: "Bun / Docker" },
 		],
 	},
 	projects: {
@@ -124,24 +127,28 @@ const config = {
 				github: "https://github.com/lilsnibbi/Keyzori",
 			},
 			{
-				title: "CLI Password Manager",
+				title: "KairoJS",
 				description:
-					"A focused, minimal command-line password manager designed around security and a fast workflow.",
-				tags: ["CLI", "Bun", "Open source"],
+					"An object oriented Discord bot framework for the Bun runtime, built on top of discord.js!",
+				tags: ["Framework", "Bun", "Open source"],
 				year: "2026",
-				github: "https://github.com/lilsnibbi/CLI-Password-Manager",
+				github: "https://github.com/lilsnibbi/kairojs",
 			},
 		],
 	},
 	contact: {
-		sectionTag: "Contact",
-		title: "Let's make something good.",
+		sectionTag: "Community",
+		title: "Come hang out on Discord.",
 		subtitle:
-			"Have an idea, a tricky problem, or just want to say hello? My inbox and community are open.",
+			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking — everyone's welcome.",
 		email: "me@lilsnibbi.dev",
 		discord: "lilsnibbi",
 		discordTitle: "Join the family!",
-		discordDesc: "We're waiting to meet you!",
+		discordDesc:
+			"A friendly server for gaming, building, and hanging out. We're waiting to meet you!",
+		discordMembers: "1,500+ members",
+		discordCta: "Join the server",
+		emailNote: "Prefer something quieter? Reach me at",
 	},
 	footer: {
 		logoText: "Snibbi",
