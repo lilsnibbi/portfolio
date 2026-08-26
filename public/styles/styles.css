@@ -159,15 +159,15 @@ dd {
 .rail {
 	position: fixed;
 	top: 0;
+	right: 0;
 	bottom: 0;
-	left: 0;
 	z-index: 100;
 	display: flex;
 	width: var(--rail);
 	padding: 22px 0;
 	align-items: center;
 	flex-direction: column;
-	border-right: 1px solid var(--line);
+	border-left: 1px solid var(--line);
 	background: rgba(6, 5, 9, 0.82);
 	backdrop-filter: blur(14px);
 }
@@ -177,7 +177,7 @@ dd {
 	content: "";
 	position: absolute;
 	top: 0;
-	right: -1px;
+	left: -1px;
 	width: 1px;
 	height: 100%;
 	background: var(--accent);
@@ -198,11 +198,14 @@ dd {
 }
 
 .rail nav {
+	position: absolute;
+	top: 50%;
+	left: 50%;
 	display: flex;
-	margin: auto 0;
 	align-items: center;
 	flex-direction: column;
 	gap: 34px;
+	transform: translate(-50%, -50%);
 }
 
 .rail nav a {
@@ -212,7 +215,6 @@ dd {
 	letter-spacing: 0.22em;
 	text-transform: uppercase;
 	writing-mode: vertical-rl;
-	transform: rotate(180deg);
 	transition: color 160ms ease;
 }
 
@@ -220,7 +222,7 @@ dd {
 	content: "";
 	position: absolute;
 	top: 50%;
-	right: -14px;
+	left: -14px;
 	width: 6px;
 	height: 6px;
 	background: var(--accent);
@@ -240,6 +242,7 @@ dd {
 .rail-status {
 	width: 8px;
 	height: 8px;
+	margin-top: auto;
 	background: var(--accent-bright);
 	transform: rotate(45deg);
 	box-shadow: 0 0 10px var(--glow);
@@ -266,7 +269,7 @@ dd {
 
 main,
 footer {
-	margin-left: var(--rail);
+	margin-right: var(--rail);
 }
 
 /* ---------- hero ---------- */
@@ -1109,11 +1112,12 @@ footer {
 		top: 0;
 		right: 0;
 		bottom: auto;
+		left: 0;
 		flex-direction: row;
 		width: 100%;
 		height: 56px;
 		padding: 0 14px;
-		border-right: 0;
+		border-left: 0;
 		border-bottom: 1px solid var(--line);
 	}
 
@@ -1134,7 +1138,6 @@ footer {
 	}
 
 	.rail nav {
-		margin: 0 0 0 auto;
 		flex-direction: row;
 		gap: 16px;
 	}
@@ -1150,6 +1153,7 @@ footer {
 		top: auto;
 		right: 50%;
 		bottom: -9px;
+		left: auto;
 		width: 5px;
 		height: 5px;
 		transform: translateX(50%) rotate(45deg) scale(0);
@@ -1162,7 +1166,8 @@ footer {
 	.rail-status {
 		width: 7px;
 		height: 7px;
-		margin-left: 14px;
+		margin-top: 0;
+		margin-left: auto;
 	}
 
 	/* hero: lighter frame, calmer tracking */
