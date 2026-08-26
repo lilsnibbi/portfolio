@@ -3,9 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		"(prefers-reduced-motion: reduce)",
 	).matches;
 
-	// --- active section: nav links + status bar path ---
-	const navLinks = [...document.querySelectorAll('.nav nav a[href^="#"]')];
-	const sectionLabel = document.querySelector("#status-section");
+	// --- active section marker in the rail ---
+	const navLinks = [...document.querySelectorAll('.rail nav a[href^="#"]')];
 	const sections = [...document.querySelectorAll("main section[id]")];
 
 	const navigationObserver = new IntersectionObserver(
@@ -16,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (!visible) return;
 
 			const id = visible.target.id;
-			if (sectionLabel) sectionLabel.textContent = id;
 			for (const link of navLinks) {
 				link.classList.toggle(
 					"is-active",
@@ -29,23 +27,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	for (const section of sections) navigationObserver.observe(section);
 
-	// --- status bar clock (home timezone) ---
-	const clock = document.querySelector("#status-clock");
-	if (clock) {
-		const formatter = new Intl.DateTimeFormat("en-AU", {
-			hour: "2-digit",
-			minute: "2-digit",
-			hour12: false,
-			timeZone: "Australia/Sydney",
-		});
-		const tick = () => {
-			clock.textContent = formatter.format(new Date());
-		};
-		tick();
-		window.setInterval(tick, 30_000);
-	}
+	// --- scroll progress along the rail edge ---
+	const setProgress = () => {
+		const doc = document.documentElement;
+		const max = doc.scrollHeight - window.innerHeight;
+		doc.style.setProperty(
+			"--progress",
+			max > 0 ? String(Math.min(1, window.scrollY / max)) : "0",
+		);
+	};
+	window.addEventListener("scroll", setProgress, { passive: true });
+	window.addEventListener("resize", setProgress, { passive: true });
+	setProgress();
 
-	// --- scroll reveal + pointer glow ---
+	// --- scroll reveal ---
 	if (!reduceMotion) {
 		const revealObserver = new IntersectionObserver(
 			(entries, observer) => {
@@ -61,66 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		for (const element of document.querySelectorAll(".reveal")) {
 			revealObserver.observe(element);
 		}
-
-		window.addEventListener(
-			"pointermove",
-			(event) => {
-				document.documentElement.style.setProperty(
-					"--pointer-x",
-					`${event.clientX}px`,
-				);
-				document.documentElement.style.setProperty(
-					"--pointer-y",
-					`${event.clientY}px`,
-				);
-			},
-			{ passive: true },
-		);
 	} else {
 		for (const element of document.querySelectorAll(".reveal")) {
 			element.classList.add("is-visible");
 		}
 	}
-
-	// --- shell typewriter for roles ---
-	const typedElement = document.querySelector("#typed");
-	const configElement = document.querySelector("#site-config");
-	if (!typedElement || !configElement) return;
-
-	let roles = [];
-	try {
-		roles = JSON.parse(configElement.textContent || "{}").roles ?? [];
-	} catch {
-		return;
-	}
-	if (!Array.isArray(roles) || roles.length < 2 || reduceMotion) return;
-
-	const TYPE_MS = 55;
-	const DELETE_MS = 28;
-	const HOLD_MS = 2000;
-	let roleIndex = 0;
-
-	const type = (text, position) => {
-		typedElement.textContent = text.slice(0, position);
-		if (position < text.length) {
-			window.setTimeout(() => type(text, position + 1), TYPE_MS);
-		} else {
-			window.setTimeout(() => erase(text, text.length), HOLD_MS);
-		}
-	};
-
-	const erase = (text, position) => {
-		typedElement.textContent = text.slice(0, position);
-		if (position > 0) {
-			window.setTimeout(() => erase(text, position - 1), DELETE_MS);
-		} else {
-			roleIndex = (roleIndex + 1) % roles.length;
-			type(roles[roleIndex], 0);
-		}
-	};
-
-	window.setTimeout(
-		() => erase(roles[roleIndex], roles[roleIndex].length),
-		HOLD_MS,
-	);
 });

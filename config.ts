@@ -47,13 +47,12 @@ export interface SiteConfig {
 		sectionTag: string;
 		title: string;
 		subtitle: string;
-		email: string;
+		website: string;
 		discord: string;
 		discordTitle: string;
 		discordDesc: string;
 		discordMembers: string;
 		discordCta: string;
-		emailNote: string;
 	};
 	footer: {
 		logoText: string;
@@ -64,7 +63,7 @@ export interface SiteConfig {
 
 const config = {
 	site: {
-		title: "Snibbi — Software Developer",
+		title: "Snibbi - Software Developer",
 		description:
 			"Backend focused software developer building reliable tools, systems, and communities.",
 		url: "https://lilsnibbi.dev",
@@ -87,7 +86,7 @@ const config = {
 		socialsTitle: "Find me online",
 		socialLinks: [
 			{ platform: "GitHub", url: "https://github.com/lilsnibbi" },
-			{ platform: "Discord", url: "https://discord.gg/tsukiyo" },
+			{ platform: "Discord", url: "https://discord.gg/snibbi" },
 		],
 	},
 	about: {
@@ -99,9 +98,9 @@ const config = {
 			"Away from the editor, I'm usually gaming or running a Discord community of more than 1,500 people. Whether it's software or community work, the goal is the same: bring people together and keep improving the experience.",
 		],
 		stats: [
-			{ label: "Languages", value: "TypeScript / " },
+			{ label: "Languages", value: "JavaScript / TypeScript" },
 			{ label: "Experience", value: "~6 years" },
-			{ label: "Core stack", value: "Bun / Docker" },
+			{ label: "Core stack", value: "Bun / Docker / PostgreSQL" },
 		],
 	},
 	projects: {
@@ -116,7 +115,7 @@ const config = {
 					"The custom Discord bot behind my community, built for moderation, automation, and a bit of personality.",
 				tags: ["TypeScript", "Bun", "Closed source"],
 				year: "2026",
-				demo: "https://tsukiyo.cc",
+				demo: "https://snibbi.cc",
 			},
 			{
 				title: "Keyzori",
@@ -126,14 +125,6 @@ const config = {
 				year: "2026",
 				github: "https://github.com/lilsnibbi/Keyzori",
 			},
-			{
-				title: "KairoJS",
-				description:
-					"An object oriented Discord bot framework for the Bun runtime, built on top of discord.js!",
-				tags: ["Framework", "Bun", "Open source"],
-				year: "2026",
-				github: "https://github.com/lilsnibbi/kairojs",
-			},
 		],
 	},
 	contact: {
@@ -141,14 +132,13 @@ const config = {
 		title: "Come hang out on Discord.",
 		subtitle:
 			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking — everyone's welcome.",
-		email: "me@lilsnibbi.dev",
+		website: "https://snibbi.cc",
 		discord: "lilsnibbi",
 		discordTitle: "Join the family!",
 		discordDesc:
 			"A friendly server for gaming, building, and hanging out. We're waiting to meet you!",
 		discordMembers: "1,500+ members",
 		discordCta: "Join the server",
-		emailNote: "Prefer something quieter? Reach me at",
 	},
 	footer: {
 		logoText: "Snibbi",
