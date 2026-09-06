@@ -2,7 +2,7 @@ const SCRIPTS_BASE =
 	"https://raw.githubusercontent.com/lilsnibbi/scripts/refs/heads/main/lib/";
 
 /** Single path segment, no leading dot, so `..` and dotfiles are rejected. */
-const VALID_NAME = /^[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9]+)?$/;
+const VALID_NAME = /^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)?(?:\.[a-zA-Z0-9]+)?$/;
 
 const HIT_TTL_MS = 5 * 60_000;
 const MISS_TTL_MS = 30_000;
