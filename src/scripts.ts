@@ -1,7 +1,12 @@
 const SCRIPTS_BASE =
 	"https://raw.githubusercontent.com/lilsnibbi/scripts/refs/heads/main/lib/";
 
-/** Single path segment, no leading dot, so `..` and dotfiles are rejected. */
+/**
+ * One path segment, optionally nested one directory deep so that setup.sh can
+ * fetch its component modules from `setup/<name>.sh`. A dot is only allowed as
+ * the extension separator, so `..` and dotfiles are rejected and no traversal
+ * can be expressed.
+ */
 const VALID_NAME = /^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)?(?:\.[a-zA-Z0-9]+)?$/;
 
 const HIT_TTL_MS = 5 * 60_000;

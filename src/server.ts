@@ -26,8 +26,10 @@ function handlePage(request: Request) {
 new Elysia()
 	.use(cors())
 	.get("/", ({ request }) => handlePage(request))
-	.get("/scripts/:file", ({ params: { file }, request }) =>
-		handleScript(file, request),
+	// A wildcard, not ":file": setup.sh fetches its component modules from
+	// /scripts/setup/<name>.sh, and a single-segment param does not match that.
+	.get("/scripts/*", ({ params, request }) =>
+		handleScript(params["*"], request),
 	)
 	.get("/index.html", ({ request }) => handlePage(request))
 	.get("/favicon.ico", () => Bun.file("./public/img/favicon.ico"))
