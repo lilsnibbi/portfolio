@@ -72,11 +72,11 @@ const config = {
 		name: "Snibbi",
 		role: "Hobby Software Developer",
 		roles: [
-			"Backend Engineer",
-			"TypeScript Developer",
-			"Open Source Contributor",
-			"Official Goofball",
-			"World's Worst Cook",
+			"Backend engineer",
+			"TypeScript developer",
+			"Open source contributor",
+			"Official goofball",
+			"World's worst cook",
 		],
 		location: "Australia",
 		pronouns: "He/Him",
@@ -104,7 +104,7 @@ const config = {
 		],
 	},
 	projects: {
-		sectionTag: "Selected work",
+		sectionTag: "Work",
 		title: "Things I've shipped.",
 		subtitle:
 			"A small selection of tools, experiments, and community projects.",
@@ -131,7 +131,7 @@ const config = {
 		sectionTag: "Community",
 		title: "Come hang out on Discord.",
 		subtitle:
-			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking — everyone's welcome.",
+			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking. Everyone's welcome.",
 		website: "https://snibbi.cc",
 		discord: "lilsnibbi",
 		discordTitle: "Join the family!",

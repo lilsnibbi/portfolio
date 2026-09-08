@@ -30,189 +30,189 @@ const escapeHtml = (value: string) =>
 			})[character] ?? character,
 	);
 
-const externalLink = (url: string, label: string, className = "text-link") => `
-	<a class="${className}" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">
-		<span>${escapeHtml(label)}</span><span class="link-arrow" aria-hidden="true">↗</span>
-	</a>`;
-
-const corners = `
-	<span class="corner c-tl" aria-hidden="true"></span>
-	<span class="corner c-tr" aria-hidden="true"></span>
-	<span class="corner c-bl" aria-hidden="true"></span>
-	<span class="corner c-br" aria-hidden="true"></span>`;
-
+const bareUrl = (url: string) => url.replace(/^https?:\/\//, "");
 const pad = (value: number) => String(value).padStart(2, "0");
 
-const sectionHead = (
-	tag: string,
-	title: string,
-	index: number,
-	total: number,
-) => `
-	<div class="sec-head">
-		<span class="diamond" aria-hidden="true"></span>
-		<p class="sec-tag">${escapeHtml(tag)}</p>
-		<span class="sec-rule" aria-hidden="true"></span>
-		<span class="sec-index" aria-hidden="true">File ${pad(index)} / ${pad(total)}</span>
-	</div>
-	<h2>${escapeHtml(title)}</h2>`;
+const externalLink = (url: string, label: string, className = "link") =>
+	`<a class="${className}" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`;
+
+const externalButton = (url: string, label: string, className: string) =>
+	`<a class="${className}" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(label)}<span class="arrow" aria-hidden="true">↗</span></a>`;
+
+const readout = (index: number, label: string) =>
+	`<p class="readout"><span class="idx">${pad(index)}</span>${escapeHtml(label)}</p>`;
+
+const chips = (items: string[], label: string) =>
+	`<ul class="chips" aria-label="${escapeHtml(label)}">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+
+const discordGlyph = `<svg viewBox="0 0 24 18" width="30" height="23" fill="currentColor" aria-hidden="true"><path d="M20.32 1.51A19.8 19.8 0 0 0 15.43 0c-.23.4-.46.87-.63 1.3a18.4 18.4 0 0 0-5.6 0A12.8 12.8 0 0 0 8.56 0 19.7 19.7 0 0 0 3.67 1.52C.57 6.09-.27 10.55.15 14.95a19.9 19.9 0 0 0 6 3.05c.49-.66.92-1.36 1.29-2.1-.71-.26-1.38-.59-2.02-.97.17-.13.34-.26.5-.4a14.2 14.2 0 0 0 12.17 0c.16.14.33.27.5.4-.64.38-1.32.71-2.03.98.37.73.8 1.43 1.3 2.09a19.8 19.8 0 0 0 6-3.05c.5-5.1-.84-9.53-3.54-13.44ZM8.02 12.25c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.2 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41Zm7.95 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.94-2.41 2.15-2.41 1.2 0 2.17 1.09 2.14 2.4 0 1.33-.94 2.41-2.14 2.41Z"/></svg>`;
 
 export function renderPage() {
-	const socials = config.profile.socialLinks
-		.map((social) => externalLink(social.url, social.platform, "social-link"))
+	const year = new Date().getFullYear();
+	const { profile, about, projects, contact, footer } = config;
+
+	const github = profile.socialLinks.find(
+		(social) => social.platform === "GitHub",
+	)?.url;
+	const discord = profile.socialLinks.find(
+		(social) => social.platform === "Discord",
+	)?.url;
+
+	const nav = [
+		{ href: "#about", label: about.sectionTag },
+		{ href: "#work", label: projects.sectionTag },
+		{ href: "#community", label: contact.sectionTag },
+	]
+		.map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
 		.join("");
 
-	const tickerItems = config.profile.roles
+	const roles = profile.roles
+		.map((role) => `<li>${escapeHtml(role)}</li>`)
+		.join("");
+
+	const experience = about.stats.find((stat) => stat.label === "Experience");
+	const tiles = [
+		...(experience ? [experience] : []),
+		{ label: "Based in", value: profile.location },
+		{ label: "Pronouns", value: profile.pronouns },
+		{ label: "Age", value: profile.age },
+	]
 		.map(
-			(role) =>
-				`<span class="tick">${escapeHtml(role)}</span><span class="tick-sep" aria-hidden="true">◆</span>`,
+			(tile) => `
+				<li class="tile glass">
+					<span class="tile-label">${escapeHtml(tile.label)}</span>
+					<span class="tile-value">${escapeHtml(tile.value)}</span>
+				</li>`,
 		)
 		.join("");
 
-	const aboutParagraphs = config.about.paragraphs
+	// Everything in the stats that reads as a list of tools becomes a chip.
+	const toolkit = about.stats
+		.filter((stat) => stat !== experience)
+		.flatMap((stat) => stat.value.split(" / "));
+
+	const prose = about.paragraphs
 		.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
 		.join("");
 
-	const statRows = config.about.stats
-		.map(
-			(stat) => `
-				<div class="data-row">
-					<dt>${escapeHtml(stat.label)}</dt>
-					<dd>${escapeHtml(stat.value)}</dd>
-				</div>`,
-		)
-		.join("");
-
-	const projects = config.projects.list
+	const cards = projects.list
 		.map((project, index) => {
 			const links = [
-				project.github ? externalLink(project.github, "Source") : "",
-				project.demo ? externalLink(project.demo, "Visit") : "",
+				project.github
+					? externalButton(project.github, "Source", "btn btn-glass btn-small")
+					: "",
+				project.demo
+					? externalButton(project.demo, "Visit", "btn btn-glass btn-small")
+					: "",
 			]
 				.filter(Boolean)
 				.join("");
 
 			return `
-				<article class="card reveal">
-					${corners}
-					<span class="hatch-strip" aria-hidden="true"></span>
+				<li class="card glass reveal">
 					<div class="card-head">
 						<h3>${escapeHtml(project.title)}</h3>
-						<span class="card-meta"><span class="card-id" aria-hidden="true">P-${pad(index + 1)}</span><span class="card-year">${escapeHtml(project.year)}</span></span>
+						<p class="card-meta"><span>P-${pad(index + 1)}</span><span>${escapeHtml(project.year)}</span></p>
 					</div>
 					<p class="card-desc">${escapeHtml(project.description)}</p>
-					<ul class="tags" aria-label="Technologies">
-						${project.tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")}
-					</ul>
-					<div class="card-links">${links}</div>
-				</article>`;
+					${chips(project.tags, "Built with")}
+					${links ? `<div class="card-links">${links}</div>` : ""}
+				</li>`;
 		})
 		.join("");
 
-	const discord = config.profile.socialLinks.find(
-		(social) => social.platform === "Discord",
-	)?.url;
-	const github = config.profile.socialLinks.find(
-		(social) => social.platform === "GitHub",
-	)?.url;
+	const socials = profile.socialLinks
+		.map((social) => `<li>${externalLink(social.url, social.platform)}</li>`)
+		.join("");
 
 	const app = `
 		<a class="skip-link" href="#main">Skip to content</a>
-		<header class="rail">
-			<a class="brand" href="#home" aria-label="Back to top">S<span class="brand-dot">◆</span></a>
-			<nav aria-label="Primary navigation">
-				<a href="#about">About</a>
-				<a href="#work">Work</a>
-				<a href="#contact">Community</a>
+		<header class="nav-wrap">
+			<nav class="nav" aria-label="Sections">
+				<a class="logo" href="#top" aria-label="Back to top">${escapeHtml(profile.name.charAt(0))}</a>
+				<div class="nav-links">${nav}</div>
+				<p class="status" title="${escapeHtml(profile.status)}"><span class="status-dot" aria-hidden="true"></span>Available</p>
 			</nav>
-			<span class="rail-status" title="${escapeHtml(config.profile.status)}" aria-hidden="true"></span>
 		</header>
 
 		<main id="main">
-			<section class="hero" id="home">
-				<div class="hero-frame">
-					${corners}
-					<span class="frame-ticks t-left" aria-hidden="true"></span>
-					<span class="frame-ticks t-right" aria-hidden="true"></span>
-					<span class="frame-label fl-top" aria-hidden="true">Dossier // ${new Date().getFullYear()}</span>
-					<span class="frame-label fl-bottom" aria-hidden="true">${escapeHtml(config.site.url.replace(/^https?:\/\//, ""))}</span>
-					<p class="eyebrow"><span aria-hidden="true">◆</span> ${escapeHtml(config.profile.role)}</p>
-					<h1 class="hero-name glitch" data-text="${escapeHtml(config.profile.name.toUpperCase())}">${escapeHtml(config.profile.name)}</h1>
-					<div class="role-ticker" aria-label="Roles">
-						<div class="ticker-track">
-							<span class="ticker-run">${tickerItems}</span>
-							<span class="ticker-run" aria-hidden="true">${tickerItems}</span>
+			<section class="hero" id="top" aria-label="Introduction">
+				<div class="inner hero-inner">
+					<p class="eyebrow">${escapeHtml(profile.role)}</p>
+					<h1 class="name">${escapeHtml(profile.name)}</h1>
+					<p class="bio">${escapeHtml(profile.bio)}</p>
+					<ul class="roles" aria-label="Roles">${roles}</ul>
+					<div class="actions">
+						<a class="btn btn-solid" href="#work">See the work</a>
+						${github ? externalButton(github, "GitHub", "btn btn-glass") : ""}
+					</div>
+				</div>
+				<a class="scroll-cue" href="#about">Scroll</a>
+			</section>
+
+			<section class="section" id="about" aria-labelledby="about-title">
+				<div class="inner">
+					<div class="section-head reveal">
+						${readout(1, about.sectionTag)}
+						<h2 id="about-title">${escapeHtml(about.title)}</h2>
+					</div>
+					<div class="about-grid">
+						<div class="about-copy reveal">
+							<p class="lead">${escapeHtml(about.lead)}</p>
+							<div class="prose">${prose}</div>
+							<div class="chips-block">
+								<p class="readout">Toolkit</p>
+								${chips(toolkit, "Toolkit")}
+							</div>
 						</div>
-					</div>
-					<p class="hero-bio">${escapeHtml(config.profile.bio)}</p>
-					<ul class="stat-chips" aria-label="Personal details">
-						<li>${escapeHtml(config.profile.pronouns)}</li>
-						<li>${escapeHtml(config.profile.age)}</li>
-						<li>${escapeHtml(config.profile.location)}</li>
-						<li class="chip-live"><span class="pulse-diamond" aria-hidden="true"></span>${escapeHtml(config.profile.status)}</li>
-					</ul>
-					<div class="hero-actions">
-						<a class="btn btn-solid" href="#work">See the work <span aria-hidden="true">↓</span></a>
-						${github ? externalLink(github, "GitHub", "btn btn-line") : ""}
+						<ul class="tiles reveal">${tiles}</ul>
 					</div>
 				</div>
 			</section>
 
-			<section class="section" id="about">
-				${sectionHead(config.about.sectionTag, config.about.title, 1, 3)}
-				<div class="about-grid">
-					<div class="about-copy reveal">
-						<p class="about-lead">${escapeHtml(config.about.lead)}</p>
-						${aboutParagraphs}
+			<section class="section" id="work" aria-labelledby="work-title">
+				<div class="inner">
+					<div class="section-head reveal">
+						${readout(2, projects.sectionTag)}
+						<h2 id="work-title">${escapeHtml(projects.title)}</h2>
+						<p class="section-sub">${escapeHtml(projects.subtitle)}</p>
 					</div>
-					<dl class="data-card reveal">
-						<span class="data-hatch" aria-hidden="true"></span>
-						<p class="data-title">Stats</p>
-						${statRows}
-					</dl>
+					<ul class="cards">${cards}</ul>
 				</div>
 			</section>
 
-			<section class="section" id="work">
-				${sectionHead(config.projects.sectionTag, config.projects.title, 2, 3)}
-				<p class="section-sub">${escapeHtml(config.projects.subtitle)}</p>
-				<div class="cards">${projects}</div>
-			</section>
-
-			<section class="section" id="contact">
-				${sectionHead(config.contact.sectionTag, config.contact.title, 3, 3)}
-				<p class="section-sub">${escapeHtml(config.contact.subtitle)}</p>
-				${
-					discord
-						? `<a class="banner reveal" href="${escapeHtml(discord)}" target="_blank" rel="noreferrer">
-								${corners}
-								<span class="banner-glyph" aria-hidden="true">
-									<svg viewBox="0 0 24 18" width="34" height="26" fill="currentColor" aria-hidden="true"><path d="M20.32 1.51A19.8 19.8 0 0 0 15.43 0c-.23.4-.46.87-.63 1.3a18.4 18.4 0 0 0-5.6 0A12.8 12.8 0 0 0 8.56 0 19.7 19.7 0 0 0 3.67 1.52C.57 6.09-.27 10.55.15 14.95a19.9 19.9 0 0 0 6 3.05c.49-.66.92-1.36 1.29-2.1-.71-.26-1.38-.59-2.02-.97.17-.13.34-.26.5-.4a14.2 14.2 0 0 0 12.17 0c.16.14.33.27.5.4-.64.38-1.32.71-2.03.98.37.73.8 1.43 1.3 2.09a19.8 19.8 0 0 0 6-3.05c.5-5.1-.84-9.53-3.54-13.44ZM8.02 12.25c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.95-2.41 2.15-2.41 1.2 0 2.17 1.09 2.15 2.4 0 1.33-.95 2.41-2.15 2.41Zm7.95 0c-1.18 0-2.15-1.08-2.15-2.4 0-1.33.94-2.41 2.15-2.41 1.2 0 2.17 1.09 2.14 2.4 0 1.33-.94 2.41-2.14 2.41Z"/></svg>
-								</span>
-								<span class="banner-copy">
-									<span class="banner-title">${escapeHtml(config.contact.discordTitle)}</span>
-									<span class="banner-desc">${escapeHtml(config.contact.discordDesc)}</span>
-									<span class="banner-meta">
-										<span class="banner-members"><span class="pulse-diamond" aria-hidden="true"></span>${escapeHtml(config.contact.discordMembers)}</span>
-										<span class="banner-invite">${escapeHtml(discord.replace(/^https?:\/\//, ""))}</span>
-									</span>
-								</span>
-								<span class="btn btn-solid banner-cta">${escapeHtml(config.contact.discordCta)}<span class="link-arrow" aria-hidden="true">↗</span></span>
-							</a>`
-						: ""
-				}
-				<p class="dm-line reveal">Or DM me directly — <span class="dm-handle">@${escapeHtml(config.contact.discord)}</span> on Discord, or visit the community site at ${externalLink(config.contact.website, config.contact.website.replace(/^https?:\/\//, ""))}</p>
+			<section class="section" id="community" aria-labelledby="community-title">
+				<div class="inner">
+					<div class="section-head reveal">
+						${readout(3, contact.sectionTag)}
+						<h2 id="community-title">${escapeHtml(contact.title)}</h2>
+						<p class="section-sub">${escapeHtml(contact.subtitle)}</p>
+					</div>
+					${
+						discord
+							? `<div class="panel glass reveal">
+								<span class="panel-icon" aria-hidden="true">${discordGlyph}</span>
+								<div class="panel-copy">
+									<p class="panel-title">${escapeHtml(contact.discordTitle)}</p>
+									<p class="panel-desc">${escapeHtml(contact.discordDesc)}</p>
+									<p class="panel-meta">${escapeHtml(contact.discordMembers)}</p>
+								</div>
+								${externalButton(discord, contact.discordCta, "btn btn-solid")}
+							</div>`
+							: ""
+					}
+					<p class="aside reveal">Or message me directly on Discord at <b>${escapeHtml(contact.discord)}</b>, or visit ${externalLink(contact.website, bareUrl(contact.website))}.</p>
+				</div>
 			</section>
 		</main>
 
-		<footer>
-			<div class="footer-inner">
-				<p>© ${new Date().getFullYear()} ${escapeHtml(config.footer.copyrightName)}. ${escapeHtml(config.footer.rightsText)}</p>
-				<span class="eot" aria-hidden="true">◆ End of transmission ◆</span>
-				<div class="footer-socials">
+		<footer class="footer">
+			<div class="inner">
+				<p>© ${year} ${escapeHtml(footer.copyrightName)}. ${escapeHtml(footer.rightsText)}</p>
+				<ul class="footer-links" aria-label="${escapeHtml(profile.socialsTitle)}">
 					${socials}
-					<a class="social-link" href="#home"><span>Top</span><span class="link-arrow" aria-hidden="true">↑</span></a>
-				</div>
+					<li><a class="link" href="#top">Back to top</a></li>
+				</ul>
 			</div>
 		</footer>`;
 
