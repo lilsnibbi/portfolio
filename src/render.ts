@@ -15,6 +15,10 @@ const template = (await templateFile.text())
 	.replace(
 		"/public/scripts/main.js",
 		`/public/scripts/main.js?v=${START_TIMESTAMP}`,
+	)
+	.replace(
+		"/public/scripts/contact.js",
+		`/public/scripts/contact.js?v=${START_TIMESTAMP}`,
 	);
 
 const escapeHtml = (value: string) =>
@@ -202,6 +206,20 @@ export function renderPage() {
 							: ""
 					}
 					<p class="aside reveal">Or message me directly on Discord at <b>${escapeHtml(contact.discord)}</b>, or visit ${externalLink(contact.website, bareUrl(contact.website))}.</p>
+					<div class="contact-card glass reveal" aria-labelledby="message-title">
+						<h2 id="message-title">Send me a message</h2>
+						<p class="section-sub">Have something in mind? Drop me a note.</p>
+						<form id="contact-form" action="/api/contact" method="post">
+							<div class="contact-fields">
+								<label for="contact-name">Name<input id="contact-name" name="name" autocomplete="name" maxlength="80" required /></label>
+								<label for="contact-email">Email<input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+							</div>
+							<label for="contact-message">Message<textarea id="contact-message" name="message" rows="6" maxlength="3000" required></textarea></label>
+							<div id="contact-turnstile" data-sitekey="${escapeHtml(Bun.env.TURNSTILE_SITE_KEY ?? "")}"></div>
+							<div class="contact-actions"><button class="btn btn-solid" type="submit" disabled>Send message<span class="arrow" aria-hidden="true">↗</span></button><p id="contact-status" role="status" aria-live="polite">Loading verification…</p></div>
+							<noscript>Please enable JavaScript to send a message, or contact me on Discord.</noscript>
+						</form>
+					</div>
 				</div>
 			</section>
 		</main>
