@@ -8,8 +8,10 @@ export interface Project {
 	description: string;
 	tags: string[];
 	year: string;
+	status?: string;
 	github?: string;
 	demo?: string;
+	development?: string;
 }
 
 export interface SiteConfig {
@@ -91,8 +93,8 @@ const config = {
 	},
 	about: {
 		sectionTag: "About",
-		title: "Clean systems. Human outcomes.",
-		lead: "I care about the invisible details that make software feel effortless.",
+		title: "A little about me.",
+		lead: "I like making complicated things feel simple.",
 		paragraphs: [
 			"I'm a software engineer who enjoys untangling complex problems and building things that make life easier. Most of my work lives in backend infrastructure and developer tooling, where reliability matters more than chasing every new trend.",
 			"Away from the editor, I'm usually gaming or running a Discord community of more than 1,500 people. Whether it's software or community work, the goal is the same: bring people together and keep improving the experience.",
@@ -105,36 +107,39 @@ const config = {
 	},
 	projects: {
 		sectionTag: "Work",
-		title: "Things I've shipped.",
+		title: "Selected projects.",
 		subtitle:
 			"A small selection of tools, experiments, and community projects.",
 		list: [
 			{
-				title: "Lumi",
+				title: "bamu",
 				description:
 					"The custom Discord bot behind my community, built for moderation, automation, and a bit of personality.",
 				tags: ["TypeScript", "Bun", "Closed source"],
 				year: "2026",
+				status: "Community bot",
 				demo: "https://snibbi.cc",
 			},
 			{
 				title: "Keyzori",
 				description:
-					"Self-hosted license management for software products. Built in SDK, FOSS and self hostable!",
-				tags: ["TypeScript", "Bun", "Open Source"],
+					"Open-source, self-hosted license management for software products. Currently rebuilding v2; it isn't released yet.",
+				tags: ["TypeScript", "Bun", "Open source"],
 				year: "2026",
-				github: "https://github.com/lilsnibbi/Keyzori",
+				status: "v2 in development",
+				github: "https://github.com/keyzori/Keyzori",
+				development: "https://github.com/keyzori/Keyzori/tree/v2",
 			},
 		],
 	},
 	contact: {
-		sectionTag: "Community",
-		title: "Come hang out on Discord.",
+		sectionTag: "Contact",
+		title: "Let's talk.",
 		subtitle:
 			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking. Everyone's welcome.",
 		website: "https://snibbi.cc",
 		discord: "lilsnibbi",
-		discordTitle: "Join the family!",
+		discordTitle: "A place to hang out.",
 		discordDesc:
 			"A friendly server for gaming, building, and hanging out. We're waiting to meet you!",
 		discordMembers: "1,500+ members",

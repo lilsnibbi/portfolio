@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				token = value;
 				button.disabled = sending;
 				if (
-					status.textContent === "Loading verification…" ||
+					status.textContent.startsWith("Loading verification") ||
 					status.textContent.startsWith("Verification unavailable.")
 				)
 					status.textContent = "";
