@@ -6,6 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
 	const header = document.querySelector(".site-header");
 	let scheduled = false;
 
+	document.addEventListener("focusin", (event) => {
+		const target = event.target;
+		if (
+			!target.matches("a, button, input, textarea") ||
+			!target.matches(":focus-visible") ||
+			target.closest(".site-header") ||
+			target.classList.contains("skip-link")
+		)
+			return;
+		requestAnimationFrame(() => {
+			if (document.activeElement !== target) return;
+			const bounds = target.getBoundingClientRect();
+			if (
+				bounds.top < (header?.offsetHeight ?? 0) + 16 ||
+				bounds.bottom > window.innerHeight - 16
+			)
+				target.scrollIntoView({ block: "center", behavior: "instant" });
+		});
+	});
+
 	const updateNavigation = () => {
 		scheduled = false;
 		const offset = (header?.offsetHeight ?? 0) + 80;

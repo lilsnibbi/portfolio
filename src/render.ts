@@ -36,7 +36,16 @@ const escapeHtml = (value: string) =>
 
 const bareUrl = (url: string) => url.replace(/^https?:\/\//, "");
 const pad = (value: number) => String(value).padStart(2, "0");
-const arrow = '<span class="arrow" aria-hidden="true">&#8599;</span>';
+const arrowIcon = (direction: "external" | "down" | "up" | "send") => {
+	const paths = {
+		external: "M7 17 17 7M7 7h10v10",
+		down: "M12 5v14m-7-7 7 7 7-7",
+		up: "M12 19V5m-7 7 7-7 7 7",
+		send: "M5 12h14m-6-6 6 6-6 6",
+	};
+	return `<svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="${paths[direction]}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+};
+const arrow = arrowIcon("external");
 const spark = `<svg viewBox="0 0 160 160" fill="none" aria-hidden="true"><path d="M80 8v144M8 80h144M29 29l102 102M29 131L131 29" stroke="currentColor" stroke-width="2"/><circle cx="80" cy="80" r="47" stroke="currentColor" stroke-width="1" opacity=".3"/></svg>`;
 
 const externalLink = (
@@ -62,11 +71,12 @@ export function renderPage() {
 	const discord = profile.socialLinks.find(
 		(social) => social.platform === "Discord",
 	)?.url;
+	const siteKey = Bun.env.TURNSTILE_SITE_KEY?.trim() ?? "";
 
 	const nav = [
 		{ href: "#about", label: about.sectionTag },
 		{ href: "#work", label: projects.sectionTag },
-		{ href: "#community", label: contact.sectionTag },
+		{ href: "#contact", label: contact.sectionTag },
 	]
 		.map((item) => `<a href="${item.href}">${escapeHtml(item.label)}</a>`)
 		.join("");
@@ -87,7 +97,7 @@ export function renderPage() {
 				project.demo
 					? externalLink(
 							project.demo,
-							"Visit website",
+							`Visit ${project.title}`,
 							"text-link",
 							`Visit ${project.title}'s website`,
 						)
@@ -95,7 +105,7 @@ export function renderPage() {
 				project.github
 					? externalLink(
 							project.github,
-							"View source",
+							`View ${project.title} source`,
 							"text-link",
 							`View ${project.title}'s source`,
 						)
@@ -103,7 +113,7 @@ export function renderPage() {
 				project.development
 					? externalLink(
 							project.development,
-							"v2 development",
+							`Explore ${project.title} v2`,
 							"text-link",
 							`Follow ${project.title}'s v2 development`,
 						)
@@ -119,6 +129,7 @@ export function renderPage() {
 						<p class="project-meta">${escapeHtml(project.status ?? "Project")}<span aria-hidden="true"> / </span>${escapeHtml(project.year)}</p>
 						<h3>${escapeHtml(project.title)}</h3>
 						<p class="project-description">${escapeHtml(project.description)}</p>
+						${project.detail ? `<p class="project-detail">${escapeHtml(project.detail)}</p>` : ""}
 						${tags(project.tags, `${project.title} technologies and source availability`)}
 					</div>
 					${links ? `<div class="project-links">${links}</div>` : ""}
@@ -153,11 +164,11 @@ export function renderPage() {
 				<div class="hero-bottom">
 					<p class="hero-bio">${escapeHtml(profile.bio)}</p>
 					<div class="hero-actions">
-						<a class="button" href="#work">Explore my work<span aria-hidden="true">&#8595;</span></a>
-						<a class="text-link" href="#community">Let's talk${arrow}</a>
+						<a class="button" href="#work">Explore my work${arrowIcon("down")}</a>
+						<a class="text-link" href="#contact">Let's talk${arrow}</a>
 					</div>
 				</div>
-				<div class="hero-footnote"><p>Backend. Tools. Community.</p><a class="text-link" href="#about">A little more about me<span aria-hidden="true">&#8595;</span></a></div>
+				<div class="hero-footnote"><p>Backend. Tools. Community.</p><a class="text-link" href="#about">A little more about me${arrowIcon("down")}</a></div>
 			</section>
 
 			<section class="section inner" id="about" aria-labelledby="about-title">
@@ -188,40 +199,47 @@ export function renderPage() {
 				</div>
 			</section>
 
-			<section class="section contact-section inner" id="community" aria-labelledby="contact-title">
+			<section class="section contact-section inner" id="contact" aria-labelledby="contact-title">
+				<span id="community" class="anchor-alias" aria-hidden="true"></span>
 				<div class="section-grid">
 					${readout(3, contact.sectionTag)}
 					<div class="contact-layout">
 						<div class="contact-copy">
 							<h2 id="contact-title">${escapeHtml(contact.title)}</h2>
 							<p class="section-description">${escapeHtml(contact.subtitle)}</p>
+							${discord ? externalLink(discord, "Contact me on Discord", "text-link direct-contact") : ""}
 							<p class="discord-handle">Find me on Discord<span>${escapeHtml(contact.discord)}</span></p>
-							${
-								discord
-									? `<div class="community">
+						</div>
+						<div class="contact-form-wrap">
+							<h3 id="message-title">Send a message</h3>
+							<p class="form-intro">Have something in mind? Drop me a note.</p>
+							<p id="contact-verification-status" class="form-availability" role="status" aria-live="polite">${siteKey ? "Loading verification." : "Messaging is temporarily unavailable. Please contact me on Discord."}</p>
+							<div class="form-recovery">
+								<button id="contact-verification-retry" class="text-link" type="button" hidden>Retry verification</button>
+								${discord ? `<a id="contact-fallback" class="text-link" href="${escapeHtml(discord)}" target="_blank" rel="noopener noreferrer" aria-label="Contact me on Discord (opens in a new tab)"${siteKey ? " hidden" : ""}>Contact me on Discord${arrow}</a>` : ""}
+							</div>
+							<form id="contact-form" action="/api/contact" method="post" aria-labelledby="message-title" aria-describedby="contact-verification-status">
+								<div class="contact-fields">
+									<label for="contact-name">Name<input id="contact-name" name="name" autocomplete="name" maxlength="80" required /></label>
+									<label for="contact-email">Email<input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" pattern="[^\\s@]+@[^\\s@]+\\.[^\\s@]+" maxlength="254" required /></label>
+								</div>
+								<label for="contact-message">Message<textarea id="contact-message" name="message" rows="5" maxlength="3000" required></textarea></label>
+								<div id="contact-turnstile" data-sitekey="${escapeHtml(siteKey)}"></div>
+								<div class="contact-actions"><button class="button" type="submit" disabled><span id="contact-submit-label">Send message</span>${arrowIcon("send")}</button><p id="contact-status" role="status" aria-live="polite"></p></div>
+								<noscript>Please enable JavaScript to send a message, or contact me on Discord.</noscript>
+							</form>
+						</div>
+						${
+							discord
+								? `<div class="community">
 								<h3>${escapeHtml(contact.discordTitle)}</h3>
 								<p>${escapeHtml(contact.discordDesc)}</p>
 								<p class="community-members">${escapeHtml(contact.discordMembers)}</p>
 								${externalLink(discord, contact.discordCta)}
 								${externalLink(contact.website, bareUrl(contact.website))}
 							</div>`
-									: ""
-							}
-						</div>
-						<div class="contact-form-wrap">
-							<h3 id="message-title">Send a message</h3>
-							<p class="form-intro">Have something in mind? Drop me a note.</p>
-							<form id="contact-form" action="/api/contact" method="post" aria-labelledby="message-title">
-								<div class="contact-fields">
-									<label for="contact-name">Name<input id="contact-name" name="name" autocomplete="name" maxlength="80" required /></label>
-									<label for="contact-email">Email<input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required /></label>
-								</div>
-								<label for="contact-message">Message<textarea id="contact-message" name="message" rows="5" maxlength="3000" required></textarea></label>
-								<div id="contact-turnstile" data-sitekey="${escapeHtml(Bun.env.TURNSTILE_SITE_KEY ?? "")}"></div>
-								<div class="contact-actions"><button class="button" type="submit" disabled>Send message${arrow}</button><p id="contact-status" role="status" aria-live="polite">Loading verification.</p></div>
-								<noscript>Please enable JavaScript to send a message, or contact me on Discord.</noscript>
-							</form>
-						</div>
+								: ""
+						}
 					</div>
 				</div>
 			</section>
@@ -230,7 +248,7 @@ export function renderPage() {
 		<footer class="footer inner">
 			<div class="footer-top">
 				<a class="wordmark" href="#top">${escapeHtml(footer.logoText)}<span aria-hidden="true">.</span></a>
-				<ul class="footer-links" aria-label="${escapeHtml(profile.socialsTitle)}">${socials}<li><a class="text-link" href="#top">Back to top<span aria-hidden="true">&#8593;</span></a></li></ul>
+				<ul class="footer-links" aria-label="${escapeHtml(profile.socialsTitle)}">${socials}<li><a class="text-link" href="#top">Back to top${arrowIcon("up")}</a></li></ul>
 			</div>
 			<p class="copyright">&#169; ${year} ${escapeHtml(footer.copyrightName)}. ${escapeHtml(footer.rightsText)}</p>
 		</footer>`;

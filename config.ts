@@ -9,6 +9,7 @@ export interface Project {
 	tags: string[];
 	year: string;
 	status?: string;
+	detail?: string;
 	github?: string;
 	demo?: string;
 	development?: string;
@@ -115,6 +116,8 @@ const config = {
 				title: "bamu",
 				description:
 					"The custom Discord bot behind my community, built for moderation, automation, and a bit of personality.",
+				detail:
+					"A modular TypeScript/Bun codebase brings together moderation, support tickets, and community automation.",
 				tags: ["TypeScript", "Bun", "Closed source"],
 				year: "2026",
 				status: "Community bot",
@@ -123,7 +126,9 @@ const config = {
 			{
 				title: "Keyzori",
 				description:
-					"Open-source, self-hosted license management for software products. Currently rebuilding v2; it isn't released yet.",
+					"Open-source, self-hosted license management for software products. I'm rebuilding v2, which is still in development.",
+				detail:
+					"The v2 HTTP API combines expiry, usage meters, and device/IP limits, backed by PostgreSQL and Redis.",
 				tags: ["TypeScript", "Bun", "Open source"],
 				year: "2026",
 				status: "v2 in development",
@@ -136,7 +141,7 @@ const config = {
 		sectionTag: "Contact",
 		title: "Let's talk.",
 		subtitle:
-			"The community is where I'm easiest to reach. Games, dev talk, questionable takes on cooking. Everyone's welcome.",
+			"Have a project in mind, a question, or something you're building? I'd love to hear about it.",
 		website: "https://snibbi.cc",
 		discord: "lilsnibbi",
 		discordTitle: "A place to hang out.",
