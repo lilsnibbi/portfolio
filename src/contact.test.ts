@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { Elysia } from "elysia";
 import { clientIp, createContactHandler, type Limiter } from "./contact";
 
 const settings = {
@@ -199,13 +198,30 @@ describe("contact security and delivery", () => {
 		);
 		expect(buckets[0]).toBe(buckets[1]);
 	});
-	test("Elysia passes the unparsed request to the handler", async () => {
-		const { handler } = harness();
-		const app = new Elysia().post(
-			"/api/contact",
-			({ request }) => handler(request),
-			{ parse: "none" },
-		);
-		expect((await app.handle(request())).status).toBe(200);
+	test("Bun passes the unparsed HTTP request to the handler", async () => {
+		const { handler, calls } = harness();
+		let bodyUsed: boolean | undefined;
+		const server = Bun.serve({
+			hostname: "127.0.0.1",
+			port: 0,
+			fetch(incoming) {
+				bodyUsed = incoming.bodyUsed;
+				return handler(incoming);
+			},
+		});
+		try {
+			const outgoing = request();
+			const response = await fetch(new URL("/api/contact", server.url), {
+				method: outgoing.method,
+				headers: outgoing.headers,
+				body: await outgoing.text(),
+			});
+			expect(response.status).toBe(200);
+			expect(bodyUsed).toBe(false);
+			expect(await response.json()).toMatchObject({ ok: true });
+			expect(calls).toHaveLength(2);
+		} finally {
+			await server.stop(true);
+		}
 	});
 });
