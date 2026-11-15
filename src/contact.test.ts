@@ -50,7 +50,35 @@ function harness(
 				: Response.json({}, { status: options.discordStatus ?? 200 });
 		}) as typeof fetch,
 	);
-	return { calls, handler: (r: Request) => handler(r, "127.0.0.1") };
+	return {
+		calls,
+		handler: (r: Request, peerIp = "127.0.0.1") => handler(r, peerIp),
+	};
+}
+
+// Stateful test double for Redis's atomic, expiring buckets.
+function countingLimiter(now: () => number = Date.now): Limiter {
+	const buckets = new Map<string, { count: number; expires: number }>();
+	return async (limits) => {
+		const time = now();
+		let retry = 0;
+		for (const limit of limits) {
+			const bucket = buckets.get(limit.key);
+			if (bucket && bucket.expires > time && bucket.count >= limit.maximum)
+				retry = Math.max(retry, Math.ceil((bucket.expires - time) / 1000));
+		}
+		if (retry) return retry;
+		for (const limit of limits) {
+			const bucket = buckets.get(limit.key);
+			buckets.set(
+				limit.key,
+				bucket && bucket.expires > time
+					? { ...bucket, count: bucket.count + 1 }
+					: { count: 1, expires: time + limit.seconds * 1000 },
+			);
+		}
+		return 0;
+	};
 }
 
 describe("contact security and delivery", () => {
@@ -154,6 +182,103 @@ describe("contact security and delivery", () => {
 		});
 		expect((await handler(request())).status).toBe(429);
 		expect(calls).toHaveLength(1);
+	});
+	test("send policy allows one message per IP and email every 30 minutes", async () => {
+		const seen: Parameters<Limiter>[0][] = [];
+		const { handler } = harness({
+			limit: async (limits) => {
+				seen.push(limits);
+				return 0;
+			},
+		});
+		expect((await handler(request())).status).toBe(200);
+		expect(seen[1]).toEqual([
+			{
+				key: expect.stringMatching(/^send:ip:[a-f0-9]{64}$/),
+				maximum: 1,
+				seconds: 1800,
+			},
+			{
+				key: expect.stringMatching(/^send:email:[a-f0-9]{64}$/),
+				maximum: 1,
+				seconds: 1800,
+			},
+			{ key: "send:global", maximum: 20, seconds: 3600 },
+		]);
+	});
+	for (const bucket of ["IP", "email"]) {
+		test(`${bucket} cooldown blocks repeat delivery until 30 minutes expire`, async () => {
+			let time = 0;
+			const { handler, calls } = harness({
+				limit: countingLimiter(() => time),
+			});
+			expect((await handler(request())).status).toBe(200);
+			const repeat = () =>
+				handler(
+					request({
+						...valid,
+						email:
+							bucket === "IP"
+								? "another@example.com"
+								: valid.email.toUpperCase(),
+						token: "another-fresh-token",
+					}),
+					bucket === "IP" ? "127.0.0.1" : "192.0.2.2",
+				);
+			const blocked = await repeat();
+			expect(blocked.status).toBe(429);
+			expect(blocked.headers.get("retry-after")).toBe("1800");
+			time = 1_799_000;
+			const almostExpired = await repeat();
+			expect(almostExpired.status).toBe(429);
+			expect(almostExpired.headers.get("retry-after")).toBe("1");
+			expect(
+				calls.filter((call) => call.url.includes("discord.com")),
+			).toHaveLength(1);
+			time = 1_800_000;
+			expect((await repeat()).status).toBe(200);
+			expect(
+				calls.filter((call) => call.url.includes("discord.com")),
+			).toHaveLength(2);
+		});
+	}
+	test("concurrent verified submissions from one IP deliver only once", async () => {
+		const { handler, calls } = harness({ limit: countingLimiter() });
+		const responses = await Promise.all(
+			Array.from({ length: 6 }, (_, index) =>
+				handler(
+					request({
+						...valid,
+						email: `visitor${index}@example.com`,
+						token: `fresh-token-${index}`,
+					}),
+				),
+			),
+		);
+		expect(
+			responses.filter((response) => response.status === 200),
+		).toHaveLength(1);
+		expect(
+			responses.filter((response) => response.status === 429),
+		).toHaveLength(5);
+		expect(
+			calls.filter((call) => call.url.includes("discord.com")),
+		).toHaveLength(1);
+	});
+	test("direct API requests with forged tokens are attempt-limited and never delivered", async () => {
+		const { handler, calls } = harness({
+			result: { success: false },
+			limit: countingLimiter(),
+		});
+		for (let attempt = 0; attempt < 10; attempt++)
+			expect(
+				(await handler(request({ ...valid, token: "forged-token" }))).status,
+			).toBe(403);
+		const blocked = await handler(request({ ...valid, token: "forged-token" }));
+		expect(blocked.status).toBe(429);
+		expect(Number(blocked.headers.get("retry-after"))).toBeGreaterThan(0);
+		expect(calls).toHaveLength(10);
+		expect(calls.every((call) => call.url.includes("siteverify"))).toBe(true);
 	});
 	test("Redis failures fail closed", async () => {
 		const { handler, calls } = harness({

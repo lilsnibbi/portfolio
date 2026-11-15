@@ -252,11 +252,11 @@ export function createContactHandler(
 		}
 		try {
 			const retry = await limit([
-				{ key: `send:ip:${hash(ip)}`, maximum: 3, seconds: 3600 },
+				{ key: `send:ip:${hash(ip)}`, maximum: 1, seconds: 1800 },
 				{
 					key: `send:email:${hash(email.toLowerCase())}`,
-					maximum: 3,
-					seconds: 3600,
+					maximum: 1,
+					seconds: 1800,
 				},
 				{ key: "send:global", maximum: 20, seconds: 3600 },
 			]);
