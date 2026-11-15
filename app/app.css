@@ -1,0 +1,292 @@
+/* Keep font imports for Bun's CSS bundler to resolve with their local assets. */
+@import url("@fontsource-variable/geist");
+@import url("@fontsource-variable/jetbrains-mono");
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./styles/typeset.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+	--font-heading: var(--font-sans);
+	--font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+	--color-sidebar-ring: var(--sidebar-ring);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar: var(--sidebar);
+	--color-chart-5: var(--chart-5);
+	--color-chart-4: var(--chart-4);
+	--color-chart-3: var(--chart-3);
+	--color-chart-2: var(--chart-2);
+	--color-chart-1: var(--chart-1);
+	--color-ring: var(--ring);
+	--color-input: var(--input);
+	--color-border: var(--border);
+	--color-destructive: var(--destructive);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-accent: var(--accent);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-muted: var(--muted);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-secondary: var(--secondary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary: var(--primary);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-popover: var(--popover);
+	--color-card-foreground: var(--card-foreground);
+	--color-card: var(--card);
+	--color-foreground: var(--foreground);
+	--color-background: var(--background);
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+	--radius-2xl: calc(var(--radius) * 1.8);
+	--radius-3xl: calc(var(--radius) * 2.2);
+	--radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@theme {
+	--container-portfolio: 64rem;
+}
+
+:root {
+	--anchor-offset: 6rem;
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
+	--primary: oklch(0.205 0 0);
+	--primary-foreground: oklch(0.985 0 0);
+	--secondary: oklch(0.97 0 0);
+	--secondary-foreground: oklch(0.205 0 0);
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0);
+	--accent: oklch(0.97 0 0);
+	--accent-foreground: oklch(0.205 0 0);
+	--destructive: oklch(0.3 0 0);
+	--border: oklch(0.922 0 0);
+	--input: oklch(0.922 0 0);
+	--ring: oklch(0.45 0 0);
+	--chart-1: oklch(0.87 0 0);
+	--chart-2: oklch(0.556 0 0);
+	--chart-3: oklch(0.439 0 0);
+	--chart-4: oklch(0.371 0 0);
+	--chart-5: oklch(0.269 0 0);
+	--radius: 0.625rem;
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.145 0 0);
+	--sidebar-primary: oklch(0.205 0 0);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.97 0 0);
+	--sidebar-accent-foreground: oklch(0.205 0 0);
+	--sidebar-border: oklch(0.922 0 0);
+	--sidebar-ring: var(--ring);
+}
+
+.dark {
+	color-scheme: dark;
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.97 0 0);
+	--card: oklch(0.185 0 0);
+	--card-foreground: oklch(0.985 0 0);
+	--popover: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.985 0 0);
+	--primary: oklch(0.97 0 0);
+	--primary-foreground: oklch(0.145 0 0);
+	--secondary: oklch(0.24 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+	--muted: oklch(0.235 0 0);
+	--muted-foreground: oklch(0.74 0 0);
+	--accent: oklch(0.269 0 0);
+	--accent-foreground: oklch(0.985 0 0);
+	--destructive: oklch(0.922 0 0);
+	--border: oklch(1 0 0 / 12%);
+	--input: oklch(1 0 0 / 22%);
+	--ring: oklch(0.85 0 0);
+	--chart-1: oklch(0.87 0 0);
+	--chart-2: oklch(0.556 0 0);
+	--chart-3: oklch(0.439 0 0);
+	--chart-4: oklch(0.371 0 0);
+	--chart-5: oklch(0.269 0 0);
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: var(--primary);
+	--sidebar-primary-foreground: var(--primary-foreground);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: var(--border);
+	--sidebar-ring: var(--ring);
+}
+
+@media (min-width: 801px) {
+	:root {
+		--anchor-offset: 7rem;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+
+	html {
+		@apply font-sans;
+		scrollbar-gutter: stable;
+	}
+
+	body {
+		@apply bg-background text-foreground antialiased;
+		min-block-size: 100svh;
+		line-height: 1.6;
+	}
+
+	button:not(:disabled),
+	[role="button"]:not(:disabled):not([aria-disabled="true"]):not(
+		[data-disabled]
+	) {
+		cursor: pointer;
+	}
+
+	:where(
+		a,
+		button,
+		input,
+		textarea,
+		select,
+		summary,
+		[tabindex]
+	):focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 3px;
+	}
+
+	:where(main, section, h1, h2, h3, h4, h5, h6)[id] {
+		scroll-margin-block-start: var(--anchor-offset);
+	}
+
+	::selection {
+		background: var(--primary);
+		color: var(--primary-foreground);
+	}
+}
+
+@layer components {
+	:is(.markdown, .typeset-article) {
+		--typeset-font-body: var(--font-sans);
+		--typeset-font-heading: var(--font-heading);
+		--typeset-font-mono: var(--font-mono);
+		--typeset-size: 1rem;
+		--typeset-leading: 1.85;
+		--typeset-flow: 1.25em;
+		inline-size: 100%;
+		min-inline-size: 0;
+		max-inline-size: 72ch;
+		margin-inline: auto;
+		font-size: var(--typeset-size);
+		text-align: start;
+	}
+
+	:is(.markdown, .typeset) :where(.heading-anchor) {
+		color: inherit;
+		font-weight: inherit;
+		text-decoration-line: none;
+	}
+
+	:is(.markdown, .typeset)
+		:where(.heading-anchor:hover, .heading-anchor:focus-visible) {
+		text-decoration-line: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	:is(.markdown, .typeset) :where(.callout) {
+		margin-block-start: var(--typeset-flow);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-xl);
+		padding: clamp(1rem, 3vw, 1.5rem);
+		background: var(--card);
+	}
+
+	:is(.markdown, .typeset) :where(.callout > :first-child) {
+		margin-block-start: 0;
+	}
+
+	:is(.markdown, .typeset) :where(.callout .eyebrow) {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		font-weight: 500;
+		line-height: 1.5;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	:is(.markdown, .typeset) :where(.callout .eyebrow + *) {
+		margin-block-start: 0.75rem;
+	}
+
+	:is(.markdown, .typeset) :where(.stack-diagram) {
+		display: grid;
+		justify-items: center;
+		gap: 0.75rem;
+		margin-block-start: var(--typeset-flow);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-xl);
+		padding: clamp(1.25rem, 4vw, 2rem);
+		background: var(--card);
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.6;
+		text-align: center;
+	}
+
+	:is(.markdown, .typeset) :where(.stack-diagram > :not(.diagram-arrow)) {
+		inline-size: min(100%, 22rem);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		padding: 0.75rem 1rem;
+		background: var(--background);
+	}
+
+	:is(.markdown, .typeset) :where(.stack-diagram > strong) {
+		border-color: var(--input);
+		background: var(--secondary);
+		color: var(--secondary-foreground);
+	}
+
+	:is(.markdown, .typeset) :where(.diagram-arrow) {
+		color: var(--muted-foreground);
+		font-size: 1.25rem;
+		line-height: 1;
+	}
+}
+
+/* Keep the browser's complementary fades and plus-lighter compositing. */
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 200ms;
+	animation-timing-function: linear;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html[data-section-scroll] {
+		scroll-behavior: smooth;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none;
+	}
+}

@@ -6,6 +6,10 @@ node_modules
 # output
 out
 dist
+build
+test-results
+playwright-report
+app/app.generated.css
 *.tgz
 
 # code coverage

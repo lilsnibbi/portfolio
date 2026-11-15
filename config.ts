@@ -1,68 +1,13 @@
-export interface SocialLink {
-	platform: string;
-	url: string;
-}
+import type { SiteConfig } from "./src/config-types";
 
-export interface Project {
-	title: string;
-	description: string;
-	tags: string[];
-	year: string;
-	status?: string;
-	detail?: string;
-	github?: string;
-	demo?: string;
-	development?: string;
-}
-
-export interface SiteConfig {
-	site: {
-		title: string;
-		description: string;
-		url: string;
-	};
-	profile: {
-		name: string;
-		role: string;
-		roles: string[];
-		location: string;
-		pronouns: string;
-		age: string;
-		status: string;
-		bio: string;
-		socialsTitle: string;
-		socialLinks: SocialLink[];
-	};
-	about: {
-		sectionTag: string;
-		title: string;
-		lead: string;
-		paragraphs: string[];
-		stats: Array<{ label: string; value: string }>;
-	};
-	projects: {
-		sectionTag: string;
-		title: string;
-		subtitle: string;
-		list: Project[];
-	};
-	contact: {
-		sectionTag: string;
-		title: string;
-		subtitle: string;
-		website: string;
-		discord: string;
-		discordTitle: string;
-		discordDesc: string;
-		discordMembers: string;
-		discordCta: string;
-	};
-	footer: {
-		logoText: string;
-		copyrightName: string;
-		rightsText: string;
-	};
-}
+export type {
+	ImageSource,
+	Project,
+	SiteConfig,
+	SocialLink,
+	Specification,
+	Tool,
+} from "./src/config-types";
 
 const config = {
 	site: {
@@ -70,41 +15,41 @@ const config = {
 		description:
 			"Backend focused software developer building reliable tools, systems, and communities.",
 		url: "https://lilsnibbi.dev",
+		favicon: { url: "/favicon.ico" },
 	},
 	profile: {
 		name: "Snibbi",
+		avatar: { url: "https://github.com/lilsnibbi.png?size=256" },
 		role: "Hobby Software Developer",
-		roles: [
-			"Backend engineer",
-			"TypeScript developer",
-			"Open source contributor",
-			"Official goofball",
-			"World's worst cook",
-		],
 		location: "Australia",
+		timeZone: "Australia/Sydney",
 		pronouns: "He/Him",
 		age: "20",
-		status: "Available for new projects",
 		bio: "I build dependable software, useful developer tools, and the occasional questionable side project.",
-		socialsTitle: "Find me online",
-		socialLinks: [
-			{ platform: "GitHub", url: "https://github.com/lilsnibbi" },
-			{ platform: "Discord", url: "https://discord.gg/snibbi" },
-		],
+		socials: {
+			title: "Find me online",
+			links: [
+				{
+					platform: "GitHub",
+					url: "https://github.com/lilsnibbi",
+					icon: { url: "" },
+				},
+				{
+					platform: "Discord",
+					url: "https://discord.gg/snibbi",
+					icon: { url: "" },
+				},
+			],
+		},
 	},
 	about: {
-		sectionTag: "About",
 		title: "A little about me.",
 		lead: "I like making complicated things feel simple.",
 		paragraphs: [
 			"I'm a software engineer who enjoys untangling complex problems and building things that make life easier. Most of my work lives in backend infrastructure and developer tooling, where reliability matters more than chasing every new trend.",
-			"Away from the editor, I'm usually gaming or running a Discord community of more than 1,500 people. Whether it's software or community work, the goal is the same: bring people together and keep improving the experience.",
+			"Away from the editor, I'm usually gaming or running a Discord community of more than 2000 people. Whether it's software or community work, the goal is the same: bring people together and keep improving the experience.",
 		],
-		stats: [
-			{ label: "Languages", value: "JavaScript / TypeScript" },
-			{ label: "Experience", value: "~6 years" },
-			{ label: "Core stack", value: "Bun / Docker / PostgreSQL" },
-		],
+		experience: "~6 years",
 	},
 	projects: {
 		sectionTag: "Work",
@@ -113,22 +58,32 @@ const config = {
 			"A small selection of tools, experiments, and community projects.",
 		list: [
 			{
+				slug: "bamu",
 				title: "bamu",
 				description:
 					"The custom Discord bot behind my community, built for moderation, automation, and a bit of personality.",
-				detail:
-					"A modular TypeScript/Bun codebase brings together moderation, support tickets, and community automation.",
+				category: "Community tooling",
+				banner: {
+					url: "/public/img/projects/bamu.svg",
+					alt: "A monochrome illustration of bamu connecting moderation, support tickets, and community automation.",
+				},
+				isFront: true,
 				tags: ["TypeScript", "Bun", "Closed source"],
 				year: "2026",
 				status: "Community bot",
 				demo: "https://snibbi.cc",
 			},
 			{
+				slug: "keyzori",
 				title: "Keyzori",
 				description:
 					"Open-source, self-hosted license management for software products. I'm rebuilding v2, which is still in development.",
-				detail:
-					"The v2 HTTP API combines expiry, usage meters, and device/IP limits, backed by PostgreSQL and Redis.",
+				category: "Developer tools",
+				banner: {
+					url: "/public/img/projects/keyzori.svg",
+					alt: "A monochrome architecture illustration connecting the Keyzori API to PostgreSQL and Redis.",
+				},
+				isFront: true,
 				tags: ["TypeScript", "Bun", "Open source"],
 				year: "2026",
 				status: "v2 in development",
@@ -137,23 +92,74 @@ const config = {
 			},
 		],
 	},
+	notes: {
+		title: "Notes from the workbench.",
+		subtitle:
+			"A place for development notes, small discoveries, and a closer look at the things I'm building.",
+	},
+	uses: {
+		description:
+			"The languages, tools, and setup behind the things I build. A little look at my everyday workbench.",
+		languages: [
+			{
+				name: "JavaScript",
+				description: "One of the languages I build with.",
+				icon: { url: "" },
+			},
+			{
+				name: "TypeScript",
+				description: "My go-to for backend systems and developer tools.",
+				icon: { url: "" },
+			},
+		],
+		development: [
+			{
+				name: "Bun",
+				description: "A runtime and toolkit for JavaScript and TypeScript.",
+				icon: { url: "" },
+			},
+			{
+				name: "Docker",
+				description: "Containers for applications and services.",
+				icon: { url: "" },
+			},
+			{
+				name: "PostgreSQL",
+				description: "Relational data storage for the things I build.",
+				icon: { url: "" },
+			},
+		],
+		// Add entries such as { label: "Host", value: "Your hardware or provider" }.
+		infrastructure: [],
+		// Add CPU, GPU, RAM, storage, displays, and peripherals here.
+		pc: [],
+		software: [
+			{
+				name: "GitHub",
+				description: "Projects, source code, and open-source work.",
+				icon: { url: "" },
+			},
+			{
+				name: "Discord",
+				description: "Community, conversations, and keeping in touch.",
+				icon: { url: "" },
+			},
+		],
+	},
 	contact: {
-		sectionTag: "Contact",
-		title: "Let's talk.",
 		subtitle:
 			"Have a project in mind, a question, or something you're building? I'd love to hear about it.",
 		website: "https://snibbi.cc",
 		discord: "lilsnibbi",
-		discordTitle: "A place to hang out.",
-		discordDesc:
-			"A friendly server for gaming, building, and hanging out. We're waiting to meet you!",
-		discordMembers: "1,500+ members",
-		discordCta: "Join the server",
+		community: {
+			title: "A place to hang out.",
+			description:
+				"A friendly server for gaming, building, and hanging out. We're waiting to meet you!",
+			members: "2000+ members",
+		},
 	},
 	footer: {
-		logoText: "Snibbi",
 		copyrightName: "LilSnibbi",
-		rightsText: "All rights reserved.",
 	},
 } satisfies SiteConfig;
 

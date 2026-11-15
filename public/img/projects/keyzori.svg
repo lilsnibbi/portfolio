@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" fill="none">
+	<title>Keyzori — a self-hosted licensing API backed by PostgreSQL and Redis</title>
+	<defs>
+		<radialGradient id="light"><stop stop-color="#252525"/><stop offset="1" stop-color="#0D0D0D"/></radialGradient>
+		<linearGradient id="panel" x1="650" y1="150" x2="1000" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#242424"/><stop offset="1" stop-color="#121212"/></linearGradient>
+		<linearGradient id="key" x1="238" y1="210" x2="430" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#9A9A9A"/></linearGradient>
+		<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#FFFFFF" stroke-opacity=".025"/></pattern>
+		<filter id="shadow" x="-40%" y="-40%" width="180%" height="200%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-opacity=".35"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v640H0z"/>
+	<path fill="url(#grid)" d="M0 0h1200v640H0z"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="48" y="52" fill="#8D8D8D" font-size="12" letter-spacing="3">KEYZORI / DEVELOPER TOOLS</text>
+		<text x="1152" y="52" text-anchor="end" fill="#777777" font-size="12" letter-spacing="2">02</text>
+		<g transform="translate(340 288)">
+			<circle r="158" stroke="#3A3A3A" stroke-dasharray="2 8"/>
+			<circle r="126" stroke="#333333"/>
+			<circle r="96" fill="#181818" stroke="#454545" filter="url(#shadow)"/>
+		</g>
+		<g stroke="url(#key)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)">
+			<circle cx="321" cy="265" r="30"/>
+			<path d="m343 287 54 54m-17-17 16-16m-1 31 16-16"/>
+		</g>
+		<text x="340" y="490" text-anchor="middle" fill="#F1F1F1" font-size="56" font-weight="600" letter-spacing="-3">Keyzori</text>
+		<text x="340" y="520" text-anchor="middle" fill="#999999" font-size="14">Licensing, on your own terms.</text>
+		<path d="M500 288h115q25 0 25-25v-25h45" stroke="#666666" stroke-dasharray="5 7"/>
+		<circle cx="500" cy="288" r="4" fill="#BBBBBB"/>
+		<g filter="url(#shadow)">
+			<rect x="685" y="164" width="355" height="140" rx="18" fill="url(#panel)" stroke="#4B4B4B"/>
+			<rect x="675" y="395" width="170" height="96" rx="15" fill="#181818" stroke="#3D3D3D"/>
+			<rect x="875" y="395" width="170" height="96" rx="15" fill="#181818" stroke="#3D3D3D"/>
+		</g>
+		<rect x="714" y="190" width="67" height="22" rx="6" fill="#303030" stroke="#474747"/>
+		<text x="747.5" y="205" text-anchor="middle" fill="#C4C4C4" font-size="10" letter-spacing="1">V2 / API</text>
+		<text x="713" y="249" fill="#EBEBEB" font-size="24" letter-spacing="-.5">Keyzori HTTP API</text>
+		<text x="714" y="277" fill="#969696" font-size="12">Expiry · Usage meters · Device / IP limits</text>
+		<path d="M862 305v40m-102 50v-29q0-21 21-21h160q21 0 21 21v29" stroke="#666666"/>
+		<circle cx="862" cy="345" r="4" fill="#BBBBBB"/>
+		<g stroke="#BDBDBD" stroke-width="1.6">
+			<ellipse cx="706" cy="426" rx="10" ry="4"/><path d="M696 426v14c0 5 20 5 20 0v-14m-20 7c0 5 20 5 20 0"/>
+			<path d="m904 420 13 7-13 7-13-7Zm-13 14 13 7 13-7m-26 7 13 7 13-7"/>
+		</g>
+		<text x="729" y="437" fill="#E2E2E2" font-size="15">PostgreSQL</text>
+		<text x="930" y="437" fill="#E2E2E2" font-size="15">Redis</text>
+		<text x="696" y="469" fill="#858585" font-size="11">TypeScript + Bun</text>
+		<text x="896" y="469" fill="#858585" font-size="11">Self-hosted</text>
+		<text x="48" y="596" fill="#737373" font-size="11" letter-spacing="2">OPEN SOURCE. STILL TAKING SHAPE.</text>
+		<text x="1152" y="596" text-anchor="end" fill="#737373" font-size="11">snibbi / selected work</text>
+	</g>
+</svg>
