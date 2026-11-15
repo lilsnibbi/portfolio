@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Topography</title>
+	<desc>Organic, mirrored contour lines soften the geometric feel while preserving the centered layout.</desc>
+	<defs>
+		<radialGradient id="light" cx=".5" cy=".45" r=".73"><stop stop-color="#232323"/><stop offset="1" stop-color="#0C0C0C"/></radialGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".72"/><stop offset=".36" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".64" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".72"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+		<path id="contour" d="M-110 0c0-40 36-63 93-68 63-6 118 17 128 54 11 43-43 77-110 80C-63 70-110 43-110 0Z" vector-effect="non-scaling-stroke"/>
+		<pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#FFFFFF" opacity=".04"/></pattern>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)" stroke="#787878">
+		<g transform="translate(106 164) rotate(-8)">
+			<use href="#contour" transform="scale(.72)"/><use href="#contour" transform="scale(1.08)"/>
+			<use href="#contour" transform="scale(1.44)"/><use href="#contour" transform="scale(1.8)"/>
+			<use href="#contour" transform="scale(2.16)"/><use href="#contour" transform="scale(2.52)"/>
+			<use href="#contour" transform="scale(2.88)"/>
+		</g>
+		<g transform="translate(1094 164) scale(-1 1) rotate(-8)">
+			<use href="#contour" transform="scale(.72)"/><use href="#contour" transform="scale(1.08)"/>
+			<use href="#contour" transform="scale(1.44)"/><use href="#contour" transform="scale(1.8)"/>
+			<use href="#contour" transform="scale(2.16)"/><use href="#contour" transform="scale(2.52)"/>
+			<use href="#contour" transform="scale(2.88)"/>
+		</g>
+	</g>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="59" fill="#8E8E8E" font-size="10" letter-spacing="3.5">THOUGHTFUL SOFTWARE. HUMAN ROOTS.</text>
+		<text x="596" y="174" fill="#EFEFEF" font-size="98" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="600" y="214" fill="#B0B0B0" font-size="19">Making life easier, one line of code at a time</text>
+		<path d="M582 244h36" stroke="#5B5B5B"/>
+		<text x="600" y="277" fill="#929292" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

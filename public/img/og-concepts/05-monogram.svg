@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Monogram</title>
+	<desc>A sculpted S monogram inside concentric rings, balanced with a clean name and specialty labels.</desc>
+	<defs>
+		<radialGradient id="light" cx=".19" cy=".5" r=".85"><stop stop-color="#292929"/><stop offset="1" stop-color="#0D0D0D"/></radialGradient>
+		<linearGradient id="disc" x1="147" y1="102" x2="263" y2="220" gradientUnits="userSpaceOnUse"><stop stop-color="#303030"/><stop offset="1" stop-color="#131313"/></linearGradient>
+		<linearGradient id="silver" x1="175" y1="128" x2="231" y2="193" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#939393"/></linearGradient>
+		<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" stroke="#FFFFFF" stroke-opacity=".022"/></pattern>
+		<filter id="shadow" x="-60%" y="-60%" width="220%" height="240%"><feDropShadow dx="0" dy="16" stdDeviation="22" flood-opacity=".45"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#grid)" d="M0 0h1200v320H0z"/>
+	<g transform="translate(202 160)">
+		<circle r="149" stroke="#FFFFFF" stroke-opacity=".04"/>
+		<circle r="121" stroke="#414141" stroke-dasharray="2 7"/>
+		<circle r="91" stroke="#4D4D4D"/>
+		<circle cy="-91" r="3.5" fill="#C4C4C4"/>
+		<circle cy="91" r="3" fill="#707070"/>
+	</g>
+	<circle cx="202" cy="160" r="63" fill="url(#disc)" stroke="#5A5A5A" filter="url(#shadow)"/>
+	<path d="M228 132h-39a14 14 0 0 0 0 28h26a14 14 0 0 1 0 28h-39" stroke="url(#silver)" stroke-width="10" stroke-linecap="square"/>
+	<path d="M324 160h32" stroke="#666666" stroke-dasharray="2 5"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="392" y="65" fill="#8D8D8D" font-size="11" letter-spacing="3">THOUGHTFULLY ENGINEERED</text>
+		<text x="387" y="161" fill="#F1F1F1" font-size="84" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="392" y="201" fill="#A8A8A8" font-size="21">Making life easier, one line of code at a time</text>
+		<g fill="#191919" stroke="#373737">
+			<rect x="392" y="232" width="140" height="29" rx="7"/>
+			<rect x="542" y="232" width="132" height="29" rx="7"/>
+			<rect x="684" y="232" width="128" height="29" rx="7"/>
+		</g>
+		<g fill="#AAAAAA" font-size="11" text-anchor="middle">
+			<text x="462" y="251">Backend systems</text>
+			<text x="608" y="251">Developer tools</text>
+			<text x="748" y="251">Community</text>
+		</g>
+		<text x="1136" y="65" text-anchor="end" fill="#818181" font-size="11" letter-spacing="1">AUSTRALIA</text>
+		<text x="1136" y="258" text-anchor="end" fill="#919191" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

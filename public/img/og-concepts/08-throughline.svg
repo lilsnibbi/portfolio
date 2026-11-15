@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Throughline</title>
+	<desc>A quiet, horizontal composition with a continuous path connecting systems, tools, and communities.</desc>
+	<defs>
+		<linearGradient id="background" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse"><stop stop-color="#1E1E1E"/><stop offset="1" stop-color="#0C0C0C"/></linearGradient>
+		<linearGradient id="line" x1="64" y1="0" x2="1136" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#444444"/><stop offset=".4" stop-color="#B4B4B4"/><stop offset="1" stop-color="#3C3C3C"/></linearGradient>
+		<pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#FFFFFF" opacity=".045"/></pattern>
+	</defs>
+	<path fill="url(#background)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="64" y="49" fill="#8D8D8D" font-size="11" letter-spacing="3">CODE IS ONLY THE BEGINNING</text>
+		<text x="60" y="154" fill="#F1F1F1" font-size="80" font-weight="600" letter-spacing="-4">Snibbi</text>
+		<text font-size="30" letter-spacing="-.8"><tspan x="536" y="112" fill="#E4E4E4">Making life easier, </tspan><tspan x="536" y="152" fill="#A7A7A7">one line of code at a time</tspan></text>
+		<text x="64" y="189" fill="#999999" font-size="16">Software developer / Australia</text>
+		<text x="64" y="282" fill="#929292" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+		<g fill="#9D9D9D" font-size="11" letter-spacing="1.5" text-anchor="middle">
+			<text x="536" y="282">SYSTEMS</text>
+			<text x="804" y="282">TOOLS</text>
+			<text x="1072" y="282">COMMUNITIES</text>
+		</g>
+	</g>
+	<path d="M64 238h1072" stroke="url(#line)"/>
+	<path d="M1129 232l7 6-7 6" stroke="#777777" stroke-linecap="round" stroke-linejoin="round"/>
+	<g fill="#151515" stroke="#8B8B8B">
+		<circle cx="536" cy="238" r="9"/>
+		<circle cx="804" cy="238" r="9"/>
+		<circle cx="1072" cy="238" r="9"/>
+	</g>
+	<g fill="#DDDDDD">
+		<circle cx="536" cy="238" r="3"/>
+		<circle cx="804" cy="238" r="3"/>
+		<circle cx="1072" cy="238" r="3"/>
+	</g>
+	<path d="M64 232v12" stroke="#787878"/>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

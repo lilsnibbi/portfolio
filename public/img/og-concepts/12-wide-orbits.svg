@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Wide orbits</title>
+	<desc>Broad circular arcs sweep in from the edges around a centered name and motto.</desc>
+	<defs>
+		<radialGradient id="light" cx=".5" cy=".44" r=".77"><stop stop-color="#252525"/><stop offset="1" stop-color="#0B0B0B"/></radialGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".58"/><stop offset=".37" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".63" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".58"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+		<pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#FFFFFF" opacity=".04"/></pattern>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)" stroke="#818181">
+		<g transform="translate(-72 160)">
+			<circle r="145"/><circle r="191"/><circle r="237"/><circle r="283"/><circle r="329"/><circle r="375"/><circle r="421"/>
+		</g>
+		<g transform="translate(1272 160)">
+			<circle r="145"/><circle r="191"/><circle r="237"/><circle r="283"/><circle r="329"/><circle r="375"/><circle r="421"/>
+		</g>
+	</g>
+	<path d="M325 160h40m470 0h40" stroke="#555555"/>
+	<circle cx="325" cy="160" r="2.5" fill="#939393"/><circle cx="875" cy="160" r="2.5" fill="#939393"/>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="59" fill="#909090" font-size="10" letter-spacing="3.5">BACKEND SYSTEMS / HUMAN IDEAS</text>
+		<text x="596" y="175" fill="#EEEEEE" font-size="100" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="600" y="215" fill="#ADADAD" font-size="19">Making life easier, one line of code at a time</text>
+		<text x="600" y="277" fill="#979797" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M455 273h43m204 0h43" stroke="#454545"/>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

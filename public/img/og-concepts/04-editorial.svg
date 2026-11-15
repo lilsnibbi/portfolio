@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Editorial</title>
+	<desc>Oversized typography and precise editorial rules on a near-black background.</desc>
+	<defs>
+		<linearGradient id="background" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse"><stop stop-color="#1C1C1C"/><stop offset=".6" stop-color="#111111"/><stop offset="1" stop-color="#0B0B0B"/></linearGradient>
+		<linearGradient id="type" x1="60" y1="100" x2="440" y2="242" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#B8B8B8"/></linearGradient>
+	</defs>
+	<path fill="url(#background)" d="M0 0h1200v320H0z"/>
+	<path d="M56 72h1088M56 252h1088M575 72v180" stroke="#333333"/>
+	<path d="M56 72h64M575 72v28" stroke="#A3A3A3"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="58" y="47" fill="#A0A0A0" font-size="11" letter-spacing="3">SOFTWARE / SYSTEMS / PEOPLE</text>
+		<text x="1144" y="47" text-anchor="end" fill="#858585" font-size="11" letter-spacing="2">INDEPENDENT BY NATURE</text>
+		<text x="50" y="213" fill="url(#type)" font-size="156" font-weight="700" letter-spacing="-10">Snibbi</text>
+		<text fill="#E7E7E7" font-size="35" letter-spacing="-1"><tspan x="625" y="128">Making life easier, </tspan><tspan x="625" y="172">one line of code at a time</tspan></text>
+		<text x="627" y="218" fill="#949494" font-size="16">Backend-focused software developer.</text>
+		<text x="58" y="285" fill="#9A9A9A" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+		<text x="1144" y="285" text-anchor="end" fill="#767676" font-size="11" letter-spacing="2">BUILT WITH INTENTION</text>
+	</g>
+	<g stroke="#626262" stroke-width="1.5">
+		<path d="M1099 107h25v25m0-25-25 25"/>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

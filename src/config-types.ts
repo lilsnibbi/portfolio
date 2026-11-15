@@ -41,6 +41,11 @@ export interface SiteConfig {
 		description: string;
 		url: string;
 		favicon: ImageSource;
+		socialImage: ImageSource & {
+			width: number;
+			height: number;
+			type: string;
+		};
 	};
 	profile: {
 		name: string;

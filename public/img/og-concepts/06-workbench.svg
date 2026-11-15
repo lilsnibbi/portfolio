@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Workbench</title>
+	<desc>A portfolio banner featuring miniature Keyzori and bamu project cards with their original icon styles.</desc>
+	<defs>
+		<radialGradient id="light" cx=".75" cy=".5" r=".8"><stop stop-color="#272727"/><stop offset="1" stop-color="#0D0D0D"/></radialGradient>
+		<linearGradient id="panel" x1="648" y1="60" x2="1060" y2="264" gradientUnits="userSpaceOnUse"><stop stop-color="#272727"/><stop offset="1" stop-color="#161616"/></linearGradient>
+		<linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#B3B3B3"/></linearGradient>
+		<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#FFFFFF" opacity=".055"/></pattern>
+		<filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-opacity=".4"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<path d="M540 160h65q20 0 20-20V114h29m-29 46v51q0 18 18 18h273" stroke="#535353" stroke-dasharray="4 6"/>
+	<circle cx="540" cy="160" r="3" fill="#9A9A9A"/>
+	<g filter="url(#shadow)">
+		<rect x="654" y="59" width="222" height="202" rx="16" fill="url(#panel)" stroke="#494949"/>
+		<rect x="902" y="59" width="234" height="202" rx="16" fill="url(#panel)" stroke="#494949"/>
+	</g>
+	<circle cx="698" cy="107" r="23" fill="#1A1A1A" stroke="#4A4A4A"/>
+	<g stroke="url(#silver)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+		<circle cx="694" cy="103" r="7"/><path d="m699 108 10 10m-4-4 4-4m-1 7 4-4"/>
+	</g>
+	<rect x="926" y="84" width="47" height="47" rx="14" fill="url(#silver)"/>
+	<g stroke="#292929" stroke-width="1.8" stroke-linecap="round">
+		<rect x="935" y="97" width="29" height="22" rx="7"/><path d="M946 113h7m-4-20v-4"/>
+	</g>
+	<circle cx="943" cy="106" r="2" fill="#292929"/><circle cx="956" cy="106" r="2" fill="#292929"/>
+	<path d="M678 216h174M926 216h186" stroke="#373737"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="64" y="53" fill="#929292" font-size="11" letter-spacing="3">FROM THE WORKBENCH OF</text>
+		<text x="60" y="154" fill="#F3F3F3" font-size="82" font-weight="600" letter-spacing="-4">Snibbi</text>
+		<text x="64" y="195" fill="#ADADAD" font-size="20">Making life easier, one line of code at a time</text>
+		<text x="64" y="266" fill="#8A8A8A" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+		<text x="678" y="173" fill="#EAEAEA" font-size="30" font-weight="600" letter-spacing="-1">Keyzori</text>
+		<text x="926" y="173" fill="#EAEAEA" font-size="30" font-weight="600" letter-spacing="-1">bamu</text>
+		<text x="678" y="196" fill="#9A9A9A" font-size="12">Licensing, on your terms.</text>
+		<text x="926" y="196" fill="#9A9A9A" font-size="12">A community companion.</text>
+		<text x="678" y="240" fill="#858585" font-size="10" letter-spacing="1.2">DEVELOPER TOOLS</text>
+		<text x="926" y="240" fill="#858585" font-size="10" letter-spacing="1.2">COMMUNITY TOOLING</text>
+		<text x="1136" y="292" text-anchor="end" fill="#6F6F6F" font-size="10" letter-spacing="2">SMALL DETAILS. REAL PURPOSE.</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

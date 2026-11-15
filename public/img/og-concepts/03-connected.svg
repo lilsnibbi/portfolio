@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Connected</title>
+	<desc>A centered identity panel connected to backend, tooling, open-source, and community nodes.</desc>
+	<defs>
+		<radialGradient id="light" r=".75"><stop stop-color="#282828"/><stop offset="1" stop-color="#0D0D0D"/></radialGradient>
+		<linearGradient id="panel" x1="388" y1="76" x2="812" y2="244" gradientUnits="userSpaceOnUse"><stop stop-color="#2A2A2A"/><stop offset="1" stop-color="#171717"/></linearGradient>
+		<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#FFFFFF" opacity=".06"/></pattern>
+		<filter id="shadow" x="-30%" y="-40%" width="160%" height="200%"><feDropShadow dx="0" dy="14" stdDeviation="20" flood-opacity=".4"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g stroke="#5B5B5B">
+		<path d="M276 113h42q18 0 18 18v11q0 18 18 18h34M276 207h42q18 0 18-18v-11q0-18 18-18"/>
+		<path d="M812 160h34q18 0 18-18v-11q0-18 18-18h42M846 160q18 0 18 18v11q0 18 18 18h42"/>
+	</g>
+	<g fill="#BDBDBD">
+		<circle cx="388" cy="160" r="3"/><circle cx="812" cy="160" r="3"/>
+		<circle cx="276" cy="113" r="3"/><circle cx="276" cy="207" r="3"/>
+		<circle cx="924" cy="113" r="3"/><circle cx="924" cy="207" r="3"/>
+	</g>
+	<rect x="388" y="76" width="424" height="168" rx="18" fill="url(#panel)" stroke="#535353" filter="url(#shadow)"/>
+	<g fill="#181818" stroke="#3D3D3D">
+		<rect x="64" y="79" width="212" height="68" rx="12"/>
+		<rect x="64" y="173" width="212" height="68" rx="12"/>
+		<rect x="924" y="79" width="212" height="68" rx="12"/>
+		<rect x="924" y="173" width="212" height="68" rx="12"/>
+	</g>
+	<g stroke="#BDBDBD" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+		<rect x="84" y="102" width="22" height="8" rx="2"/><rect x="84" y="115" width="22" height="8" rx="2"/><path d="M89 106h1m-1 13h1"/>
+		<path d="m92 196-8 10 8 10m8-20 8 10-8 10"/>
+		<circle cx="948" cy="103" r="3"/><circle cx="962" cy="109" r="3"/><circle cx="948" cy="123" r="3"/><path d="M948 106v14m14-8v2q0 9-11 9"/>
+		<circle cx="950" cy="201" r="4"/><circle cx="963" cy="204" r="3"/><path d="M941 218v-3a9 9 0 0 1 18 0v3m2-9q9 0 9 9"/>
+	</g>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="64" y="43" fill="#858585" font-size="10" letter-spacing="2.5">MAKING THE CONNECTIONS THAT MATTER</text>
+		<text x="1136" y="43" text-anchor="end" fill="#858585" font-size="10" letter-spacing="2">AUSTRALIA</text>
+		<text x="600" y="153" text-anchor="middle" fill="#F3F3F3" font-size="64" font-weight="600" letter-spacing="-3">Snibbi</text>
+		<text x="600" y="190" text-anchor="middle" fill="#ACACAC" font-size="17">Making life easier, one line of code at a time</text>
+		<path d="M571 215h58" stroke="#606060"/>
+		<g fill="#D3D3D3" font-size="16">
+			<text x="122" y="119">Backend systems</text>
+			<text x="122" y="213">Developer tools</text>
+			<text x="984" y="119">Open source</text>
+			<text x="984" y="213">Communities</text>
+		</g>
+		<text x="600" y="286" text-anchor="middle" fill="#8D8D8D" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

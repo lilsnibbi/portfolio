@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Quiet signal</title>
+	<desc>A centered wordmark framed by symmetrical orbital contours fading into a charcoal background.</desc>
+	<defs>
+		<radialGradient id="light" cx=".5" cy=".5" r=".7"><stop stop-color="#242424"/><stop offset="1" stop-color="#0B0B0B"/></radialGradient>
+		<linearGradient id="silver" x1="480" y1="97" x2="720" y2="192" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#C0C0C0"/></linearGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".7"/><stop offset=".35" stop-color="#FFFFFF" stop-opacity=".12"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".65" stop-color="#FFFFFF" stop-opacity=".12"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".7"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+		<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#FFFFFF" opacity=".05"/></pattern>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)" stroke="#6D6D6D">
+		<ellipse cx="112" cy="160" rx="100" ry="64"/>
+		<ellipse cx="112" cy="160" rx="142" ry="93"/>
+		<ellipse cx="112" cy="160" rx="184" ry="122"/>
+		<ellipse cx="112" cy="160" rx="226" ry="151"/>
+		<ellipse cx="112" cy="160" rx="268" ry="180"/>
+		<ellipse cx="112" cy="160" rx="310" ry="209"/>
+		<ellipse cx="1088" cy="160" rx="100" ry="64"/>
+		<ellipse cx="1088" cy="160" rx="142" ry="93"/>
+		<ellipse cx="1088" cy="160" rx="184" ry="122"/>
+		<ellipse cx="1088" cy="160" rx="226" ry="151"/>
+		<ellipse cx="1088" cy="160" rx="268" ry="180"/>
+		<ellipse cx="1088" cy="160" rx="310" ry="209"/>
+	</g>
+	<path d="M256 160h93m502 0h93" stroke="#505050" stroke-dasharray="2 6"/>
+	<circle cx="256" cy="160" r="3" fill="#949494"/><circle cx="944" cy="160" r="3" fill="#949494"/>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="59" fill="#8D8D8D" font-size="10" letter-spacing="4">SOFTWARE WITH INTENTION</text>
+		<text x="596" y="174" fill="url(#silver)" font-size="98" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="600" y="213" fill="#A7A7A7" font-size="18">Making life easier, one line of code at a time</text>
+		<path d="M580 242h40" stroke="#5B5B5B"/>
+		<text x="600" y="277" fill="#939393" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

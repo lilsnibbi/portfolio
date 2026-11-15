@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Inclination</title>
+	<desc>Mirrored tilted orbits add movement around a calm, centered name and motto.</desc>
+	<defs>
+		<radialGradient id="light" cx=".5" cy=".44" r=".75"><stop stop-color="#252525"/><stop offset="1" stop-color="#0C0C0C"/></radialGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".65"/><stop offset=".36" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".64" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".65"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+		<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#FFFFFF" opacity=".04"/></pattern>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)" stroke="#808080">
+		<g transform="translate(90 160) rotate(-28)">
+			<ellipse rx="107" ry="53"/><ellipse rx="148" ry="79"/><ellipse rx="189" ry="105"/>
+			<ellipse rx="230" ry="131"/><ellipse rx="271" ry="157"/><ellipse rx="312" ry="183"/>
+		</g>
+		<g transform="translate(1110 160) rotate(28)">
+			<ellipse rx="107" ry="53"/><ellipse rx="148" ry="79"/><ellipse rx="189" ry="105"/>
+			<ellipse rx="230" ry="131"/><ellipse rx="271" ry="157"/><ellipse rx="312" ry="183"/>
+		</g>
+	</g>
+	<g stroke="#737373" stroke-linecap="round">
+		<path d="M325 153v14m-7-7h14M875 153v14m-7-7h14"/>
+	</g>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="58" fill="#909090" font-size="10" letter-spacing="4">ALWAYS CURIOUS. ALWAYS BUILDING.</text>
+		<text x="596" y="174" fill="#EFEFEF" font-size="98" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="600" y="214" fill="#ADADAD" font-size="19">Making life easier, one line of code at a time</text>
+		<path d="M582 244h36" stroke="#5B5B5B"/>
+		<text x="600" y="277" fill="#929292" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Terminal</title>
+	<desc>A developer calling card paired with a floating, gently tilted monochrome code window.</desc>
+	<defs>
+		<radialGradient id="light" cx=".72" cy=".5" r=".8"><stop stop-color="#242424"/><stop offset="1" stop-color="#0D0D0D"/></radialGradient>
+		<linearGradient id="panel" x1="636" y1="57" x2="1092" y2="266" gradientUnits="userSpaceOnUse"><stop stop-color="#252525"/><stop offset="1" stop-color="#141414"/></linearGradient>
+		<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0v32" stroke="#FFFFFF" stroke-opacity=".025"/></pattern>
+		<filter id="shadow" x="-20%" y="-40%" width="150%" height="200%"><feDropShadow dx="0" dy="18" stdDeviation="20" flood-opacity=".45"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#grid)" d="M0 0h1200v320H0z"/>
+	<circle cx="900" cy="160" r="268" stroke="#FFFFFF" stroke-opacity=".03"/>
+	<g font-family="Arial, Helvetica, sans-serif">
+		<text x="64" y="53" fill="#8E8E8E" font-size="11" letter-spacing="3">A LITTLE ABOUT THE DEVELOPER</text>
+		<text x="60" y="157" fill="#F3F3F3" font-size="80" font-weight="600" letter-spacing="-4">Snibbi</text>
+		<text x="64" y="196" fill="#B1B1B1" font-size="21">Making life easier, one line of code at a time</text>
+		<text x="64" y="269" fill="#858585" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+		<path d="M190 265h32m-5-5 5 5-5 5" stroke="#858585" stroke-linecap="round" stroke-linejoin="round"/>
+	</g>
+	<g transform="rotate(-3 878 160)">
+		<rect x="628" y="54" width="508" height="212" rx="16" fill="url(#panel)" stroke="#454545" filter="url(#shadow)"/>
+		<path d="M629 96h506" stroke="#353535"/>
+		<circle cx="652" cy="75" r="3.5" fill="#898989"/>
+		<circle cx="666" cy="75" r="3.5" fill="#545454"/>
+		<circle cx="680" cy="75" r="3.5" fill="#383838"/>
+		<g font-family="Consolas, 'Courier New', monospace">
+			<text x="1113" y="79" text-anchor="end" fill="#8E8E8E" font-size="11">developer.ts</text>
+			<g fill="#585858" font-size="14" text-anchor="end">
+				<text x="660" y="130">1</text><text x="660" y="156">2</text><text x="660" y="182">3</text><text x="660" y="208">4</text><text x="660" y="234">5</text>
+			</g>
+			<g font-size="16">
+				<text x="682" y="130" fill="#A0A0A0">const <tspan fill="#EEEEEE">snibbi</tspan> = {</text>
+				<text x="702" y="156" fill="#9B9B9B">focus: <tspan fill="#E0E0E0">"backend systems"</tspan>,</text>
+				<text x="702" y="182" fill="#9B9B9B">tools: [<tspan fill="#E0E0E0">"TypeScript"</tspan>, <tspan fill="#E0E0E0">"Bun"</tspan>],</text>
+				<text x="702" y="208" fill="#9B9B9B">building: <tspan fill="#E0E0E0">"something useful"</tspan></text>
+				<text x="682" y="234" fill="#A0A0A0">};</text>
+			</g>
+		</g>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

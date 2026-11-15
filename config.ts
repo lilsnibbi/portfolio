@@ -16,6 +16,13 @@ const config = {
 			"Backend focused software developer building reliable tools, systems, and communities.",
 		url: "https://lilsnibbi.dev",
 		favicon: { url: "/favicon.ico" },
+		socialImage: {
+			url: "/public/img/opengraph.png",
+			alt: "Snibbi — Making life easier, one line of code at a time",
+			width: 1200,
+			height: 320,
+			type: "image/png",
+		},
 	},
 	profile: {
 		name: "Snibbi",

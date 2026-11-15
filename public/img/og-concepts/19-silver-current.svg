@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Silver current</title>
+	<desc>A faint silver glow traces selected orbital arcs on a deep charcoal background.</desc>
+	<defs>
+		<radialGradient id="light" r=".76"><stop stop-color="#222222"/><stop offset="1" stop-color="#090909"/></radialGradient>
+		<linearGradient id="silver" x1="470" y1="98" x2="728" y2="182" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E1E1E1"/><stop offset="1" stop-color="#A6A6A6"/></linearGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".7"/><stop offset=".36" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".64" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".7"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+		<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)">
+		<g stroke="#6D6D6D">
+			<ellipse cx="76" cy="160" rx="100" ry="64"/><ellipse cx="76" cy="160" rx="144" ry="94"/>
+			<ellipse cx="76" cy="160" rx="188" ry="124"/><ellipse cx="76" cy="160" rx="232" ry="154"/>
+			<ellipse cx="76" cy="160" rx="276" ry="184"/><ellipse cx="76" cy="160" rx="320" ry="214" stroke-dasharray="2 7"/>
+			<ellipse cx="1124" cy="160" rx="100" ry="64"/><ellipse cx="1124" cy="160" rx="144" ry="94"/>
+			<ellipse cx="1124" cy="160" rx="188" ry="124"/><ellipse cx="1124" cy="160" rx="232" ry="154"/>
+			<ellipse cx="1124" cy="160" rx="276" ry="184"/><ellipse cx="1124" cy="160" rx="320" ry="214" stroke-dasharray="2 7"/>
+		</g>
+		<g stroke="#D7D7D7">
+			<path d="M76 66c80 0 144 42 144 94M980 160c0 52 64 94 144 94" stroke-width="5" opacity=".35" filter="url(#glow)"/>
+			<path d="M76 66c80 0 144 42 144 94M980 160c0 52 64 94 144 94" stroke-width="1.5"/>
+		</g>
+	</g>
+	<circle cx="220" cy="160" r="3" fill="#B2B2B2"/><circle cx="980" cy="160" r="3" fill="#B2B2B2"/>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="59" fill="#929292" font-size="10" letter-spacing="4">SMALL DETAILS. REAL PURPOSE.</text>
+		<text x="596" y="174" fill="url(#silver)" font-size="98" font-weight="600" letter-spacing="-5">Snibbi</text>
+		<text x="600" y="215" fill="#B6B6B6" font-size="19">Making life easier, one line of code at a time</text>
+		<path d="M582 244h36" stroke="#696969"/>
+		<text x="600" y="277" fill="#969696" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

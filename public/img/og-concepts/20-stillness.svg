@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Stillness</title>
+	<desc>A restrained version with three spacious contours at either edge and a larger centered name.</desc>
+	<defs>
+		<radialGradient id="light" cx=".5" cy=".46" r=".8"><stop stop-color="#222222"/><stop offset="1" stop-color="#0B0B0B"/></radialGradient>
+		<linearGradient id="fade"><stop stop-color="#FFFFFF" stop-opacity=".6"/><stop offset=".35" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".65" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".6"/></linearGradient>
+		<mask id="edges"><path fill="url(#fade)" d="M0 0h1200v320H0z"/></mask>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<g mask="url(#edges)" stroke="#717171">
+		<ellipse cy="160" rx="170" ry="90"/><ellipse cy="160" rx="246" ry="139"/><ellipse cy="160" rx="322" ry="188"/>
+		<ellipse cx="1200" cy="160" rx="170" ry="90"/><ellipse cx="1200" cy="160" rx="246" ry="139"/><ellipse cx="1200" cy="160" rx="322" ry="188"/>
+	</g>
+	<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+		<text x="600" y="55" fill="#888888" font-size="10" letter-spacing="4">SOFTWARE DEVELOPER</text>
+		<text x="595" y="174" fill="#F1F1F1" font-size="104" font-weight="600" letter-spacing="-6">Snibbi</text>
+		<text x="600" y="217" fill="#B4B4B4" font-size="20">Making life easier, one line of code at a time</text>
+		<text x="600" y="277" fill="#8D8D8D" font-size="12" letter-spacing="1.5">lilsnibbi.dev</text>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>

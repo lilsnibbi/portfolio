@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" fill="none">
+	<title>Snibbi — Calling card</title>
+	<desc>A dimensional stack of floating monochrome identity cards with a bright code tile.</desc>
+	<defs>
+		<radialGradient id="light" r=".8"><stop stop-color="#2C2C2C"/><stop offset="1" stop-color="#0C0C0C"/></radialGradient>
+		<linearGradient id="panel" x1="100" y1="55" x2="1070" y2="268" gradientUnits="userSpaceOnUse"><stop stop-color="#292929"/><stop offset="1" stop-color="#151515"/></linearGradient>
+		<linearGradient id="silver" x1="144" y1="124" x2="240" y2="220" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#B9B9B9"/></linearGradient>
+		<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#FFFFFF" opacity=".05"/></pattern>
+		<filter id="shadow" x="-15%" y="-50%" width="130%" height="220%"><feDropShadow dx="0" dy="20" stdDeviation="20" flood-opacity=".5"/></filter>
+	</defs>
+	<path fill="url(#light)" d="M0 0h1200v320H0z"/>
+	<path fill="url(#dots)" d="M0 0h1200v320H0z"/>
+	<rect x="106" y="61" width="988" height="214" rx="18" fill="#121212" stroke="#333333" transform="rotate(3 600 168)"/>
+	<rect x="103" y="55" width="994" height="214" rx="18" fill="#181818" stroke="#414141" transform="rotate(-2 600 162)"/>
+	<g transform="rotate(-1 600 160)">
+		<rect x="100" y="48" width="1000" height="224" rx="18" fill="url(#panel)" stroke="#555555" filter="url(#shadow)"/>
+		<path d="M101 91h998" stroke="#393939"/>
+		<circle cx="124" cy="70" r="3" fill="#929292"/><circle cx="137" cy="70" r="3" fill="#5F5F5F"/><circle cx="150" cy="70" r="3" fill="#3E3E3E"/>
+		<rect x="144" y="123" width="96" height="96" rx="25" fill="url(#silver)"/>
+		<g stroke="#262626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+			<path d="m178 159-13 12 13 12m28-24 13 12-13 12m-11-33-8 42"/>
+		</g>
+		<path d="M666 124v109" stroke="#414141"/>
+		<g font-family="Arial, Helvetica, sans-serif">
+			<text x="1074" y="74" text-anchor="end" fill="#929292" font-size="10" letter-spacing="2">A DEVELOPER'S LITTLE CORNER OF THE INTERNET</text>
+			<text x="269" y="181" fill="#F3F3F3" font-size="66" font-weight="600" letter-spacing="-3">Snibbi</text>
+			<text x="273" y="213" fill="#AAAAAA" font-size="16">Hobby software developer.</text>
+			<text fill="#D6D6D6" font-size="19"><tspan x="712" y="151">Making life easier, </tspan><tspan x="712" y="179">one line of code at a time</tspan></text>
+			<text x="712" y="222" fill="#979797" font-size="12" letter-spacing="1">lilsnibbi.dev</text>
+		</g>
+		<path d="M1034 211h18v18m0-18-18 18" stroke="#8E8E8E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+	</g>
+	<path d="M.5.5h1199v319H.5z" stroke="#FFFFFF" stroke-opacity=".06"/>
+</svg>
